@@ -24,16 +24,23 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     private bool _grabbed;
     private bool _canGoUp, _canGoDown, _canGoLeft, _canGoRight;
-
+    private bool _levelComplete;
+    private float _speed;
 
     private void Awake()
     {
         _camera = Camera.main;
+        _speed = 20f;
         _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3, -3, 0f), (int x, int y) => new Tile(x, y));
     }
 
     private void Update()
     {
+        if (_levelComplete)
+        {
+            SlideAway();
+            return;
+        }
         CalculateAllowedDirections();
         if (_grabbed) CollisionHandler(_camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Vector3.Distance(transform.position, _camera.transform.position))));
     }
@@ -129,9 +136,9 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         Ray rayA = new Ray(transform.position + Vector3.up * 0.5f, SensorA.forward);
         Ray rayB = new Ray(transform.position + Vector3.up * 0.5f, SensorB.forward);
         if (Physics.Raycast(rayA, out raycastHitA)) _limiterA = raycastHitA.point;
-        else Debug.Log("Level Complete");
+        else _levelComplete = true;
         if (Physics.Raycast(rayB, out raycastHitB)) _limiterB = raycastHitB.point;
-        else Debug.Log("Level Complete");
+        else _levelComplete = true;
         //Debug.Log(limiterA);
         //Debug.Log(limiterB);
     }
@@ -175,6 +182,9 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
             }
         }
     }
+
+    private void SlideAway() => transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.right * 20f, Time.deltaTime * _speed);
+    
 }
 
 public enum SlidingDirection

@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bbf8202a01d895145b5ce3aad0d3fbb2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.8809576
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bbf8202a01d895145b5ce3aad0d3fbb2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.9999999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bbf8202a01d895145b5ce3aad0d3fbb2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -12.648
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bbf8202a01d895145b5ce3aad0d3fbb2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -198,7 +198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: bbf8202a01d895145b5ce3aad0d3fbb2, type: 3}
       propertyPath: m_Name
-      value: New Prefab
+      value: PB_Enemy_01a_long
       objectReference: {fileID: 0}
     - target: {fileID: 979487167547540023, guid: bbf8202a01d895145b5ce3aad0d3fbb2, type: 3}
       propertyPath: m_LocalPosition.z
