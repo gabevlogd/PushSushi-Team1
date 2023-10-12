@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,9 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     private bool _canGoUp, _canGoDown, _canGoLeft, _canGoRight;
     private bool _levelComplete;
     private float _speed;
+
+    public static event Action<int> OnUpdateMoveCounter; //just for first build not definitive
+    public Vector2 _lastGridPosition;
 
     private void Awake()
     {
@@ -57,6 +61,9 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         _offSetB = new Vector3(SensorB.position.x + 0.01f, transform.position.y, SensorB.position.z + 0.01f) - transform.position;
 
         _grabbed = true;
+
+        _grid.GetXY(transform.position, out int x, out int y);
+        _lastGridPosition = new Vector2(x, y);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -65,6 +72,9 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         //when release the slidable component makes sure the transform remain on a fixed position of the grid
         _grid.GetXY(transform.position, out int x, out int y);
         transform.position = new Vector3(_grid.GetWorldPosition(x, y).x, transform.position.y, _grid.GetWorldPosition(x, y).z);
+
+        if (_lastGridPosition != new Vector2(x,y))
+            OnUpdateMoveCounter?.Invoke(1);
     }
 
     /// <summary>
