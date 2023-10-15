@@ -68,17 +68,20 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerDown(PointerEventData eventData)
     {
+
         CalculateSlidableAreaLimits();
         Vector3 pointerPosition = GetPointerWorldPosition();
 
         //calculate the offset between the clicked point and the transform of the slidable component 
         _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
 
+        //calculate the offsets between the collisions points and the transform of the slidable component
         _offSetA = new Vector3(SensorA.position.x , transform.position.y, SensorA.position.z ) - transform.position;
         _offSetB = new Vector3(SensorB.position.x , transform.position.y, SensorB.position.z ) - transform.position;
 
         _grabbed = true;
 
+        //store the grid's coordinate before starting to move the slidable component
         _grid.GetXY(transform.position, out int x, out int y);
         _lastGridPosition = new Vector2(x, y);
     }
@@ -86,10 +89,12 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     public void OnPointerUp(PointerEventData eventData)
     {
         _grabbed = false;
+
         //when release the slidable component makes sure the transform remain on a fixed position of the grid
         _grid.GetXY(transform.position, out int x, out int y);
         transform.position = new Vector3(_grid.GetWorldPosition(x, y).x, transform.position.y, _grid.GetWorldPosition(x, y).z);
 
+        //just for first build not definitive
         if (_lastGridPosition != new Vector2(x, y))
             OnUpdateMoveCounter?.Invoke(1);
     }
