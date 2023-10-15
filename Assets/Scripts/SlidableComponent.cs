@@ -17,7 +17,6 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     private Vector3 _offSetA;
     private Vector3 _offSetB;
 
-
     private Vector3 _limiterA;
     private Vector3 _limiterB;
 
@@ -26,16 +25,30 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     private bool _grabbed;
     private bool _canGoUp, _canGoDown, _canGoLeft, _canGoRight;
     private bool _levelComplete;
-    private float _speed;
+    private float _speed = 20f;
 
     public static event Action<int> OnUpdateMoveCounter; //just for first build not definitive
     public Vector2 _lastGridPosition;
 
+    private event Action<Vector3> OnPerformMovement;
+    private event Action OnPerformAllowedDirections;
+
+
     private void Awake()
     {
         _camera = Camera.main;
-        _speed = 20f;
         _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3, -3, 0f), (int x, int y) => new Tile(x, y));
+
+        if (SlidingDirection == SlidingDirection.Vertical)
+        {
+            OnPerformMovement += PerformVerticalMovement;
+            OnPerformAllowedDirections += CalculateAllowedVerticalDirections;
+        }
+        else
+        {
+            OnPerformMovement += PerformHorizontalMovement;
+            OnPerformAllowedDirections += CalculateAllowedHorizontalDirections;
+        }
     }
 
     private void Update()
@@ -45,20 +58,24 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
             SlideAway();
             return;
         }
-        CalculateAllowedDirections();
-        if (_grabbed) CollisionHandler(_camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Vector3.Distance(transform.position, _camera.transform.position))));
+        
+        if (_grabbed)
+        {
+            OnPerformAllowedDirections();
+            OnPerformMovement(GetPointerWorldPosition());
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         CalculateSlidableAreaLimits();
-        Vector3 pointerPosition = eventData.pointerCurrentRaycast.worldPosition;
+        Vector3 pointerPosition = GetPointerWorldPosition();
 
         //calculate the offset between the clicked point and the transform of the slidable component 
         _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
 
-        _offSetA = new Vector3(SensorA.position.x - 0.01f, transform.position.y, SensorA.position.z - 0.01f) - transform.position;
-        _offSetB = new Vector3(SensorB.position.x + 0.01f, transform.position.y, SensorB.position.z + 0.01f) - transform.position;
+        _offSetA = new Vector3(SensorA.position.x , transform.position.y, SensorA.position.z ) - transform.position;
+        _offSetB = new Vector3(SensorB.position.x , transform.position.y, SensorB.position.z ) - transform.position;
 
         _grabbed = true;
 
@@ -73,67 +90,26 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         _grid.GetXY(transform.position, out int x, out int y);
         transform.position = new Vector3(_grid.GetWorldPosition(x, y).x, transform.position.y, _grid.GetWorldPosition(x, y).z);
 
-        if (_lastGridPosition != new Vector2(x,y))
+        if (_lastGridPosition != new Vector2(x, y))
             OnUpdateMoveCounter?.Invoke(1);
     }
 
     /// <summary>
-    /// For debug
+    /// Calculates the allowed vertical directions where the slidable component can slides to
     /// </summary>
-    private void OnDrawGizmos()
+    private void CalculateAllowedVerticalDirections()
     {
-        Debug.DrawLine(_limiterA, _limiterB);
+        _canGoDown = SensorA.position.z > _limiterA.z;
+        _canGoUp = SensorB.position.z < _limiterB.z;
     }
 
     /// <summary>
-    /// Calculates the allowed directions where the slidable component can slides to
+    /// Calculates the allowed horizontal directions where the slidable component can slides to
     /// </summary>
-    private void CalculateAllowedDirections()
+    private void CalculateAllowedHorizontalDirections()
     {
-        _canGoLeft = Mathf.Abs(transform.position.x - (_limiterA.x - _offSetA.x)) > 0.1f;
-        _canGoRight = Mathf.Abs(transform.position.x - (_limiterB.x - _offSetB.x)) > 0.1f;
-        _canGoDown = Mathf.Abs(transform.position.z - (_limiterA.z - _offSetA.z)) > 0.1f;
-        _canGoUp = Mathf.Abs(transform.position.z - (_limiterB.z - _offSetB.z)) > 0.1f;
-    }
-
-    /// <summary>
-    /// Slides horizontally the slidable component only in the alowed directions
-    /// </summary>
-    /// <param name="pointerPosition"></param>
-    private void SlideHorizontal(Vector3 pointerPosition)
-    {
-        if (_canGoRight && _canGoLeft)
-            transform.position = new Vector3(pointerPosition.x - _offSet.x, transform.position.y, transform.position.z);
-        else if (!_canGoLeft)
-        {
-            if (pointerPosition.x - _offSet.x > _limiterA.x - _offSetA.x) 
-                transform.position = new Vector3(pointerPosition.x - _offSet.x, transform.position.y, transform.position.z);
-        }
-        else if (!_canGoRight)
-        {
-            if (pointerPosition.x - _offSet.x < _limiterB.x - _offSetB.x)
-                transform.position = new Vector3(pointerPosition.x - _offSet.x, transform.position.y, transform.position.z);
-        }
-    }
-
-    /// <summary>
-    /// Slides vertically the slidable component only in the alowed directions
-    /// </summary>
-    /// <param name="pointerPosition"></param>
-    private void SlideVertical(Vector3 pointerPosition)
-    {
-        if (_canGoDown && _canGoUp)
-            transform.position = new Vector3(transform.position.x, transform.position.y, pointerPosition.z - _offSet.z);
-        else if (!_canGoDown)
-        {
-            if (pointerPosition.z - _offSet.z > _limiterA.z - _offSetA.z)
-                transform.position = new Vector3(transform.position.x, transform.position.y, pointerPosition.z - _offSet.z);
-        }
-        else if (!_canGoUp)
-        {
-            if (pointerPosition.z - _offSet.z < _limiterB.z - _offSetB.z)
-                transform.position = new Vector3(transform.position.x, transform.position.y, pointerPosition.z - _offSet.z);
-        }
+        _canGoLeft = SensorA.position.x > _limiterA.x;
+        _canGoRight = SensorB.position.x < _limiterB.x;
     }
 
     /// <summary>
@@ -153,48 +129,64 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         //Debug.Log(limiterB);
     }
 
-    /// <summary>
-    /// Simulates the collisions by checking the slidable component position
-    /// </summary>
-    /// <param name="pointerPosition"></param>
-    private void CollisionHandler(Vector3 pointerPosition)
+    private void PerformVerticalMovement(Vector3 pointerPosition)
     {
-        if (!_canGoUp && !_canGoDown && !_canGoLeft && !_canGoRight) return;
+        if (!_canGoUp && !_canGoDown) return;
 
-        if (SlidingDirection == SlidingDirection.Horizontal)
+        if (_canGoUp && _canGoDown)
+            transform.position = new Vector3(transform.position.x, transform.position.y, pointerPosition.z - _offSet.z);
+        else if (!_canGoUp)
         {
-            if (SensorA.position.x > _limiterA.x && SensorB.position.x < _limiterB.x)
-                SlideHorizontal(pointerPosition);
-            else if (SensorA.position.x <= _limiterA.x)
-            {
-                transform.position = new Vector3(_limiterA.x - _offSetA.x, transform.position.y, transform.position.z);
-                _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
-            }
-            else if (SensorB.position.x >= _limiterB.x)
-            {
-                transform.position = new Vector3(_limiterB.x - _offSetB.x, transform.position.y, transform.position.z);
-                _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
-            }
+            transform.position = new Vector3(transform.position.x, transform.position.y, _limiterB.z - _offSetB.z);
+            
+            if (pointerPosition.z - _offSet.z < _limiterB.z - _offSetB.z)
+                transform.position = new Vector3(transform.position.x, transform.position.y, pointerPosition.z - _offSet.z);
+
+            _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
         }
-        else
+        else if (!_canGoDown)
         {
-            if (SensorA.position.z > _limiterA.z && SensorB.position.z < _limiterB.z)
-                SlideVertical(pointerPosition);
-            else if (SensorA.position.z <= _limiterA.z)
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y, _limiterA.z - _offSetA.z);
-                _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
-            }
-            else if (SensorB.position.z >= _limiterB.z)
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y, _limiterB.z - _offSetB.z);
-                _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
-            }
+            transform.position = new Vector3(transform.position.x, transform.position.y, _limiterA.z - _offSetA.z);
+
+            if (pointerPosition.z - _offSet.z > _limiterA.z - _offSetA.z)
+                transform.position = new Vector3(transform.position.x, transform.position.y, pointerPosition.z - _offSet.z);
+            
+            _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
         }
     }
 
+    private void PerformHorizontalMovement(Vector3 pointerPosition)
+    {
+        if (!_canGoLeft && !_canGoRight) return;
+
+        if (_canGoLeft && _canGoRight)
+            transform.position = new Vector3(pointerPosition.x - _offSet.x, transform.position.y, transform.position.z);
+        else if (!_canGoLeft)
+        {
+            transform.position = new Vector3(_limiterA.x - _offSetA.x, transform.position.y, transform.position.z);
+
+            if (pointerPosition.x - _offSet.x > _limiterA.x - _offSetA.x)
+                transform.position = new Vector3(pointerPosition.x - _offSet.x, transform.position.y, transform.position.z);
+            
+            _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
+        }
+        else if (!_canGoRight)
+        {
+            transform.position = new Vector3(_limiterB.x - _offSetB.x, transform.position.y, transform.position.z);
+
+            if (pointerPosition.x - _offSet.x < _limiterB.x - _offSetB.x)
+                transform.position = new Vector3(pointerPosition.x - _offSet.x, transform.position.y, transform.position.z);
+            
+            _offSet = new Vector3(pointerPosition.x, transform.position.y, pointerPosition.z) - transform.position;
+        }
+
+    }
+
     private void SlideAway() => transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.right * 20f, Time.deltaTime * _speed);
+
+    private Vector3 GetPointerWorldPosition() => _camera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Vector3.Distance(transform.position, _camera.transform.position)));
     
+
 }
 
 public enum SlidingDirection
