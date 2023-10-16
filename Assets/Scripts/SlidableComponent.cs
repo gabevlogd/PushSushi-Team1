@@ -37,7 +37,7 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     private void Awake()
     {
         _camera = Camera.main;
-        _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3, -3, 0f), (int x, int y) => new Tile(x, y));
+        _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3f, 0f, -3f), (int x, int y) => new Tile(x, y));
 
         if (SlidingDirection == SlidingDirection.Vertical)
         {
@@ -53,6 +53,7 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     private void Update()
     {
+        //if (Input.touchCount > 0) Debug.Log(GetPointerWorldPosition());
         if (_levelComplete)
         {
             SlideAway();
@@ -68,7 +69,6 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-
         CalculateSlidableAreaLimits();
         Vector3 pointerPosition = GetPointerWorldPosition();
 
@@ -84,6 +84,8 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         //store the grid's coordinate before starting to move the slidable component
         _grid.GetXY(transform.position, out int x, out int y);
         _lastGridPosition = new Vector2(x, y);
+
+        Debug.Log($"{x} , {y}");
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -189,8 +191,17 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     private void SlideAway() => transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.right * 20f, Time.deltaTime * _speed);
 
-    private Vector3 GetPointerWorldPosition() => _camera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Vector3.Distance(transform.position, _camera.transform.position)));
-    
+    private Vector3 GetPointerWorldPosition()
+    {
+        return _camera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Vector3.Distance(transform.position, _camera.transform.position)));
+        //return _camera.ScreenPointToRay(Input.GetTouch(0).position).GetPoint(Mathf.Abs(_camera.transform.position.z));
+    }
+
+    //for debug
+    private void OnDrawGizmos()
+    {
+        Debug.DrawLine(_limiterA, _limiterB);
+    }
 
 }
 
