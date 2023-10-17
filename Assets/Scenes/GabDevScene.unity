@@ -2301,10 +2301,6 @@ MonoBehaviour:
   SlidingDirection: 0
   SensorA: {fileID: 1264198194}
   SensorB: {fileID: 564668968}
-  _canGoUp: 0
-  _canGoDown: 0
-  _canGoLeft: 0
-  _canGoRight: 0
   _lastGridPosition: {x: 0, y: 0}
 --- !u!1001 &5231108915716026774
 PrefabInstance:

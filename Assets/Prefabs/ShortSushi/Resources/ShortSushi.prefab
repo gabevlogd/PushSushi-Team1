@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 5133976883543001659}
   - component: {fileID: -6871979675193524624}
   m_Layer: 0
-  m_Name: ShortBlock
+  m_Name: ShortSushi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

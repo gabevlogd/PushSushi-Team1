@@ -85,7 +85,7 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         _grid.GetXY(transform.position, out int x, out int y);
         _lastGridPosition = new Vector2(x, y);
 
-        Debug.Log($"{x} , {y}");
+        //Debug.Log($"{x} , {y}");
     }
 
     public void OnPointerUp(PointerEventData eventData)

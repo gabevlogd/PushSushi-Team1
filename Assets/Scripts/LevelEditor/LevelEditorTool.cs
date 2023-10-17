@@ -4,11 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+
 public class LevelEditorTool : EditorWindow
 {
-    private bool[,] gridCoordinates = new bool[6, 6];
-    private Grid<Toogle> _gridCoordinates = new Grid<Toogle>(6, 6, 1, Vector3.zero, (int x, int y) => new Toogle(x, y));
-
+    private Grid<Toogle> _gridCoordinates = new Grid<Toogle>(6, 6, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Toogle(x, y));
+    private List<Toogle> _selectedCoordinates;
+    private List<SlidableComponent> _placedSushis;
+    private string[] _sushiMeshs = new string[]
+    {
+        "MainSushi", "MainSushi 1", "MainSushi 2", "MainSushi 3", "MainSushi 4", "MainSushi 5", "MainSushi 6", "MainSushi 7", "MainSushi 8", "MainSushi 9",
+        "ShortSushi", "ShortSushi 1", "ShortSushi 2", "ShortSushi 3",
+        "LongSushi", "LongSushi 1", "LongSushi 2", "LongSushi 3"
+    };
+    private int _index = 0;
 
     [MenuItem("Tools/Level Editor")]
     public static void ShowWindow() => GetWindow<LevelEditorTool>("Level Editor");
@@ -17,23 +25,50 @@ public class LevelEditorTool : EditorWindow
 
     void OnGUI()
     {
+        DrawNewLevelButton();
         DrawTogglesGrid();
-
-
-        if (GUILayout.Button("debug"))
-        {
-            //for (int x = 0; x < 6; x++)
-            //{
-            //    for (int y = 0; y < 6; y++)
-            //        Debug.Log($"{x}, {y},  {_gridCoordinates.GetGridObject(x, y).Value}");
-            //}
-            //Debug.Log(ValidCordinates());
-        }
+        DrawMeshSelectorPopUp();
+        DrawPlacerButton();
     }
 
-    
+    public void DrawNewLevelButton()
+    {
+        GUILayout.Space(20f);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("New level"))
+            PerformNewLevelButton();
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+    }
+
+    private void DrawMeshSelectorPopUp()
+    {
+        GUILayout.Space(20f);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("Sushi's mesh:");
+        _index = EditorGUILayout.Popup(_index, _sushiMeshs);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+    }
+    private void DrawPlacerButton()
+    {
+        GUILayout.Space(20f);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Place sushi"))
+            PerformPlacerButton();
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+    }
+
+    /// <summary>
+    /// Draws a grid of toggle for the visual selection of the coordinates
+    /// </summary>
     private void DrawTogglesGrid()
     {
+        GUILayout.Space(20f);
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
         GUILayout.Label("Coordinates on the game grid:");
@@ -53,38 +88,70 @@ public class LevelEditorTool : EditorWindow
         GUILayout.EndVertical();
     }
 
+
+    /// <summary>
+    /// Returns true if the selected coordinates are valid
+    /// </summary>
+    /// <returns></returns>
     private bool ValidCordinates()
     {
-        List<Toogle> selectedCoordinates = GetSelectedCoordinates();
-        if (selectedCoordinates.Count < 2 || selectedCoordinates.Count > 3) return false;
+        _selectedCoordinates = GetSelectedCoordinates();
+        if (_selectedCoordinates.Count < 2 || _selectedCoordinates.Count > 3)
+        {
+            Debug.Log("Invalid coordinates");
+            return false;
+        }
 
-        List<Toogle> coordinatesSortByX = selectedCoordinates.OrderBy(coo => coo.x).ToList();
-        List<Toogle> coordinatesSortByY = selectedCoordinates.OrderBy(coo => coo.y).ToList();
+        List<Toogle> coordinatesSortByX = _selectedCoordinates.OrderBy(coo => coo.x).ToList();
+        List<Toogle> coordinatesSortByY = _selectedCoordinates.OrderBy(coo => coo.y).ToList();
 
         int xCoo = coordinatesSortByX[0].x;
         int yCoo = coordinatesSortByY[0].y;
 
-        foreach (Toogle i in selectedCoordinates)
+        foreach (Toogle i in _selectedCoordinates)
         {
             if (i.x == xCoo) continue;
             else
             {
-                foreach(Toogle j in selectedCoordinates)
+                foreach(Toogle j in _selectedCoordinates)
                 {
                     if (j.y == yCoo) continue;
-                    else return false;
+                    else
+                    {
+                        Debug.Log("Invalid coordinates");
+                        return false;
+                    }
                 }
                 if (coordinatesSortByX[coordinatesSortByX.Count - 1].x - xCoo == 2 || coordinatesSortByX[coordinatesSortByX.Count - 1].x - xCoo == 1)
+                {
+                    _selectedCoordinates = coordinatesSortByX;
                     return true;
-                else return false;
+                }
+                else
+                {
+                    Debug.Log("Invalid coordinates");
+                    return false;
+                }
             }
         }
 
         if (coordinatesSortByY[coordinatesSortByY.Count - 1].y - yCoo == 2 || coordinatesSortByY[coordinatesSortByY.Count - 1].y - yCoo == 1)
+        {
+            _selectedCoordinates = coordinatesSortByY;
             return true;
-        else return false;
+        }
+        else
+        {
+            Debug.Log("Invalid coordinates");
+            return false;
+        }
     }
 
+
+    /// <summary>
+    /// Returns a list of all selected coordinates
+    /// </summary>
+    /// <returns></returns>
     private List<Toogle> GetSelectedCoordinates()
     {
         List<Toogle> selectedCoordinates = new List<Toogle>();
@@ -97,6 +164,73 @@ public class LevelEditorTool : EditorWindow
             }
         }
         return selectedCoordinates;
+
+    }
+
+    /// <summary>
+    /// Instantiates the passed sushi on the map
+    /// </summary>
+    private void PlaceSushi(SlidableComponent sushiToPlace)
+    {
+        int xCoo = _selectedCoordinates[0].x;
+        int yCoo = _selectedCoordinates[0].y;
+
+        Quaternion targetRotation = GetTargetRotation(sushiToPlace);
+        Vector3 targetPosition = GetTargetPosition(sushiToPlace, xCoo, yCoo);
+
+        SlidableComponent placedSushi = Instantiate(sushiToPlace, targetPosition, targetRotation);
+        _placedSushis.Add(placedSushi);
+    }
+
+    private Quaternion GetTargetRotation(SlidableComponent sushiToPlace)
+    {
+        Quaternion targetRotation;
+        if (_selectedCoordinates[1].x == _selectedCoordinates[0].x)
+        {
+            sushiToPlace.SlidingDirection = SlidingDirection.Vertical;
+            targetRotation = Quaternion.Euler(0f, -90f, 0f);
+        }
+        else
+        {
+            sushiToPlace.SlidingDirection = SlidingDirection.Horizontal;
+            targetRotation = Quaternion.identity;
+        }
+        return targetRotation;
+    }
+
+    private Vector3 GetTargetPosition(SlidableComponent sushiToPlace, int xCoo, int yCoo)
+    {
+        BoxCollider collider = sushiToPlace.GetComponent<BoxCollider>();
+        Vector3 targetPosition;
+        if (collider.size.x == 2)
+            targetPosition = _gridCoordinates.GetWorldPosition(xCoo, yCoo);
+        else
+        {
+            if (sushiToPlace.SlidingDirection == SlidingDirection.Vertical)
+                targetPosition = _gridCoordinates.GetWorldPosition(xCoo, yCoo + 1);
+            else
+                targetPosition = _gridCoordinates.GetWorldPosition(xCoo + 1, yCoo);
+        }
+        return targetPosition;
+    }
+
+    private void PerformPlacerButton()
+    {
+        if (ValidCordinates())
+            PlaceSushi(Resources.Load<SlidableComponent>(_sushiMeshs[_index]));
+
+        for(int x = 0; x < _gridCoordinates.GetWidth(); x++)
+        {
+            for (int y = 0; y < _gridCoordinates.GetHeight(); y++)
+            {
+                _gridCoordinates.GetGridObject(x, y).Value = false;
+            }
+        }
+        
+    }
+
+    private void PerformNewLevelButton()
+    {
 
     }
 }
