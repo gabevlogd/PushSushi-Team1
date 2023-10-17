@@ -2301,10 +2301,6 @@ MonoBehaviour:
   SlidingDirection: 0
   SensorA: {fileID: 1264198194}
   SensorB: {fileID: 564668968}
-  _canGoUp: 0
-  _canGoDown: 0
-  _canGoLeft: 0
-  _canGoRight: 0
   _lastGridPosition: {x: 0, y: 0}
 --- !u!1001 &5231108915716026774
 PrefabInstance:
@@ -2352,18 +2348,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 219351209628612213, guid: dbf8a0bcc9cd2a944a5f3191d87a9024, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2705164810748216641, guid: dbf8a0bcc9cd2a944a5f3191d87a9024, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2705164810748216641, guid: dbf8a0bcc9cd2a944a5f3191d87a9024, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2705164810748216641, guid: dbf8a0bcc9cd2a944a5f3191d87a9024, type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2705164810748216641, guid: dbf8a0bcc9cd2a944a5f3191d87a9024, type: 3}

@@ -134,10 +134,6 @@ MonoBehaviour:
   SlidingDirection: 0
   SensorA: {fileID: 2654568618627759989}
   SensorB: {fileID: 473899652125410091}
-  _canGoUp: 0
-  _canGoDown: 0
-  _canGoLeft: 0
-  _canGoRight: 0
   _lastGridPosition: {x: 0, y: 0}
 --- !u!1001 &4277022880785983944
 PrefabInstance:
@@ -157,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4577345801093427995, guid: cb366248fe331864185126b5b14b1e66, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4577345801093427995, guid: cb366248fe331864185126b5b14b1e66, type: 3}
       propertyPath: m_LocalPosition.z
