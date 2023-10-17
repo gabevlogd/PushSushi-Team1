@@ -268,8 +268,12 @@ public class LevelEditorTool : EditorWindow
         if (_placedSushis.Count > 0)
         {
             SlidableComponent sushi = _placedSushis[_placedSushis.Count - 1];
-            _placedSushis.Remove(sushi);
-            DestroyImmediate(sushi.gameObject);
+            if (sushi != null)
+            {
+                _placedSushis.Remove(sushi);
+                DestroyImmediate(sushi.gameObject);
+            }
+            
         }
     }
 }
