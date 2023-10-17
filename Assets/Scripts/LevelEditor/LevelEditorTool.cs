@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class LevelEditorTool : EditorWindow
 {
     private Grid<Toogle> _gridCoordinates = new Grid<Toogle>(6, 6, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Toogle(x, y));
     private List<Toogle> _selectedCoordinates;
     private List<SlidableComponent> _placedSushis;
+    private string _newLevelSceneName;
     private string[] _sushiMeshs = new string[]
     {
         "MainSushi", "MainSushi 1", "MainSushi 2", "MainSushi 3", "MainSushi 4", "MainSushi 5", "MainSushi 6", "MainSushi 7", "MainSushi 8", "MainSushi 9",
@@ -21,27 +23,37 @@ public class LevelEditorTool : EditorWindow
     [MenuItem("Tools/Level Editor")]
     public static void ShowWindow() => GetWindow<LevelEditorTool>("Level Editor");
     
-
-
     void OnGUI()
     {
         DrawNewLevelButton();
+        DrawSaveLevelButton();
+        DrawNewLevelNameLabel();
         DrawTogglesGrid();
         DrawMeshSelectorPopUp();
         DrawPlacerButton();
+        DrawBackButton();
     }
 
-    public void DrawNewLevelButton()
+    private void DrawNewLevelButton()
     {
         GUILayout.Space(20f);
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
         if (GUILayout.Button("New level"))
             PerformNewLevelButton();
-        GUILayout.FlexibleSpace();
+    }
+    private void DrawSaveLevelButton()
+    {
+        GUILayout.Space(10f);
+        if (GUILayout.Button("Save level"))
+            PerformSaveLevelButton();
+        GUILayout.Space(20f);
+    }
+    private void DrawNewLevelNameLabel()
+    {
+        GUILayout.Label("New level scene name: ");
+        GUILayout.BeginHorizontal();
+        _newLevelSceneName = GUILayout.TextField(_newLevelSceneName);
         GUILayout.EndHorizontal();
     }
-
     private void DrawMeshSelectorPopUp()
     {
         GUILayout.Space(20f);
@@ -59,6 +71,17 @@ public class LevelEditorTool : EditorWindow
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("Place sushi"))
             PerformPlacerButton();
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+    }
+
+    private void DrawBackButton()
+    {
+        GUILayout.Space(20f);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Back"))
+            PerformBackButton();
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
@@ -87,8 +110,6 @@ public class LevelEditorTool : EditorWindow
         }
         GUILayout.EndVertical();
     }
-
-
     /// <summary>
     /// Returns true if the selected coordinates are valid
     /// </summary>
@@ -146,8 +167,6 @@ public class LevelEditorTool : EditorWindow
             return false;
         }
     }
-
-
     /// <summary>
     /// Returns a list of all selected coordinates
     /// </summary>
@@ -166,7 +185,6 @@ public class LevelEditorTool : EditorWindow
         return selectedCoordinates;
 
     }
-
     /// <summary>
     /// Instantiates the passed sushi on the map
     /// </summary>
@@ -179,9 +197,12 @@ public class LevelEditorTool : EditorWindow
         Vector3 targetPosition = GetTargetPosition(sushiToPlace, xCoo, yCoo);
 
         SlidableComponent placedSushi = Instantiate(sushiToPlace, targetPosition, targetRotation);
+
+        if (_placedSushis == null)
+            _placedSushis = new List<SlidableComponent>();
+
         _placedSushis.Add(placedSushi);
     }
-
     private Quaternion GetTargetRotation(SlidableComponent sushiToPlace)
     {
         Quaternion targetRotation;
@@ -197,7 +218,6 @@ public class LevelEditorTool : EditorWindow
         }
         return targetRotation;
     }
-
     private Vector3 GetTargetPosition(SlidableComponent sushiToPlace, int xCoo, int yCoo)
     {
         BoxCollider collider = sushiToPlace.GetComponent<BoxCollider>();
@@ -213,7 +233,6 @@ public class LevelEditorTool : EditorWindow
         }
         return targetPosition;
     }
-
     private void PerformPlacerButton()
     {
         if (ValidCordinates())
@@ -228,9 +247,29 @@ public class LevelEditorTool : EditorWindow
         }
         
     }
-
     private void PerformNewLevelButton()
     {
+        _newLevelSceneName = "";
+        EditorSceneManager.OpenScene("Assets/Scenes/EmptyLevelTemplate.unity");
+    }
+    private void PerformSaveLevelButton()
+    {
+        if (_newLevelSceneName == "" || _newLevelSceneName == null)
+        {
+            Debug.Log("Name the scene before saving");
+            return;
+        }
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), $"Assets/Scenes/Levels/{_newLevelSceneName}.unity", true);
+    }
+    private void PerformBackButton()
+    {
+        if (_placedSushis == null) return;
 
+        if (_placedSushis.Count > 0)
+        {
+            SlidableComponent sushi = _placedSushis[_placedSushis.Count - 1];
+            _placedSushis.Remove(sushi);
+            DestroyImmediate(sushi.gameObject);
+        }
     }
 }
