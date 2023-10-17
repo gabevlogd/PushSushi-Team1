@@ -6,7 +6,6 @@ public class Tile
 {
     public int x;
     public int y;
-    public bool Empty;
 
     public Tile(int x, int y)
     {

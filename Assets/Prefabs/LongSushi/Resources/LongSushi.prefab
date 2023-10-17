@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2058961871656867949}
   - component: {fileID: -3869442151360131895}
   m_Layer: 0
-  m_Name: LongBlock
+  m_Name: LongSushi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
