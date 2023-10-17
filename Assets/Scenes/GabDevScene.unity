@@ -774,7 +774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coinPrefab: {fileID: 1187596374569029333, guid: 5a18da52456fed5488c717a7b8cfa938, type: 3}
-  _spawnFactor: 0.5
+  _spawnFactor: 1
   _maxCoinNumber: 3
 --- !u!4 &683863116
 Transform:
