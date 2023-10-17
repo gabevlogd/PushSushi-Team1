@@ -11,12 +11,12 @@ public class HUDManager : MonoBehaviour
 
     private void OnEnable()
     {
-        SlidableComponent.OnUpdateMoveCounter += UpdateMoveCounter;
+        SlidableComponentDeprecated.OnUpdateMoveCounter += UpdateMoveCounter;
     }
 
     private void OnDisable()
     {
-        SlidableComponent.OnUpdateMoveCounter -= UpdateMoveCounter;
+        SlidableComponentDeprecated.OnUpdateMoveCounter -= UpdateMoveCounter;
     }
 
     private void UpdateMoveCounter(int moveToAdd) => MoveCounter.text = (int.Parse(MoveCounter.text) + moveToAdd).ToString();
