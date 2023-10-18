@@ -11,19 +11,36 @@ public class Coin : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     private int _coinValue;
     private Animator _animator;
+    private MeshRenderer _meshRenderer;
+    private float _newAlpha = 1f;
+    private float _fadeOutSpeed = 0.5f;
+    private bool _canFadeOut;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _meshRenderer = GetComponentInChildren<MeshRenderer>();
+    }
+
+    private void Update()
+    {
+        if (_canFadeOut)
+            PerformMaterialFadeOut();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("OnPointerDown");
         _animator.Play("A_Coin_01a");
         OnUpdateCoinCounter?.Invoke(_coinValue);
-        //gameObject.SetActive(false);
     }
 
-    public void DisableCoin() => gameObject.SetActive(false);
+    public void StartFadeOut() => _canFadeOut = true;
+
+    private void PerformMaterialFadeOut()
+    {
+        _newAlpha -= Time.deltaTime * _fadeOutSpeed;
+        _meshRenderer.material.SetFloat("_Alpha", _newAlpha);
+        if (_newAlpha <= 0)
+            gameObject.SetActive(false);
+    }
 }
