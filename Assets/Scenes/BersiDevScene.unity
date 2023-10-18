@@ -1797,6 +1797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RestartButton: {fileID: 1761898408}
+  UndoButton: {fileID: 971500378}
 --- !u!1 &1777966036
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class UndoManager
         _gameStates.Add(state);
     }
 
-    public int MovesCounter => _gameStates.Count;
+    public int GetMovesCounter() => _gameStates.Count;
     
     public void UndoLastMove()
     {

@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     
     GameState CaptureCurrentGameState()
     {
-        int currentMoveCount = UndoButton.MovesCounter;
+        int currentMoveCount = UndoButton.GetMovesCounter();
         List<ObjectState> currentObjectStates = new List<ObjectState>();
 
         return new GameState(currentObjectStates);
