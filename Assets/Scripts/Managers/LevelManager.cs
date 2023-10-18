@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private UndoHandler Undo;
+    private UndoManager Undo;
     
     public Button RestartButton;
     public Button UndoButton;
@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
     {
         if (Undo == null)
         {
-            Undo = FindObjectOfType<UndoHandler>();
+            Undo = FindObjectOfType<UndoManager>();
         }
     }
     
