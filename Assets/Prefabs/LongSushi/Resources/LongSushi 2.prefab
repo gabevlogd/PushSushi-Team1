@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7745243180025568881}
   - component: {fileID: 2058961871656867949}
   - component: {fileID: -7153940085736492494}
+  - component: {fileID: 3161247947513013590}
   m_Layer: 0
   m_Name: LongSushi 2
   m_TagString: Untagged
@@ -72,11 +73,19 @@ MonoBehaviour:
   SlidingDirection: 0
   SensorA: {fileID: 8461082170592116480}
   SensorB: {fileID: 30973544137245709}
-  _canGoUp: 0
-  _canGoDown: 0
-  _canGoLeft: 0
-  _canGoRight: 0
   _lastGridPosition: {x: 0, y: 0}
+--- !u!114 &3161247947513013590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867536304484369555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1b67a50a6a6824f8394a789291772a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2231741746894114160
 GameObject:
   m_ObjectHideFlags: 0

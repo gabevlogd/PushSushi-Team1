@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 7118589438759115648}
   - component: {fileID: 5133976883543001659}
   - component: {fileID: -2015051509682769976}
+  - component: {fileID: -1059124554991681476}
   m_Layer: 0
   m_Name: ShortSushi 1
   m_TagString: Untagged
@@ -134,11 +135,19 @@ MonoBehaviour:
   SlidingDirection: 0
   SensorA: {fileID: 2654568618627759989}
   SensorB: {fileID: 473899652125410091}
-  _canGoUp: 0
-  _canGoDown: 0
-  _canGoLeft: 0
-  _canGoRight: 0
   _lastGridPosition: {x: 0, y: 0}
+--- !u!114 &-1059124554991681476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8859541244781477997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1b67a50a6a6824f8394a789291772a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1341121046663921475
 PrefabInstance:
   m_ObjectHideFlags: 0

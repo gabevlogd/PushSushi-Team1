@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 219351209628612213}
   - component: {fileID: 231784410237190599}
   - component: {fileID: -8508934837883594110}
+  - component: {fileID: -102709892749621069}
   m_Layer: 0
   m_Name: MainSushi 3
   m_TagString: Untagged
@@ -135,6 +136,18 @@ MonoBehaviour:
   SensorA: {fileID: 3297416971172339717}
   SensorB: {fileID: 6581484624462834121}
   _lastGridPosition: {x: 0, y: 0}
+--- !u!114 &-102709892749621069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149354688799626463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1b67a50a6a6824f8394a789291772a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6168757108198773217
 PrefabInstance:
   m_ObjectHideFlags: 0
