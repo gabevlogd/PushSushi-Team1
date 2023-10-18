@@ -46,6 +46,13 @@ public class Grid<TGridObject>
         //Debug.Log(new Vector3(x, y, 0f) * m_cellSize + new Vector3(1f, 1f, 0f) * m_cellSize * .5f + m_originPosition);
         return new Vector3(x, 0f, y) * m_cellSize + new Vector3(1f, 0f, 1f) * m_cellSize * .5f + m_originPosition; // changed x,0,z instead of x,y,0
     }
+    
+    public Vector2Int GetGridPosition(Vector3 worldPosition)
+    {
+        int x = Mathf.FloorToInt((worldPosition - m_originPosition).x / m_cellSize);
+        int y = Mathf.FloorToInt((worldPosition - m_originPosition).z / m_cellSize);
+        return new Vector2Int(x, y);
+    }
 
     /// <summary>
     /// Returns the corresponding grid coordinates of the passed world position
