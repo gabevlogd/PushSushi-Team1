@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
             objectStates.Add(objState);
         }
         
-        MoveCount = Undo.GetMoveCount();
+        MoveCount = Undo.MovesCounter;
         
         GameState currentState = new GameState(objectStates);
         Undo.RecordGameState(currentState);
