@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UndoHandler : MonoBehaviour
 {
-    private List<UndoComponent> _sushis;
+    //private List<UndoComponent> _sushiList;
     private Grid<Tile> _grid;
 
     private List<Vector2Int> _storedGridPositions;
@@ -15,7 +15,8 @@ public class UndoHandler : MonoBehaviour
     private UndoComponent _targetSushi;
 
     private bool _moveSushi;
-    private float _speed = 10f;
+    
+    public float UndoMovementSpeed = 10f;
 
     private void Awake()
     {
@@ -38,17 +39,13 @@ public class UndoHandler : MonoBehaviour
 
     private void StoreMove(Vector2Int position, UndoComponent movedSushi)
     {
-        Debug.Log("StoreMove");
+        Debug.Log("Move stored");
         _storedGridPositions.Add(position);
         _storedMovedSushi.Add(movedSushi);
     }
 
     public void PerformUndo()
     {
-        //Debug.Log(_storedGridPositions.Count);
-        //Debug.Log(_storedMovedSushi.Count);
-        //Debug.Log(_moveSushi);
-
         if (_storedGridPositions.Count == 0 || _storedMovedSushi.Count == 0 || _moveSushi) return;
 
         Vector2Int lastGridPosition = _storedGridPositions[_storedGridPositions.Count - 1];
@@ -64,14 +61,12 @@ public class UndoHandler : MonoBehaviour
 
     private void MoveSushi()
     {
-        //Debug.Log(Vector3.Distance(_targetSushi.transform.position, _targetPosition) > 0.1f);
         if (Vector3.Distance(_targetSushi.transform.position, _targetPosition) > 0.1f)
-            _targetSushi.transform.position = Vector3.MoveTowards(_targetSushi.transform.position, _targetPosition, Time.deltaTime * _speed);
+            _targetSushi.transform.position = Vector3.MoveTowards(_targetSushi.transform.position, _targetPosition, Time.deltaTime * UndoMovementSpeed);
         else
         {
             _targetSushi.transform.position = _targetPosition;
             _moveSushi = false;
         }
-            
     }
 }
