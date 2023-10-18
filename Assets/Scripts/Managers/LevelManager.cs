@@ -7,9 +7,6 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     private UndoManager Undo;
-    
-    public Button RestartButton;
-    public Button UndoButton;
 
     private void Start()
     {
