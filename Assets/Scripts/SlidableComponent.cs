@@ -8,30 +8,32 @@ using UnityEngine.EventSystems;
 public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public SlidingDirection SlidingDirection;
+
     public Transform SensorA;
     public Transform SensorB;
-
     private Camera _camera;
+    private Grid<Tile> _grid;
+
+    private event Action<Vector3> OnPerformMovement;
+    private event Action OnPerformAllowedDirections;
 
     private Vector3 _offSet;
     private Vector3 _offSetA;
     private Vector3 _offSetB;
-
     private Vector3 _limiterA;
     private Vector3 _limiterB;
 
-    private Grid<Tile> _grid;
 
     private bool _grabbed;
     private bool _canGoUp, _canGoDown, _canGoLeft, _canGoRight;
     private bool _levelComplete;
     private float _speed = 20f;
 
-    public static event Action<int> OnUpdateMoveCounter; //just for first build not definitive
+
+    //just for first build not definitive
+    public static event Action<int> OnUpdateMoveCounter; 
     public Vector2 _lastGridPosition;
 
-    private event Action<Vector3> OnPerformMovement;
-    private event Action OnPerformAllowedDirections;
 
 
     private void Awake()
