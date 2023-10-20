@@ -14,10 +14,8 @@ public class LevelDataHandler
 
     private void InstantiatePawns(LevelData levelData)
     {
-        for (int i = 0; i < levelData.PawnsIDs.Length; i++)
-        {
-            SlidableComponent pawn = Resources.Load<SlidableComponent>(levelData.PawnsIDs[i]);
-            MonoBehaviour.Instantiate<SlidableComponent>(pawn, levelData.PawnsPositions[i], levelData.PawnsRotations[i]);
-        }
+        for (int i = 0; i < levelData.Pawn.Length; i++)
+            MonoBehaviour.Instantiate<SlidableComponent>(levelData.Pawn[i], levelData.PawnsPositions[i], levelData.PawnsRotations[i]);
+        
     }
 }

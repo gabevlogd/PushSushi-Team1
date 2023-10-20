@@ -14,6 +14,7 @@ public class LevelEditorTool : EditorWindow
     private List<Toogle> _selectedCoordinates;
     private List<SlidableComponent> _placedSushis;
     private List<string> _placedSushisMeshs;
+
     private string[] _sushiMeshs = new string[]
     {
         "MainSushi", "MainSushi 1", "MainSushi 2", "MainSushi 3", "MainSushi 4", "MainSushi 5", "MainSushi 6", "MainSushi 7", "MainSushi 8", "MainSushi 9",
@@ -21,6 +22,7 @@ public class LevelEditorTool : EditorWindow
         "LongSushi", "LongSushi 1", "LongSushi 2", "LongSushi 3"
     };
     private int _meshIndex = 0;
+
     private Difficulty _levelDifficulty;
     private Vector2 _scrollPos;
 
@@ -94,6 +96,54 @@ public class LevelEditorTool : EditorWindow
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
+
+
+    private void PerformPlacerButton()
+    {
+        if (ValidCordinates())
+            PlaceSushi(Resources.Load<SlidableComponent>(_sushiMeshs[_meshIndex]));
+
+        for (int x = 0; x < _gridCoordinates.GetWidth(); x++)
+        {
+            for (int y = 0; y < _gridCoordinates.GetHeight(); y++)
+            {
+                _gridCoordinates.GetGridObject(x, y).Value = false;
+            }
+        }
+
+    }
+    private void PerformNewLevelButton()
+    {
+        _placedSushis = null;
+        _placedSushisMeshs = null;
+        EditorSceneManager.OpenScene("Assets/Scenes/EmptyLevelTemplate.unity");
+    }
+    private void PerformSaveLevelButton()
+    {
+        LevelData newLevel = CreateNewLevel();
+        if (newLevel == null) return;
+        AssetDatabase.CreateAsset(newLevel, $"Assets/Resources/{newLevel.Difficulty}/Level {newLevel.LevelIndex}.asset");
+        AssetDatabase.SaveAssets();
+        Debug.Log("New level saved");
+    }
+    private void PerformBackButton()
+    {
+        if (_placedSushis == null) return;
+
+        if (_placedSushis.Count > 0)
+        {
+            SlidableComponent sushi = _placedSushis[_placedSushis.Count - 1];
+            if (sushi != null)
+            {
+                _placedSushis.Remove(sushi);
+                _placedSushisMeshs.RemoveAt(_placedSushisMeshs.Count - 1);
+                DestroyImmediate(sushi.gameObject);
+            }
+
+        }
+    }
+
+
 
     /// <summary>
     /// Draws a grid of toggle for the visual selection of the coordinates
@@ -202,7 +252,7 @@ public class LevelEditorTool : EditorWindow
         int xCoo = _selectedCoordinates[0].x;
         int yCoo = _selectedCoordinates[0].y;
 
-        Quaternion targetRotation = GetTargetRotation(sushiToPlace);
+        Quaternion targetRotation = GetTargetRotation();
         Vector3 targetPosition = GetTargetPosition(sushiToPlace, xCoo, yCoo, targetRotation.eulerAngles.y != 0f);
 
         SlidableComponent placedSushi = Instantiate(sushiToPlace, targetPosition, targetRotation);
@@ -216,7 +266,7 @@ public class LevelEditorTool : EditorWindow
         _placedSushis.Add(placedSushi);
         _placedSushisMeshs.Add(_sushiMeshs[_meshIndex]);
     }
-    private Quaternion GetTargetRotation(SlidableComponent sushiToPlace)
+    private Quaternion GetTargetRotation()
     {
         Quaternion targetRotation;
         if (_selectedCoordinates[1].x == _selectedCoordinates[0].x)
@@ -241,69 +291,21 @@ public class LevelEditorTool : EditorWindow
         }
         return targetPosition;
     }
-    private void PerformPlacerButton()
-    {
-        if (ValidCordinates())
-            PlaceSushi(Resources.Load<SlidableComponent>(_sushiMeshs[_meshIndex]));
-
-        for(int x = 0; x < _gridCoordinates.GetWidth(); x++)
-        {
-            for (int y = 0; y < _gridCoordinates.GetHeight(); y++)
-            {
-                _gridCoordinates.GetGridObject(x, y).Value = false;
-            }
-        }
-        
-    }
-    private void PerformNewLevelButton()
-    {
-        _placedSushis = null;
-        _placedSushisMeshs = null;
-        EditorSceneManager.OpenScene("Assets/Scenes/EmptyLevelTemplate.unity");
-        //SlidableComponent[] pawns = FindObjectsByType<SlidableComponent>(FindObjectsSortMode.None);
-        //foreach (SlidableComponent pawn in pawns)
-        //    DestroyImmediate(pawn.gameObject);
-    }
-    private void PerformSaveLevelButton()
-    {
-        LevelData newLevel = CreateNewLevel();
-        if (newLevel == null) return;
-        AssetDatabase.CreateAsset(newLevel, $"Assets/Resources/{newLevel.Difficulty}/Level {newLevel.LevelIndex}.asset");
-        AssetDatabase.SaveAssets();
-        Debug.Log("New level saved");
-    }
-    private void PerformBackButton()
-    {
-        if (_placedSushis == null) return;
-
-        if (_placedSushis.Count > 0)
-        {
-            SlidableComponent sushi = _placedSushis[_placedSushis.Count - 1];
-            if (sushi != null)
-            {
-                _placedSushis.Remove(sushi);
-                _placedSushisMeshs.RemoveAt(_placedSushisMeshs.Count - 1);
-                DestroyImmediate(sushi.gameObject);
-            }
-            
-        }
-    }
-
     private LevelData CreateNewLevel()
     {
         LevelData newLevel = CreateInstance<LevelData>();
         SlidableComponent[] pawns = FindObjectsByType<SlidableComponent>(FindObjectsSortMode.InstanceID);
         if (pawns.Length == 0 || _placedSushisMeshs == null || _placedSushisMeshs.Count == 0) return null;
-        newLevel.PawnsIDs = new string[pawns.Length];
         newLevel.PawnsPositions = new Vector3[pawns.Length];
         newLevel.PawnsRotations = new Quaternion[pawns.Length];
+        newLevel.Pawn = new SlidableComponent[pawns.Length];
         newLevel.Difficulty = _levelDifficulty;
         for (int i = 0; i < pawns.Length; i++)
         {
             if (_placedSushisMeshs[i][0].ToString() == "M")
-                newLevel.MainPawnID = _placedSushisMeshs[i];
+                newLevel.MainPawn = Resources.Load<SlidableComponent>(_placedSushisMeshs[i]);
 
-            newLevel.PawnsIDs[i] = _placedSushisMeshs[pawns.Length - i - 1];
+            newLevel.Pawn[i] = Resources.Load<SlidableComponent>(_placedSushisMeshs[pawns.Length - i - 1]);
             newLevel.PawnsPositions[i] = pawns[i].transform.position;
             newLevel.PawnsRotations[i] = pawns[i].transform.rotation;
         }

@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerData
 {
+    public static Difficulty LastSelectedDifficulty;
+    public static int LastSelectedLevelIndex;
+    public static int LastCompletedLevelIndex;
     private int _coinCounter;
 
     public PlayerData()

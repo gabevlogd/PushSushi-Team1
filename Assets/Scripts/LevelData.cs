@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Level", fileName = "NewLevel")]
 public class LevelData : ScriptableObject
 {
-    public string MainPawnID;
-    public string[] PawnsIDs;
+    public SlidableComponent MainPawn;
+    public SlidableComponent[] Pawn;
     public Vector3[] PawnsPositions;
     public Quaternion[] PawnsRotations;
     public Difficulty Difficulty;
