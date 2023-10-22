@@ -14,8 +14,7 @@ public class HUDManager : MonoBehaviour
     private void OnEnable()
     {
         //SlidableComponent.OnUpdateMoveCounter += UpdateMoveCounter;
-        if(SceneManager.GetActiveScene().name.Length < 3)
-            LevelCounter.text = SceneManager.GetActiveScene().name;
+        LevelCounter.text = LevelManager.GetCurrentLevelIndex().ToString();
     }
 
     //private void OnDisable()

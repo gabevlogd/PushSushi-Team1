@@ -10,6 +10,7 @@ public class LevelData : ScriptableObject
     public Vector3[] PawnsPositions;
     public Quaternion[] PawnsRotations;
     public Difficulty Difficulty;
+    public Theme Theme;
     public int LevelIndex;
     public int MinimumMoves;
     public int LevelScore;
@@ -21,4 +22,10 @@ public enum Difficulty
     Beginner,
     Intermediate,
     Advanced
+}
+
+public enum Theme
+{
+    Sushi,
+    Penguin
 }

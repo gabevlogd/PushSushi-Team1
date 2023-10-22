@@ -17,8 +17,10 @@ public class LevelManager : MonoBehaviour
 
         //temporary
         if (_currentLevel == null)
-            _currentLevel = Resources.Load<LevelData>($"{PlayerData.LastSelectedDifficulty}/Level {1}");
-        _levelDataHandler.LoadLevel(_currentLevel.LevelIndex, out _currentLevel);
+            _currentLevel = LevelLoader.LevelToLoad;
+        if (_currentLevel != null)
+            _levelDataHandler.LoadLevel(_currentLevel.Theme, _currentLevel.Difficulty, _currentLevel.LevelIndex, out _currentLevel);
+
         //temporary
     }
 
@@ -34,19 +36,21 @@ public class LevelManager : MonoBehaviour
     public void OnUndo() => Undo.PerformUndo();
     public void LoadNextLevel()
     {
-        if (_currentLevel.LevelIndex >= Resources.LoadAll<LevelData>("Beginner/").Length)
+        if (_currentLevel == null) return;
+        if (_currentLevel.LevelIndex >= Resources.LoadAll<LevelData>($"{PlayerData.LastSelectedLevel.Theme}/{PlayerData.LastSelectedLevel.Difficulty}/").Length)
             return;
-
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         CleanBoard();
-        _levelDataHandler.LoadLevel(_currentLevel.LevelIndex + 1, out _currentLevel);
+        _levelDataHandler.LoadLevel(_currentLevel.Theme, _currentLevel.Difficulty, _currentLevel.LevelIndex + 1, out _currentLevel);
     }
     public void LoadPreviousLevel()
     {
+        if (_currentLevel == null) return;
         if (_currentLevel.LevelIndex == 1)
             return;
-
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         CleanBoard();
-        _levelDataHandler.LoadLevel(_currentLevel.LevelIndex - 1, out _currentLevel);
+        _levelDataHandler.LoadLevel(_currentLevel.Theme, _currentLevel.Difficulty, _currentLevel.LevelIndex - 1, out _currentLevel);
     }
 
 
@@ -62,7 +66,12 @@ public class LevelManager : MonoBehaviour
     #region PLACEHOLDER FOR SECOND BUILD
     
     private void OnEnable() => SlidableComponent.OnLevelComplete += LoadNextLevel; 
-    private void OnDisable() => SlidableComponent.OnLevelComplete -= LoadNextLevel; 
-    
+    private void OnDisable() => SlidableComponent.OnLevelComplete -= LoadNextLevel;
+    public static int GetCurrentLevelIndex()
+    {
+        if (_currentLevel == null) return 0;
+        return _currentLevel.LevelIndex;
+    }
+
     #endregion
 }

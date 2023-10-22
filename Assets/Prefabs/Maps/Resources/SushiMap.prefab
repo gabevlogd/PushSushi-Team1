@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7910169234456523102}
   m_Layer: 0
-  m_Name: SushiTable
+  m_Name: SushiMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
