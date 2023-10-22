@@ -20,7 +20,6 @@ public class LevelManager : MonoBehaviour
             _currentLevel = LevelLoader.LevelToLoad;
         if (_currentLevel != null)
             _levelDataHandler.LoadLevel(_currentLevel.Theme, _currentLevel.Difficulty, _currentLevel.LevelIndex, out _currentLevel);
-
         //temporary
     }
 
