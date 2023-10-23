@@ -22,6 +22,9 @@ public class MainMenuUI : UIWindow
 
     private void PerformStartButton()
     {
+        if (PlayerData.LastSelectedLevel == null)
+            PlayerData.LastSelectedLevel = LevelLoader.GetLevel(Theme.Sushi, Difficulty.Beginner, 1);
+
         LevelLoader.LevelToLoad = PlayerData.LastSelectedLevel;
         SceneManager.LoadScene("GameScene");
     }

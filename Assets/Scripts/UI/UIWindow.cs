@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class UIWindow : MonoBehaviour
 {
-    protected static UIWindow _previousWindow;
-    protected static UIWindow _currentWindow;
+    public UIWindow PreviousWindow;
 
+    protected virtual void OnEnable()
+    {
+        //Debug.Log(PreviousWindow);
+        //Debug.Log(CurrentWindow);
 
+    }
 
     protected void PerformSkinsButton()
     {
         Debug.Log("Open skin selction tab");
     }
 
-    protected void PerformBackButton() => ChangeWindow(_previousWindow);
+    protected void PerformBackButton() => ChangeWindow(PreviousWindow);
 
     protected virtual void ChangeWindow(UIWindow windowToOpen)
     {
-        _previousWindow = this;
-        _currentWindow = windowToOpen;
+        if (windowToOpen.PreviousWindow == null)
+            windowToOpen.PreviousWindow = this;
+
         windowToOpen.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
     }
@@ -29,4 +34,5 @@ public class UIWindow : MonoBehaviour
         currentTab.SetActive(false);
         tabToOpen.SetActive(true);
     }
+
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44795942, g: 0.4972551, b: 0.57239234, a: 1}
+  m_IndirectSpecularColor: {r: 0.45059437, g: 0.50057006, b: 0.57503146, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -706,6 +706,7 @@ GameObject:
   - component: {fileID: 173032590}
   - component: {fileID: 173032589}
   - component: {fileID: 173032588}
+  - component: {fileID: 173032591}
   m_Layer: 5
   m_Name: LevelsGridCanvas
   m_TagString: Untagged
@@ -798,6 +799,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &173032591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173032586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf27ffb70250cb418cd6902014e71c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PreviousWindow: {fileID: 0}
+  Difficulty: {fileID: 1386659937}
+  Back: {fileID: 880463409}
+  Start: {fileID: 1836898116}
 --- !u!1001 &191290678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1017,6 +1034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7146f54ee412a8047ac0e3468f8ea935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PreviousWindow: {fileID: 0}
   Option: {fileID: 1418429977}
   Start: {fileID: 2133572965}
   Skin: {fileID: 1881467130}
@@ -2231,8 +2249,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736ee93441603b145b26a2666bbf52f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PreviousWindow: {fileID: 0}
   Skin: {fileID: 790351080}
   Back: {fileID: 1384418747}
+  Beginner: {fileID: 834482946}
+  Intermediate: {fileID: 704889152}
+  Advanced: {fileID: 617178545}
+  Level: {fileID: 1431142281}
+  Themes: {fileID: 488004592}
+  Sushi: {fileID: 243982732}
+  Penguin: {fileID: 594647166}
+  ThemesTab: {fileID: 1922785731}
+  LevelTab: {fileID: 1344867623}
 --- !u!1 &555171756
 GameObject:
   m_ObjectHideFlags: 0
@@ -6150,7 +6178,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -6575,8 +6603,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

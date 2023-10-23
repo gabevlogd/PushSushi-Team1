@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,4 +13,14 @@ public class LevelUIComponent : MonoBehaviour
 
     public List<Sprite> ScoreSpite;
     public List<Sprite> LevelSprite;
+
+    private Button _button;
+
+    private void Awake()
+    {
+        _button = GetComponent<Button>();
+        _button.onClick.AddListener(PerformLevelSelection);
+    }
+
+    private void PerformLevelSelection() => PlayerData.CurrentSelectedLevel.LevelIndex = int.Parse(LevelIndexText.text);
 }
