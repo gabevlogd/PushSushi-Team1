@@ -13,12 +13,12 @@ public class UIWindow : MonoBehaviour
 
     }
 
-    protected void PerformSkinsButton()
-    {
-        Debug.Log("Open skin selction tab");
-    }
+    protected void OpenTab(GameObject tabToOpen) => tabToOpen.SetActive(true);
+
+    protected void CloseTab(GameObject tabToClose) => tabToClose.SetActive(false);
 
     protected void PerformBackButton() => ChangeWindow(PreviousWindow);
+
 
     protected virtual void ChangeWindow(UIWindow windowToOpen)
     {
@@ -31,7 +31,7 @@ public class UIWindow : MonoBehaviour
 
     protected virtual void ChangeTab(GameObject currentTab, GameObject tabToOpen)
     {
-        currentTab.SetActive(false);
+        currentTab?.SetActive(false);
         tabToOpen.SetActive(true);
     }
 

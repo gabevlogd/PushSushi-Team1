@@ -8,14 +8,28 @@ public class MainMenuUI : UIWindow
 {
     public Button Option;
     public Button Start;
-    public Button Skin;
+    public Button Skins;
     public Button Level;
+    public Button Close;
+
+    public GameObject SkinsTab;
+
+    public static bool GoToLevelWindow;
 
     private void Awake()
     {
-        Skin.onClick.AddListener(PerformSkinsButton);
+        Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
+        Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
         Level.onClick.AddListener(PerformLevelButton);
         Start.onClick.AddListener(PerformStartButton);
+
+
+        //una roba brutta che non sapevo come fare altrimenti, se poi scopro un metodo piu carino tolgo sta cacata :)
+        if (GoToLevelWindow)
+        {
+            GoToLevelWindow = false;
+            Level.onClick.Invoke();
+        }
     }
 
     private void PerformLevelButton() => ChangeWindow(FindObjectOfType<LevelMenuUI>(true));

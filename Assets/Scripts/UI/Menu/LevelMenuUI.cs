@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LevelMenuUI : UIWindow
 {
-    public Button Skin;
+    public Button Skins;
     public Button Back;
     public Button Beginner;
     public Button Intermediate;
@@ -14,14 +14,17 @@ public class LevelMenuUI : UIWindow
     public Button Themes;
     public Button Sushi;
     public Button Penguin;
+    public Button Close;
 
     public GameObject ThemesTab;
     public GameObject LevelTab;
+    public GameObject SkinsTab;
 
     private void Awake()
     {
         Back.onClick.AddListener(PerformBackButton);
-        Skin.onClick.AddListener(PerformSkinsButton);
+        Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
+        Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
         Beginner.onClick.AddListener(delegate { PerformDifficultyButton(Difficulty.Beginner); });
         Intermediate.onClick.AddListener(delegate { PerformDifficultyButton(Difficulty.Intermediate); });
         Advanced.onClick.AddListener(delegate { PerformDifficultyButton(Difficulty.Advanced); });

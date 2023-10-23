@@ -16,11 +16,17 @@ public class LevelUIComponent : MonoBehaviour
 
     private Button _button;
 
+    public static event Action OnLevelComponentClick;
+
     private void Awake()
     {
         _button = GetComponent<Button>();
         _button.onClick.AddListener(PerformLevelSelection);
     }
 
-    private void PerformLevelSelection() => PlayerData.CurrentSelectedLevel.LevelIndex = int.Parse(LevelIndexText.text);
+    private void PerformLevelSelection()
+    {
+        PlayerData.CurrentSelectedLevel.LevelIndex = int.Parse(LevelIndexText.text);
+        OnLevelComponentClick?.Invoke();
+    }
 }

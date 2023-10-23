@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelsUIHandler : MonoBehaviour
+public class LevelsGridUIHandler : MonoBehaviour
 {
     private List<LevelUIComponent> _levels = new List<LevelUIComponent>();
 
@@ -14,6 +14,13 @@ public class LevelsUIHandler : MonoBehaviour
             _levels.Add(levels[i]);
             _levels[i].LevelIndexText.text = (i + 1).ToString();
         }
+
+        LevelUIComponent.OnLevelComponentClick += PerformLevelSelection;
             
+    }
+
+    private void PerformLevelSelection()
+    {
+        //to implement...
     }
 }
