@@ -6,7 +6,8 @@ using UnityEngine;
 public class PlayerData
 {
     public static LevelData LastSelectedLevel = Resources.Load<LevelData>("Sushi/Beginner/Level 1"); //Load<LevelData> temporary
-    public static LevelData LastCompletedLevel;
+    public static LevelData CurrentSelectedLevel = new LevelData();
+    public static LevelData[,] LastCompletedLevel = new LevelData[2, 3];
     private int _coinCounter;
 
     public PlayerData()
