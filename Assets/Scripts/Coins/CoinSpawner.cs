@@ -20,7 +20,7 @@ public class CoinSpawner : MonoBehaviour
     {
         _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3f, 0f, -3f), (int x, int y) => new Tile(x, y));
         _occupiedCoordinates = new List<Vector2Int>();
-
+Debug.Log("test4");
         TryToSpawnCoins();
     }
 
