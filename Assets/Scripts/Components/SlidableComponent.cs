@@ -8,14 +8,13 @@ using UnityEngine.SceneManagement;
 
 public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public SlidingDirection SlidingDirection;
-
     public Transform SensorA;
     public Transform SensorB;
     private Camera _camera;
     private Grid<Tile> _grid;
 
     private event Action<Vector3> OnPerformMovement;
+    private event Action OnPerformAllowedDirections;
 
     private Vector3 _offSet;
     private Vector3 _offSetA;
@@ -23,17 +22,10 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     private Vector3 _limiterA;
     private Vector3 _limiterB;
 
-
     private bool _grabbed;
-    private bool _canGoUp, _canGoDown, _canGoLeft, _canGoRight;
     private bool _levelComplete;
+    private bool _canGoUp, _canGoDown, _canGoLeft, _canGoRight;
     private float _speed = 20f;
-
-
-    ////just for first build not definitive
-    //public static event Action<int> OnUpdateMoveCounter; 
-    //public Vector2 _lastGridPosition;
-
 
 
     private void Awake()
@@ -41,10 +33,16 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         _camera = Camera.main;
         _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3f, 0f, -3f), (int x, int y) => new Tile(x, y));
 
-        if (SlidingDirection == SlidingDirection.Vertical)
+        if (transform.right == Vector3.forward)
+        {
             OnPerformMovement += PerformVerticalMovement;
+            OnPerformAllowedDirections += CalculateAllowedVerticalDirections;
+        }
         else
+        {
             OnPerformMovement += PerformHorizontalMovement;
+            OnPerformAllowedDirections += CalculateAllowedHorizontalDirections;
+        }
     }
 
     private void Update()
@@ -52,7 +50,10 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         if (_levelComplete)
             SlideAway();
         if (_grabbed)
+        {
+            OnPerformAllowedDirections();
             OnPerformMovement(GetPointerWorldPosition());
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -70,12 +71,6 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         _offSetB = new Vector3(SensorB.position.x , transform.position.y, SensorB.position.z ) - transform.position;
 
         _grabbed = true;
-
-        //store the grid's coordinate before starting to move the slidable component
-        //_grid.GetXY(transform.position, out int x, out int y);
-        //_lastGridPosition = new Vector2(x, y);
-
-        //Debug.Log($"{x} , {y}");
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -85,10 +80,24 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         //when release the slidable component makes sure the transform remain on a fixed position of the grid
         _grid.GetXY(transform.position, out int x, out int y);
         transform.position = new Vector3(_grid.GetWorldPosition(x, y).x, transform.position.y, _grid.GetWorldPosition(x, y).z);
+    }
 
-        //just for first build not definitive
-        //if (_lastGridPosition != new Vector2(x, y))
-        //    OnUpdateMoveCounter?.Invoke(1);
+    /// <summary>
+    /// Calculates the allowed vertical directions where the slidable component can slides to
+    /// </summary>
+    private void CalculateAllowedVerticalDirections()
+    {
+        _canGoDown = SensorA.position.z > _limiterA.z;
+        _canGoUp = SensorB.position.z < _limiterB.z;
+    }
+
+    /// <summary>
+    /// Calculates the allowed horizontal directions where the slidable component can slides to
+    /// </summary>
+    private void CalculateAllowedHorizontalDirections()
+    {
+        _canGoLeft = SensorA.position.x > _limiterA.x;
+        _canGoRight = SensorB.position.x < _limiterB.x;
     }
 
     /// <summary>
@@ -113,35 +122,25 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
             _levelComplete = true;
             StartCoroutine(GoToNextLevel()); //only for second build
         }
-        //Debug.Log(limiterA);
-        //Debug.Log(limiterB);
     }
 
     private void PerformVerticalMovement(Vector3 pointerPosition)
     {
+        if (!_canGoUp && !_canGoDown) return;
         float z = Math.Clamp(pointerPosition.z - _offSet.z, _limiterA.z - _offSetA.z, _limiterB.z - _offSetB.z);
         transform.position = new Vector3(transform.position.x, transform.position.y, z);
     }
 
     private void PerformHorizontalMovement(Vector3 pointerPosition)
     {
+        if (!_canGoLeft && !_canGoRight) return;
         float x = Math.Clamp(pointerPosition.x - _offSet.x, _limiterA.x - _offSetA.x, _limiterB.x - _offSetB.x);
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
     }
 
     private void SlideAway() => transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.right * 20f, Time.deltaTime * _speed);
 
-    private Vector3 GetPointerWorldPosition()
-    {
-        return _camera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Vector3.Distance(transform.position, _camera.transform.position)));
-        //return _camera.ScreenPointToRay(Input.GetTouch(0).position).GetPoint(Mathf.Abs(_camera.transform.position.z));
-    }
-
-    //for debug
-    private void OnDrawGizmos()
-    {
-        Debug.DrawLine(_limiterA, _limiterB);
-    }
+    private Vector3 GetPointerWorldPosition() => _camera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Vector3.Distance(transform.position, _camera.transform.position)));
 
     #region PLACEHOLDER FOR SECOND BUILD
     public static event Action OnLevelComplete;
@@ -150,7 +149,7 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     private IEnumerator GoToNextLevel()
     {
         OnDisableComponent?.Invoke();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         OnLevelComplete?.Invoke();
     }
 

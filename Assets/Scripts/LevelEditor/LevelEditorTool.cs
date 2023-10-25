@@ -1,38 +1,53 @@
 #if UNITY_EDITOR
-
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using System.IO;
 
 public class LevelEditorTool : EditorWindow
 {
     private Grid<Toogle> _gridCoordinates = new Grid<Toogle>(6, 6, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Toogle(x, y));
     private List<Toogle> _selectedCoordinates;
-    private List<SlidableComponent> _placedSushis;
-    private string _newLevelSceneName;
+    private List<SlidableComponent> _placedPawns;
+
     private string[] _sushiMeshs = new string[]
     {
         "MainSushi", "MainSushi 1", "MainSushi 2", "MainSushi 3", "MainSushi 4", "MainSushi 5", "MainSushi 6", "MainSushi 7", "MainSushi 8", "MainSushi 9",
         "ShortSushi", "ShortSushi 1", "ShortSushi 2", "ShortSushi 3",
         "LongSushi", "LongSushi 1", "LongSushi 2", "LongSushi 3"
     };
-    private int _index = 0;
+    private string[] _penguinMeshs = new string[] 
+    {
+        "MainPenguin 1", "MainPenguin 2"
+    };
+    private string[] _pawnMeshs;
+
+    private int _meshIndex = 0;
+
+    private Difficulty _levelDifficulty;
+    private Theme _levelTheme;
+
+    private Vector2 _scrollPos;
 
     [MenuItem("Tools/Level Editor")]
     public static void ShowWindow() => GetWindow<LevelEditorTool>("Level Editor");
-    
+
     void OnGUI()
     {
+        _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
         DrawNewLevelButton();
         DrawSaveLevelButton();
-        DrawNewLevelNameLabel();
         DrawTogglesGrid();
+        DrawLevelDifficultyEnum();
+        DrawLevelThemeEnum();
         DrawMeshSelectorPopUp();
         DrawPlacerButton();
         DrawBackButton();
+        EditorGUILayout.EndScrollView();
     }
 
     private void DrawNewLevelButton()
@@ -48,11 +63,24 @@ public class LevelEditorTool : EditorWindow
             PerformSaveLevelButton();
         GUILayout.Space(20f);
     }
-    private void DrawNewLevelNameLabel()
+    private void DrawLevelDifficultyEnum()
     {
-        GUILayout.Label("New level scene name: ");
+        GUILayout.Space(20f);
         GUILayout.BeginHorizontal();
-        _newLevelSceneName = GUILayout.TextField(_newLevelSceneName);
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("Level difficulty: ");
+        _levelDifficulty = (Difficulty)EditorGUILayout.EnumPopup(_levelDifficulty);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+    }
+    private void DrawLevelThemeEnum()
+    {
+        GUILayout.Space(20f);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("Level theme: ");
+        _levelTheme = (Theme)EditorGUILayout.EnumPopup(_levelTheme);
+        GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
     private void DrawMeshSelectorPopUp()
@@ -60,8 +88,18 @@ public class LevelEditorTool : EditorWindow
         GUILayout.Space(20f);
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        GUILayout.Label("Sushi's mesh:");
-        _index = EditorGUILayout.Popup(_index, _sushiMeshs);
+        switch (_levelTheme)
+        {
+            case Theme.Sushi:
+                _pawnMeshs = _sushiMeshs;
+                GUILayout.Label("Sushi's mesh:");
+                break;
+            case Theme.Penguin:
+                _pawnMeshs = _penguinMeshs;
+                GUILayout.Label("Penuin's mesh:");
+                break;
+        }
+        _meshIndex = EditorGUILayout.Popup(_meshIndex, _pawnMeshs);
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
@@ -75,7 +113,6 @@ public class LevelEditorTool : EditorWindow
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
-
     private void DrawBackButton()
     {
         GUILayout.Space(20f);
@@ -86,6 +123,51 @@ public class LevelEditorTool : EditorWindow
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
+
+    private void PerformPlacerButton()
+    {
+        if (ValidCordinates())
+            PlaceSushi(Resources.Load<SlidableComponent>(_pawnMeshs[_meshIndex]));
+
+        for (int x = 0; x < _gridCoordinates.GetWidth(); x++)
+        {
+            for (int y = 0; y < _gridCoordinates.GetHeight(); y++)
+            {
+                _gridCoordinates.GetGridObject(x, y).Value = false;
+            }
+        }
+
+    }
+    private void PerformNewLevelButton()
+    {
+        _placedPawns = null;
+        EditorSceneManager.OpenScene("Assets/Scenes/EmptyLevelTemplate.unity");
+    }
+    private void PerformSaveLevelButton()
+    {
+        LevelData newLevel = CreateNewLevel();
+        if (newLevel == null) return;
+        AssetDatabase.CreateAsset(newLevel, $"Assets/Resources/{newLevel.Theme}/{newLevel.Difficulty}/Level {newLevel.LevelIndex}.asset");
+        AssetDatabase.SaveAssets();
+        Debug.Log("New level saved");
+    }
+    private void PerformBackButton()
+    {
+        if (_placedPawns == null) return;
+
+        if (_placedPawns.Count > 0)
+        {
+            SlidableComponent sushi = _placedPawns[_placedPawns.Count - 1];
+            if (sushi != null)
+            {
+                _placedPawns.Remove(sushi);
+                DestroyImmediate(sushi.gameObject);
+            }
+
+        }
+    }
+
+
 
     /// <summary>
     /// Draws a grid of toggle for the visual selection of the coordinates
@@ -194,32 +276,30 @@ public class LevelEditorTool : EditorWindow
         int xCoo = _selectedCoordinates[0].x;
         int yCoo = _selectedCoordinates[0].y;
 
-        Quaternion targetRotation = GetTargetRotation(sushiToPlace);
-        Vector3 targetPosition = GetTargetPosition(sushiToPlace, xCoo, yCoo);
+        Quaternion targetRotation = GetTargetRotation();
+        Vector3 targetPosition = GetTargetPosition(sushiToPlace, xCoo, yCoo, targetRotation.eulerAngles.y != 0f);
 
-        SlidableComponent placedSushi = Instantiate(sushiToPlace, targetPosition, targetRotation);
+        //SlidableComponent placedSushi = Instantiate(sushiToPlace, targetPosition, targetRotation);
+        SlidableComponent placedSushi = (SlidableComponent)PrefabUtility.InstantiatePrefab(sushiToPlace);
+        placedSushi.transform.position = targetPosition;
+        placedSushi.transform.rotation = targetRotation;
 
-        if (_placedSushis == null)
-            _placedSushis = new List<SlidableComponent>();
+        if (_placedPawns == null)
+            _placedPawns = new List<SlidableComponent>();
 
-        _placedSushis.Add(placedSushi);
+        _placedPawns.Add(placedSushi);
     }
-    private Quaternion GetTargetRotation(SlidableComponent sushiToPlace)
+    private Quaternion GetTargetRotation()
     {
         Quaternion targetRotation;
         if (_selectedCoordinates[1].x == _selectedCoordinates[0].x)
-        {
-            sushiToPlace.SlidingDirection = SlidingDirection.Vertical;
             targetRotation = Quaternion.Euler(0f, -90f, 0f);
-        }
         else
-        {
-            sushiToPlace.SlidingDirection = SlidingDirection.Horizontal;
             targetRotation = Quaternion.identity;
-        }
+        
         return targetRotation;
     }
-    private Vector3 GetTargetPosition(SlidableComponent sushiToPlace, int xCoo, int yCoo)
+    private Vector3 GetTargetPosition(SlidableComponent sushiToPlace, int xCoo, int yCoo, bool vertical)
     {
         BoxCollider collider = sushiToPlace.GetComponent<BoxCollider>();
         Vector3 targetPosition;
@@ -227,55 +307,38 @@ public class LevelEditorTool : EditorWindow
             targetPosition = _gridCoordinates.GetWorldPosition(xCoo, yCoo);
         else
         {
-            if (sushiToPlace.SlidingDirection == SlidingDirection.Vertical)
+            if (vertical)
                 targetPosition = _gridCoordinates.GetWorldPosition(xCoo, yCoo + 1);
             else
                 targetPosition = _gridCoordinates.GetWorldPosition(xCoo + 1, yCoo);
         }
         return targetPosition;
     }
-    private void PerformPlacerButton()
+    private LevelData CreateNewLevel()
     {
-        if (ValidCordinates())
-            PlaceSushi(Resources.Load<SlidableComponent>(_sushiMeshs[_index]));
+        if (_placedPawns == null || _placedPawns.Count == 0) return null;
 
-        for(int x = 0; x < _gridCoordinates.GetWidth(); x++)
-        {
-            for (int y = 0; y < _gridCoordinates.GetHeight(); y++)
-            {
-                _gridCoordinates.GetGridObject(x, y).Value = false;
-            }
-        }
-        
-    }
-    private void PerformNewLevelButton()
-    {
-        _newLevelSceneName = "";
-        EditorSceneManager.OpenScene("Assets/Scenes/EmptyLevelTemplate.unity");
-    }
-    private void PerformSaveLevelButton()
-    {
-        if (_newLevelSceneName == "" || _newLevelSceneName == null)
-        {
-            Debug.Log("Name the scene before saving");
-            return;
-        }
-        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), $"Assets/Scenes/Levels/{_newLevelSceneName}.unity", true);
-    }
-    private void PerformBackButton()
-    {
-        if (_placedSushis == null) return;
+        LevelData newLevel = CreateInstance<LevelData>();
+        newLevel.Pawn = new SlidableComponent[_placedPawns.Count];
+        newLevel.PawnsPositions = new Vector3[_placedPawns.Count];
+        newLevel.PawnsRotations = new Quaternion[_placedPawns.Count];
 
-        if (_placedSushis.Count > 0)
+        newLevel.Difficulty = _levelDifficulty;
+        newLevel.Theme = _levelTheme;
+
+        for (int i = 0; i < _placedPawns.Count; i++)
         {
-            SlidableComponent sushi = _placedSushis[_placedSushis.Count - 1];
-            if (sushi != null)
-            {
-                _placedSushis.Remove(sushi);
-                DestroyImmediate(sushi.gameObject);
-            }
-            
+            newLevel.Pawn[i] = Resources.Load<SlidableComponent>(_placedPawns[i].name);
+            newLevel.PawnsPositions[i] = _placedPawns[i].transform.position;
+            newLevel.PawnsRotations[i] = _placedPawns[i].transform.rotation;
+
+            if (newLevel.Pawn[i].name[0].ToString() == "M")
+                newLevel.MainPawn = newLevel.Pawn[i];
         }
+
+        DirectoryInfo info = new DirectoryInfo($"Assets/Resources/{newLevel.Theme}/{newLevel.Difficulty}");
+        newLevel.LevelIndex = (int)(info.GetFiles().Length * 0.5f + 1); // * 0.5 because of .meta files
+        return newLevel;
     }
 }
 

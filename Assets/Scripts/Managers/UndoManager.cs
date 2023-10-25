@@ -54,7 +54,7 @@ public class UndoManager : MonoBehaviour
         
         _targetPosition = _grid.GetWorldPosition(lastGridPosition.x, lastGridPosition.y);
         _targetSushi = _storedMovedSushi[_storedMovedSushi.Count - 1];
-        
+
         _storedGridPositions.RemoveAt(_storedGridPositions.Count - 1);
         _storedMovedSushi.RemoveAt(_storedMovedSushi.Count - 1);
         
