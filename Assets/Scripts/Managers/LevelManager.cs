@@ -7,18 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private UndoManager Undo;
-
-    private void Start()
-    {
-        if (Undo == null)
-        {
-            Undo = FindObjectOfType<UndoManager>();
-        }
-    }
+    [SerializeField]
+    private CommandInvoker _commandInvoker;
     
     public void OnRestart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    public void OnUndo() => Undo.PerformUndo();
+    public void OnUndo() => _commandInvoker?.Undo();
 
     #region PLACEHOLDER FOR SECOND BUILD
     public void LoadNextLevel()
