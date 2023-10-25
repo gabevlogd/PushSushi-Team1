@@ -22,6 +22,8 @@ public class BlockController : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             Vector2Int startPosition = new Vector2Int(Mathf.RoundToInt(_pointerDownPosition.x), Mathf.RoundToInt(_pointerDownPosition.z));
             Vector2Int endPosition = new Vector2Int(Mathf.RoundToInt(pointerUpPosition.x), Mathf.RoundToInt(pointerUpPosition.z));
             GameManager.Instance.OnBlockMoved(GetComponent<Block>(), startPosition, endPosition);
+            Debug.Log("Start: "+ startPosition);
+            Debug.Log("End: "+ endPosition);
         }
     }
 }
