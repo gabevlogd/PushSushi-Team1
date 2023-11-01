@@ -8,34 +8,40 @@ using TMPro;
 
 public class HUDManager : MonoBehaviour
 {
-    public TextMeshProUGUI MoveCounter;
-    public TextMeshProUGUI LevelCounter;
+    //public TextMeshProUGUI MoveCounter;
+    //public TextMeshProUGUI LevelCounter;
 
-    public Button Pause;
-    public Button Skins;
-    public Button Stages;
-    public Button Resume;
-    public Button Restart;
-    public Button Close;
+    //public Button Pause;
+    //public Button Skins;
+    //public Button Stages;
+    //public Button Resume;
+    //public Button Restart;
+    //public Button Close;
 
-    public GameObject PauseTab;
-    public GameObject SkinsTab;
-    public GameObject GameOverTab;
+    //public GameObject PauseTab;
+    //public GameObject SkinsTab;
+    //public GameObject GameOverTab;
+    public List<HUDData> HUD;
+
+    private HUDData _data;
 
     private void Awake()
     {
-        Pause.onClick.AddListener(delegate { OpenTab(PauseTab); });
-        Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
-        Resume.onClick.AddListener(delegate { CloseTab(PauseTab); });
-        Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
-        Restart.onClick.AddListener(delegate { PerformRestartButton(PauseTab); });
-        Stages.onClick.AddListener(PerformStagesButton);
+        _data = HUD[(int)LevelLoader.LevelToLoad.Theme];
+        _data.gameObject.SetActive(true);
+
+        _data.Pause.onClick.AddListener(delegate { OpenTab(_data.PauseTab); });
+        _data.Skins.onClick.AddListener(delegate { OpenTab(_data.SkinsTab); });
+        _data.Resume.onClick.AddListener(delegate { CloseTab(_data.PauseTab); });
+        _data.Close.onClick.AddListener(delegate { CloseTab(_data.SkinsTab); });
+        _data.Restart.onClick.AddListener(delegate { PerformRestartButton(_data.PauseTab); });
+        _data.Stages.onClick.AddListener(PerformStagesButton);
         
     }
 
     private void OnEnable()
     {
-        LevelCounter.text = LevelLoader.LevelToLoad.LevelIndex.ToString();
+        _data.LevelCounter.text = LevelLoader.LevelToLoad.LevelIndex.ToString();
         SlidableComponent.OnLevelComplete += OpenGameOverTabRequest;
     }
 
@@ -62,7 +68,7 @@ public class HUDManager : MonoBehaviour
     private IEnumerator OpenGameOverTab()
     {
         yield return new WaitForSeconds(1f);
-        OpenTab(GameOverTab);
+        OpenTab(_data.GameOverTab);
     }
 
 

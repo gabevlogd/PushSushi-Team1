@@ -19,6 +19,8 @@ public class LevelManager : MonoBehaviour
         ///temporary
         if (LevelLoader.LevelToLoad == null)
             LevelLoader.LevelToLoad = LevelLoader.GetLevel(Theme.Sushi, Difficulty.Beginner, 1);
+        
+
         ///temporary
         LevelLoader.LoadLevel(LevelLoader.LevelToLoad.Theme, LevelLoader.LevelToLoad.Difficulty, LevelLoader.LevelToLoad.LevelIndex, out _currentLevel);
     }

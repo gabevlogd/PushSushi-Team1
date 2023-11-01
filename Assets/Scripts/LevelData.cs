@@ -27,5 +27,6 @@ public enum Difficulty
 public enum Theme
 {
     Sushi,
-    Penguin
+    Penguin,
+    Sweet
 }
