@@ -20,6 +20,7 @@ public class HUDManager : MonoBehaviour
 
     public GameObject PauseTab;
     public GameObject SkinsTab;
+    public GameObject GameOverTab;
 
     private void Awake()
     {
@@ -29,12 +30,16 @@ public class HUDManager : MonoBehaviour
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
         Restart.onClick.AddListener(delegate { PerformRestartButton(PauseTab); });
         Stages.onClick.AddListener(PerformStagesButton);
+        
     }
 
     private void OnEnable()
     {
         LevelCounter.text = LevelLoader.LevelToLoad.LevelIndex.ToString();
+        SlidableComponent.OnLevelComplete += OpenGameOverTabRequest;
     }
+
+    private void OnDisable() => SlidableComponent.OnLevelComplete -= OpenGameOverTabRequest;
 
     private void OpenTab(GameObject TabToOpen) => TabToOpen.SetActive(true);
 
@@ -52,5 +57,14 @@ public class HUDManager : MonoBehaviour
         SceneManager.LoadScene("MenuScene");
     }
 
-    
+    private void OpenGameOverTabRequest() => StartCoroutine(OpenGameOverTab());
+
+    private IEnumerator OpenGameOverTab()
+    {
+        yield return new WaitForSeconds(1f);
+        OpenTab(GameOverTab);
+    }
+
+
+
 }
