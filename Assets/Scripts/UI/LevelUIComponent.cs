@@ -9,14 +9,15 @@ public class LevelUIComponent : MonoBehaviour
 {
     public Image LevelImage;
     public Image ScoreImage;
+    public Image SelectionFeedback;
     public TextMeshProUGUI LevelIndexText;
 
-    public List<Sprite> ScoreSpite;
+    public List<Sprite> ScoreSprite;
     public List<Sprite> LevelSprite;
 
     private Button _button;
 
-    public static event Action OnLevelComponentClick;
+    public static event Action<int> OnLevelComponentClick;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class LevelUIComponent : MonoBehaviour
     private void PerformLevelSelection()
     {
         PlayerData.CurrentSelectedLevel.LevelIndex = int.Parse(LevelIndexText.text);
-        OnLevelComponentClick?.Invoke();
+        SelectionFeedback.gameObject.SetActive(true);
+        OnLevelComponentClick?.Invoke(PlayerData.CurrentSelectedLevel.LevelIndex);
     }
 }

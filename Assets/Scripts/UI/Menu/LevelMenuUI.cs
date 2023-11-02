@@ -45,6 +45,7 @@ public class LevelMenuUI : UIWindow
     private void PerformThemeButton(Theme theme)
     {
         PlayerData.CurrentSelectedLevel.Theme = theme;
+        PerformChengeTabButton(ThemesTab, LevelTab);
         Debug.Log($"{theme} theme selected");
     }
 

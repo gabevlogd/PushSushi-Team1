@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelsGridUIHandler : MonoBehaviour
 {
     private List<LevelUIComponent> _levels = new List<LevelUIComponent>();
+    private int _lastSelectedLevel = -1;
 
     private void Awake()
     {
@@ -19,8 +20,16 @@ public class LevelsGridUIHandler : MonoBehaviour
             
     }
 
-    private void PerformLevelSelection()
+    private void PerformLevelSelection(int selectedLevelIndex)
     {
-        //to implement...
+        if (_lastSelectedLevel == -1)
+        {
+            _lastSelectedLevel = selectedLevelIndex;
+            return;
+        }
+
+        _levels[_lastSelectedLevel - 1].SelectionFeedback.gameObject.SetActive(false);
+        _lastSelectedLevel = selectedLevelIndex;
+
     }
 }
