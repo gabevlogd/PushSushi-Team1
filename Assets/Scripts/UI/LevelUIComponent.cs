@@ -25,6 +25,8 @@ public class LevelUIComponent : MonoBehaviour
         _button.onClick.AddListener(PerformLevelSelection);
     }
 
+    private void OnEnable() => SelectionFeedback.gameObject.SetActive(false);
+
     private void PerformLevelSelection()
     {
         PlayerData.CurrentSelectedLevel.LevelIndex = int.Parse(LevelIndexText.text);
