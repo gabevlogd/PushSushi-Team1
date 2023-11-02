@@ -22,7 +22,8 @@ public class LevelEditorTool : EditorWindow
     };
     private string[] _penguinMeshs = new string[] 
     {
-        "MainPenguin 1", "MainPenguin 2"
+        "MainPenguin", "MainPenguin 1", "MainPenguin 2", "MainPenguin 3", "MainPenguin 4", "MainPenguin 5", "MainPenguin 6", "MainPenguin 7", "MainPenguin 8", "MainPenguin 9",
+        "MainPenguin 10"
     };
     private string[] _pawnMeshs;
 
@@ -108,7 +109,7 @@ public class LevelEditorTool : EditorWindow
         GUILayout.Space(20f);
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button("Place sushi"))
+        if (GUILayout.Button("Place pawn"))
             PerformPlacerButton();
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
