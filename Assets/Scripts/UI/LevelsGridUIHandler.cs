@@ -16,9 +16,19 @@ public class LevelsGridUIHandler : MonoBehaviour
             _levels[i].LevelIndexText.text = (i + 1).ToString();
         }
 
-        LevelUIComponent.OnLevelComponentClick += PerformLevelSelection;
-            
+        //ci torno dopo
+        //if (PlayerData.LastSelectedLevel != null)
+        //{
+        //    _lastSelectedLevel = PlayerData.LastSelectedLevel.LevelIndex;
+        //    _levels[_lastSelectedLevel - 1].SelectionFeedback.gameObject.SetActive(true);
+        //}
+
     }
+
+    
+
+    private void OnEnable() => LevelUIComponent.OnLevelComponentClick += PerformLevelSelection;
+    private void OnDisable() => LevelUIComponent.OnLevelComponentClick -= PerformLevelSelection;
 
     private void PerformLevelSelection(int selectedLevelIndex)
     {
