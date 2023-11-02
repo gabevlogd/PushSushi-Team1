@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerData
 {
+    public static SlidableComponent SelectedSkin;
     public static LevelData LastSelectedLevel;
     public static LevelData CurrentSelectedLevel = new LevelData();
     public static LevelData[,] LastCompletedLevel = new LevelData[2, 3];

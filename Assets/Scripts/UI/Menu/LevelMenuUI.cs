@@ -26,6 +26,7 @@ public class LevelMenuUI : UIWindow
         Back.onClick.AddListener(PerformBackButton);
         Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
+        //Close.onClick.AddListener(delegate { LevelLoader.SetSkin(LevelLoader.LevelToLoad); });
         Beginner.onClick.AddListener(delegate { PerformDifficultyButton(Difficulty.Beginner); });
         Intermediate.onClick.AddListener(delegate { PerformDifficultyButton(Difficulty.Intermediate); });
         Advanced.onClick.AddListener(delegate { PerformDifficultyButton(Difficulty.Advanced); });

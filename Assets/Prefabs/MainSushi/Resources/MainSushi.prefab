@@ -132,10 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755f3def719588244a4dbaa733878a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlidingDirection: 1
   SensorA: {fileID: 3297416971172339717}
   SensorB: {fileID: 6581484624462834121}
-  _lastGridPosition: {x: 0, y: 0}
 --- !u!114 &8114317473194646419
 MonoBehaviour:
   m_ObjectHideFlags: 0

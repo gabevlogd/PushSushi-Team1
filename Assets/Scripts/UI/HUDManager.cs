@@ -29,6 +29,7 @@ public class HUDManager : MonoBehaviour
         _data.Skins.onClick.AddListener(delegate { OpenTab(_data.SkinsTab); });
         _data.Resume.onClick.AddListener(delegate { CloseTab(_data.PauseTab); });
         _data.Close.onClick.AddListener(delegate { CloseTab(_data.SkinsTab); });
+        //_data.Close.onClick.AddListener(delegate { LevelLoader.SetSkin(LevelLoader.LevelToLoad); });
         _data.Restart.onClick.AddListener(delegate { PerformRestartButton(_data.PauseTab); });
         _data.Stages.onClick.AddListener(PerformStagesButton);
         _data.LevelCounter.text = LevelLoader.LevelToLoad.LevelIndex.ToString();
@@ -59,4 +60,6 @@ public class HUDManager : MonoBehaviour
     }
 
     private void SetHUDData(HUDData data) => _data = data;
+
+    public void UpdateSkin() => LevelLoader.SetSkin(LevelLoader.LevelToLoad);
 }
