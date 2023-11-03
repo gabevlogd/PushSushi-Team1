@@ -30,6 +30,6 @@ MonoBehaviour:
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   Difficulty: 2
   Theme: 1
+  Score: 0
   LevelIndex: 1
-  MinimumMoves: 0
-  LevelScore: 0
+  OptimalMoves: 5

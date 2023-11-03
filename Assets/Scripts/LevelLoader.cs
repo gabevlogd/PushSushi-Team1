@@ -22,6 +22,9 @@ public class LevelLoader
         int skinIndex = 0;
         for (int i = 0; i < levelData.Pawn.Length; i++)
         {
+            //if player selected a skin we check if the current cycled pawn is the main pawn
+            //and if it is we store its index and continue without instantiate it
+            //because we'll instantiate the skin instead in SetSkin method
             if (PlayerData.SelectedSkin != null)
             {
                 if (levelData.Pawn[i] == levelData.MainPawn)

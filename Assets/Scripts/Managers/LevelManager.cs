@@ -7,10 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private UndoManager Undo;
+    //private UndoManager Undo;
     private LevelData _currentLevel;
 
     public static GameState GameState;
+    public static event Action OnPerformUndo;
 
     private void Awake()
     {
@@ -27,10 +28,10 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        if (Undo == null)
-        {
-            Undo = FindObjectOfType<UndoManager>();
-        }
+        //if (Undo == null)
+        //{
+        //    Undo = FindObjectOfType<UndoManager>();
+        //}
     }
 
     public void OnRestart()
@@ -42,7 +43,8 @@ public class LevelManager : MonoBehaviour
     public void OnUndo()
     {
         if (GameState != GameState.Play) return;
-        Undo.PerformUndo();
+        //Undo.PerformUndo();
+        OnPerformUndo?.Invoke();
     }
 
     /// <summary>

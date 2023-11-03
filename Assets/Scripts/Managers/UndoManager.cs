@@ -6,6 +6,7 @@ using UnityEngine;
 public class UndoManager : MonoBehaviour
 {
     private MovesCounterManager movesCounterManager;
+    public static event Action OnMoveStored;
     
     private Grid<Tile> _grid;
     
@@ -26,11 +27,19 @@ public class UndoManager : MonoBehaviour
         _storedGridPositions = new List<Vector2Int>();
         _storedMovedSushi = new List<UndoComponent>();
     }
-    
-    private void OnEnable() => UndoComponent.OnStoreMove += StoreMove;
-    
-    private void OnDisable() => UndoComponent.OnStoreMove -= StoreMove;
-    
+
+    private void OnEnable()
+    {
+        UndoComponent.OnStoreMove += StoreMove;
+        LevelManager.OnPerformUndo += PerformUndo;
+    }
+
+    private void OnDisable()
+    {
+        UndoComponent.OnStoreMove -= StoreMove;
+        LevelManager.OnPerformUndo -= PerformUndo;
+    }
+
     private void Update()
     {
         if (_moveSushi)
@@ -42,8 +51,9 @@ public class UndoManager : MonoBehaviour
         Debug.Log("Move stored");
         _storedGridPositions.Add(position);
         _storedMovedSushi.Add(movedSushi);
-        
+
         movesCounterManager.IncreaseMovesCount();
+        OnMoveStored?.Invoke();
     }
     
     public void PerformUndo()

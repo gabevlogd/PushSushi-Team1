@@ -23,6 +23,7 @@ public class LevelMenuUI : UIWindow
 
     private void Awake()
     {
+        PlayerData.CurrentSelectedLevel = ScriptableObject.CreateInstance<LevelData>();
         Back.onClick.AddListener(PerformBackButton);
         Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });

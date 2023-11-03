@@ -14,6 +14,7 @@ public class LevelEditorTool : EditorWindow
     private List<Toogle> _selectedCoordinates;
     private List<SlidableComponent> _placedPawns;
 
+    private string LEVELS_FOLDER_PATH = "Assets/ScriptableObject/Levels/Resources";
     private string[] _sushiMeshs = new string[]
     {
         "MainSushi", "MainSushi 1", "MainSushi 2", "MainSushi 3", "MainSushi 4", "MainSushi 5", "MainSushi 6", "MainSushi 7", "MainSushi 8", "MainSushi 9",
@@ -148,7 +149,7 @@ public class LevelEditorTool : EditorWindow
     {
         LevelData newLevel = CreateNewLevel();
         if (newLevel == null) return;
-        AssetDatabase.CreateAsset(newLevel, $"Assets/Resources/{newLevel.Theme}/{newLevel.Difficulty}/Level {newLevel.LevelIndex}.asset");
+        AssetDatabase.CreateAsset(newLevel, $"{LEVELS_FOLDER_PATH}/{newLevel.Theme}/{newLevel.Difficulty}/Level {newLevel.LevelIndex}.asset");
         AssetDatabase.SaveAssets();
         Debug.Log("New level saved");
     }
@@ -337,7 +338,7 @@ public class LevelEditorTool : EditorWindow
                 newLevel.MainPawn = newLevel.Pawn[i];
         }
 
-        DirectoryInfo info = new DirectoryInfo($"Assets/Resources/{newLevel.Theme}/{newLevel.Difficulty}");
+        DirectoryInfo info = new DirectoryInfo($"{LEVELS_FOLDER_PATH}/{newLevel.Theme}/{newLevel.Difficulty}");
         newLevel.LevelIndex = (int)(info.GetFiles().Length * 0.5f + 1); // * 0.5 because of .meta files
         return newLevel;
     }
