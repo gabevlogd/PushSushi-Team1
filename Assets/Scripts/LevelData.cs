@@ -15,7 +15,7 @@ public class LevelData : ScriptableObject
     //public Score BestScore;
     public int LevelIndex;
     public int OptimalMoves;
-    //public int BestMoves;
+    public int Moves;
 
 }
 

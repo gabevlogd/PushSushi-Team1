@@ -11,8 +11,10 @@ public class LevelsGridUIHandler : MonoBehaviour
     {
         _levels = GetComponentsInChildren<LevelUIComponent>();
         for (int i = 0; i < _levels.Length; i++)
+        {
+            _levels[i].LevelIndex = i + 1;
             _levels[i].LevelIndexText.text = (i + 1).ToString();
-
+        }
     }
 
     

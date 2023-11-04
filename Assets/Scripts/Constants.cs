@@ -8,4 +8,5 @@ public class Constants
 {
     public static string BEST_MOVES = "B_M";
     public static string BEST_SCORE = "B_S";
+    public static string LEVEL_COMPLETED = "L_C";
 }

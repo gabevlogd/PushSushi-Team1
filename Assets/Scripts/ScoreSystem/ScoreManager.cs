@@ -57,7 +57,9 @@ public class ScoreManager : MonoBehaviour
         else
             _currentLevel.Score = Score.Good;
 
-        SaveManager.SaveLevelData(_currentLevel, _movesCounter);
+        _currentLevel.Moves = _movesCounter;
+
+        SaveManager.SaveLevelData(_currentLevel);
     }
 
 
