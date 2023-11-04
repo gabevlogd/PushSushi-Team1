@@ -75,7 +75,6 @@ public class HUDManager : MonoBehaviour
 
     private void InitHUD()
     {
-        Debug.Log(_data);
         _data.Difficulty.text = GetDifficulty();
         _data.Score.sprite = GetScore();
         _data.BestMoves.text = GetBestMoves();
@@ -86,16 +85,18 @@ public class HUDManager : MonoBehaviour
     private string GetDifficulty() => _currentLevel.Difficulty.ToString().ToUpper();
     private Sprite GetScore()
     {
-        if (_currentLevel.BestScore == Score.Crown)
+        Score bestScore = (Score)SaveManager.GetLevelDataInt(_currentLevel, Constants.BEST_SCORE);
+        if (/*_currentLevel.BestScore*/bestScore == Score.Crown)
             return _data.ScoreSprites[_data.ScoreSprites.Length - 1];
         else
-            return _data.ScoreSprites[(int)_currentLevel.BestScore + 1];
+            return _data.ScoreSprites[/*(int)_currentLevel.BestScore*/(int)bestScore + 1];
     }
     private string GetBestMoves()
     {
-        if (_currentLevel.BestMoves == 0)
+        int bestMoves = SaveManager.GetLevelDataInt(_currentLevel, Constants.BEST_MOVES);
+        if (bestMoves == 0)
             return $"-/{_currentLevel.OptimalMoves}";
         else
-            return $"{_currentLevel.BestMoves}/{_currentLevel.OptimalMoves}";
+            return $"{bestMoves}/{_currentLevel.OptimalMoves}";
     }
 }

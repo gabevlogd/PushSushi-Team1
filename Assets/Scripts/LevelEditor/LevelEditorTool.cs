@@ -348,7 +348,6 @@ public class LevelEditorTool : EditorWindow
 
         newLevel.Difficulty = _levelDifficulty;
         newLevel.Theme = _levelTheme;
-        newLevel.BestScore = Score.None;
         newLevel.OptimalMoves = _optimalMoves;
 
         for (int i = 0; i < _placedPawns.Count; i++)

@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Constants
+{
+    public static string BEST_MOVES = "B_M";
+    public static string BEST_SCORE = "B_S";
+}
