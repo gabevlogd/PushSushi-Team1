@@ -26,9 +26,14 @@ public class LevelEditorTool : EditorWindow
         "MainPenguin", "MainPenguin 1", "MainPenguin 2", "MainPenguin 3", "MainPenguin 4", "MainPenguin 5", "MainPenguin 6", "MainPenguin 7", "MainPenguin 8", "MainPenguin 9",
         "MainPenguin 10"
     };
+    private string[] _sweetMeshs = new string[]
+    {
+        "MainSweet", "MainSweet 1"
+    };
     private string[] _pawnMeshs;
 
     private int _meshIndex = 0;
+    private int _optimalMoves;
 
     private Difficulty _levelDifficulty;
     private Theme _levelTheme;
@@ -43,9 +48,10 @@ public class LevelEditorTool : EditorWindow
         _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
         DrawNewLevelButton();
         DrawSaveLevelButton();
-        DrawTogglesGrid();
         DrawLevelDifficultyEnum();
         DrawLevelThemeEnum();
+        DrawMovesInputField();
+        DrawTogglesGrid();
         DrawMeshSelectorPopUp();
         DrawPlacerButton();
         DrawBackButton();
@@ -85,6 +91,17 @@ public class LevelEditorTool : EditorWindow
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
+
+    private void DrawMovesInputField()
+    {
+        GUILayout.Space(20f);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("Optimal moves: ");
+        _optimalMoves = EditorGUILayout.IntField(_optimalMoves);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+    }
     private void DrawMeshSelectorPopUp()
     {
         GUILayout.Space(20f);
@@ -99,6 +116,10 @@ public class LevelEditorTool : EditorWindow
             case Theme.Penguin:
                 _pawnMeshs = _penguinMeshs;
                 GUILayout.Label("Penuin's mesh:");
+                break;
+            case Theme.Sweet:
+                _pawnMeshs = _sweetMeshs;
+                GUILayout.Label("Sweet's mesh:");
                 break;
         }
         _meshIndex = EditorGUILayout.Popup(_meshIndex, _pawnMeshs);
@@ -327,6 +348,8 @@ public class LevelEditorTool : EditorWindow
 
         newLevel.Difficulty = _levelDifficulty;
         newLevel.Theme = _levelTheme;
+        newLevel.BestScore = Score.None;
+        newLevel.OptimalMoves = _optimalMoves;
 
         for (int i = 0; i < _placedPawns.Count; i++)
         {

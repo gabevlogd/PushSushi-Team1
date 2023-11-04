@@ -57,6 +57,12 @@ public class ScoreManager : MonoBehaviour
         else
             _currentLevel.Score = Score.Good;
 
+        if (_currentLevel.BestMoves > _movesCounter || _currentLevel.BestMoves == 0)
+            _currentLevel.BestMoves = _movesCounter;
+
+        if (_currentLevel.BestScore < _currentLevel.Score)
+            _currentLevel.BestScore = _currentLevel.Score;
+
         //Debug.Log(LevelLoader.LevelToLoad.Score);
     }
 

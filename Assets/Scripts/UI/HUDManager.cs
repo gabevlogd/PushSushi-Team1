@@ -10,17 +10,24 @@ public class HUDManager : MonoBehaviour
 {
 
     private HUDData _data;
+    private LevelData _currentLevel;
+
+    private void Awake() => _currentLevel = LevelLoader.LevelToLoad;
 
     private void OnEnable()
     {
         SlidableComponent.OnLevelComplete += OpenGameOverTabRequest;
         ThemeSetter.OnHUDActivation += SetHUDData;
+        UndoManager.OnMoveStored += IncraseMoves;
+        UndoManager.OnMoveCanceled += DecraseMoves;
     }
 
     private void OnDisable()
     {
         SlidableComponent.OnLevelComplete -= OpenGameOverTabRequest;
         ThemeSetter.OnHUDActivation -= SetHUDData;
+        UndoManager.OnMoveStored -= IncraseMoves;
+        UndoManager.OnMoveCanceled -= DecraseMoves;
     }
 
     private void Start()
@@ -32,12 +39,15 @@ public class HUDManager : MonoBehaviour
         //_data.Close.onClick.AddListener(delegate { LevelLoader.SetSkin(LevelLoader.LevelToLoad); });
         _data.Restart.onClick.AddListener(delegate { PerformRestartButton(_data.PauseTab); });
         _data.Stages.onClick.AddListener(PerformStagesButton);
-        _data.LevelCounter.text = LevelLoader.LevelToLoad.LevelIndex.ToString();
+        //_data.LevelCounter.text = LevelLoader.LevelToLoad.LevelIndex.ToString();
+        InitHUD();
     }
 
     private void OpenTab(GameObject TabToOpen) => TabToOpen.SetActive(true);
 
     private void CloseTab(GameObject TabToClose) => TabToClose.SetActive(false);
+    private void IncraseMoves() => _data.MoveCounter.text = (int.Parse(_data.MoveCounter.text) + 1).ToString();
+    private void DecraseMoves() => _data.MoveCounter.text = (int.Parse(_data.MoveCounter.text) - 1).ToString();
 
     private void PerformRestartButton(GameObject TabToClose)
     {
@@ -62,4 +72,30 @@ public class HUDManager : MonoBehaviour
     private void SetHUDData(HUDData data) => _data = data;
 
     public void UpdateSkin() => LevelLoader.SetSkin(LevelLoader.LevelToLoad);
+
+    private void InitHUD()
+    {
+        Debug.Log(_data);
+        _data.Difficulty.text = GetDifficulty();
+        _data.Score.sprite = GetScore();
+        _data.BestMoves.text = GetBestMoves();
+        _data.LevelCounter.text = GetLevelCounter();
+    }
+
+    private string GetLevelCounter() => LevelLoader.LevelToLoad.LevelIndex.ToString();
+    private string GetDifficulty() => _currentLevel.Difficulty.ToString().ToUpper();
+    private Sprite GetScore()
+    {
+        if (_currentLevel.BestScore == Score.Crown)
+            return _data.ScoreSprites[_data.ScoreSprites.Length - 1];
+        else
+            return _data.ScoreSprites[(int)_currentLevel.BestScore + 1];
+    }
+    private string GetBestMoves()
+    {
+        if (_currentLevel.BestMoves == 0)
+            return $"-/{_currentLevel.OptimalMoves}";
+        else
+            return $"{_currentLevel.BestMoves}/{_currentLevel.OptimalMoves}";
+    }
 }

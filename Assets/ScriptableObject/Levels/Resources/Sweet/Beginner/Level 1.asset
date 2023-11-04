@@ -15,25 +15,16 @@ MonoBehaviour:
   MainPawn: {fileID: 3363310430937897911, guid: dbf8a0bcc9cd2a944a5f3191d87a9024, type: 3}
   Pawn:
   - {fileID: 3363310430937897911, guid: dbf8a0bcc9cd2a944a5f3191d87a9024, type: 3}
-  - {fileID: 706918848786086431, guid: 805c7adc4b03c0848927ec06dad4b083, type: 3}
-  - {fileID: 706918848786086431, guid: 805c7adc4b03c0848927ec06dad4b083, type: 3}
-  - {fileID: 706918848786086431, guid: 805c7adc4b03c0848927ec06dad4b083, type: 3}
-  - {fileID: 3102211874699840696, guid: 80d67cdc28780d842bfd82c767ad9f5f, type: 3}
+  - {fileID: -7153940085736492494, guid: cc9c2e7814da7794a9e6b642c68ce4f8, type: 3}
   PawnsPositions:
   - {x: -2.5, y: 0, z: 0.5}
-  - {x: -0.5, y: 0, z: 1.5}
-  - {x: 0.5, y: 0, z: 1.5}
-  - {x: 2.5, y: 0, z: -0.5}
-  - {x: -1.5, y: 0, z: -1.5}
+  - {x: 2.5, y: 0, z: 1.5}
   PawnsRotations:
   - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   Difficulty: 0
-  Theme: 0
-  Score: 3
+  Theme: 2
+  Score: 0
   BestScore: -1
   LevelIndex: 1
   OptimalMoves: 5

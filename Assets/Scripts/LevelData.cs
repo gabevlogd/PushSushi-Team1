@@ -12,8 +12,10 @@ public class LevelData : ScriptableObject
     public Difficulty Difficulty;
     public Theme Theme;
     public Score Score;
+    public Score BestScore;
     public int LevelIndex;
     public int OptimalMoves;
+    public int BestMoves;
 
 }
 

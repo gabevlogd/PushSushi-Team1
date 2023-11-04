@@ -16,6 +16,11 @@ public class ThemeSetter : MonoBehaviour
     private void Awake()
     {
         _currentLevel = LevelLoader.LevelToLoad;
+        SetUpTheme();
+    }
+
+    private void SetUpTheme()
+    {
         SetMap();
         SetBackground();
         SetHUD();
