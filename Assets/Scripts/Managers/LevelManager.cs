@@ -32,6 +32,7 @@ public class LevelManager : MonoBehaviour
         //{
         //    Undo = FindObjectOfType<UndoManager>();
         //}
+        SaveManager.SetLevelDataInt(_currentLevel, Constants.LEVLE_TO_COMPLETE, 1);
     }
 
     public void OnRestart()
@@ -53,6 +54,7 @@ public class LevelManager : MonoBehaviour
     public void LoadNextLevel()
     {
         if (_currentLevel == null) return;
+        if (!SaveManager.GetLevelDataBool(_currentLevel, Constants.LEVEL_COMPLETED)) return;
         if (_currentLevel.LevelIndex >= LevelLoader.GetLevels(_currentLevel.Theme, _currentLevel.Difficulty).Length)
             return;
 

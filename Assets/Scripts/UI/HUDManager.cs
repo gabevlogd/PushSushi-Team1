@@ -86,10 +86,14 @@ public class HUDManager : MonoBehaviour
     private Sprite GetScore()
     {
         Score bestScore = (Score)SaveManager.GetLevelDataInt(_currentLevel, Constants.BEST_SCORE);
-        if (/*_currentLevel.BestScore*/bestScore == Score.Crown)
+        bool levelCompleted = SaveManager.GetLevelDataBool(_currentLevel, Constants.LEVEL_COMPLETED);
+
+        if (bestScore == Score.Crown)
             return _data.ScoreSprites[_data.ScoreSprites.Length - 1];
-        else
-            return _data.ScoreSprites[/*(int)_currentLevel.BestScore*/(int)bestScore + 1];
+        else if (levelCompleted)
+            return _data.ScoreSprites[(int)bestScore + 1];
+        else 
+            return _data.ScoreSprites[0];
     }
     private string GetBestMoves()
     {
