@@ -15,33 +15,34 @@ MonoBehaviour:
   MainPawn: {fileID: -4407756823639525996, guid: f609540d13631fc4da82d2bf08eef88d, type: 3}
   Pawn:
   - {fileID: -4407756823639525996, guid: f609540d13631fc4da82d2bf08eef88d, type: 3}
-  - {fileID: -2015051509682769976, guid: 733a73110aecdcc49a4bdf97deb0c651, type: 3}
+  - {fileID: -6871979675193524624, guid: dbc0954ebfd451b409ad6f99a4a04a55, type: 3}
+  - {fileID: -6871979675193524624, guid: dbc0954ebfd451b409ad6f99a4a04a55, type: 3}
   - {fileID: 9018541502528574417, guid: f47b945c29361514abb3f765006d7c69, type: 3}
-  - {fileID: 3102211874699840696, guid: 80d67cdc28780d842bfd82c767ad9f5f, type: 3}
   - {fileID: 9018541502528574417, guid: f47b945c29361514abb3f765006d7c69, type: 3}
   - {fileID: -7153940085736492494, guid: cc9c2e7814da7794a9e6b642c68ce4f8, type: 3}
-  - {fileID: -6470951251437212953, guid: 82b978c372045c24a85c9cfb4dd365ec, type: 3}
-  - {fileID: -6470951251437212953, guid: 82b978c372045c24a85c9cfb4dd365ec, type: 3}
+  - {fileID: -7153940085736492494, guid: cc9c2e7814da7794a9e6b642c68ce4f8, type: 3}
+  - {fileID: -7153940085736492494, guid: cc9c2e7814da7794a9e6b642c68ce4f8, type: 3}
   PawnsPositions:
   - {x: -2.5, y: 0, z: 0.5}
-  - {x: -1.5, y: 0, z: 1.5}
   - {x: 1.5, y: 0, z: -0.5}
-  - {x: 1.5, y: 0, z: 0.5}
   - {x: 0.5, y: 0, z: 2.5}
-  - {x: -0.5, y: 0, z: 1.5}
-  - {x: 0.5, y: 0, z: -0.5}
+  - {x: -1.5, y: 0, z: 1.5}
+  - {x: 1.5, y: 0, z: 0.5}
   - {x: 2.5, y: 0, z: 1.5}
+  - {x: 0.5, y: 0, z: -0.5}
+  - {x: -0.5, y: 0, z: 1.5}
   PawnsRotations:
   - {x: 0, y: 0, z: 0, w: 1}
-  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  - {x: 0, y: 0, z: 0, w: 1}
+  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   Difficulty: 1
   Theme: 0
+  Score: 0
   LevelIndex: 1
-  MinimumMoves: 0
-  LevelScore: 0
+  OptimalMoves: 0
+  Moves: 0
