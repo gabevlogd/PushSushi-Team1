@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1666697770196861322
 RectTransform:
   m_ObjectHideFlags: 0
@@ -345,6 +345,7 @@ MonoBehaviour:
   LevelSprite:
   - {fileID: 21300000, guid: a08f5fc45dd6d3e48b32aba1e15d483c, type: 3}
   - {fileID: 21300000, guid: 1a2882049589a4949956c400a61e332b, type: 3}
+  LevelIndex: 0
 --- !u!114 &995655986303521559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,7 +455,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a08f5fc45dd6d3e48b32aba1e15d483c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1a2882049589a4949956c400a61e332b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

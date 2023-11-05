@@ -21,7 +21,6 @@ public class LevelGridUIMenu : UIWindow
         Start.onClick.AddListener(delegate { PerformStartButton(PlayerData.CurrentSelectedLevel); });
         Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
-        //Close.onClick.AddListener(delegate { LevelLoader.SetSkin(LevelLoader.LevelToLoad); });
     }
 
     protected override void OnEnable()
