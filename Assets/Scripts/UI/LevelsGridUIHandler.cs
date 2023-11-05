@@ -4,23 +4,34 @@ using UnityEngine;
 
 public class LevelsGridUIHandler : MonoBehaviour
 {
-    private List<LevelUIComponent> _levels = new List<LevelUIComponent>();
+    private LevelUIComponent[] _levels;
+    private int _lastSelectedLevel = -1;
 
     private void Awake()
     {
-        LevelUIComponent[] levels = GetComponentsInChildren<LevelUIComponent>();
-        for (int i = 0; i < levels.Length; i++)
+        _levels = GetComponentsInChildren<LevelUIComponent>();
+        for (int i = 0; i < _levels.Length; i++)
         {
-            _levels.Add(levels[i]);
+            _levels[i].LevelIndex = i + 1;
             _levels[i].LevelIndexText.text = (i + 1).ToString();
         }
-
-        LevelUIComponent.OnLevelComponentClick += PerformLevelSelection;
-            
     }
 
-    private void PerformLevelSelection()
+    
+
+    private void OnEnable() => LevelUIComponent.OnLevelComponentClick += PerformLevelSelection;
+    private void OnDisable() => LevelUIComponent.OnLevelComponentClick -= PerformLevelSelection;
+
+    private void PerformLevelSelection(int selectedLevelIndex)
     {
-        //to implement...
+        if (_lastSelectedLevel == -1)
+        {
+            _lastSelectedLevel = selectedLevelIndex;
+            return;
+        }
+
+        _levels[_lastSelectedLevel - 1].SelectionFeedback.gameObject.SetActive(false);
+        _lastSelectedLevel = selectedLevelIndex;
+
     }
 }

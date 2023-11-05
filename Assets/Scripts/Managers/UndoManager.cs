@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class UndoManager : MonoBehaviour
 {
-    private MovesCounterManager movesCounterManager;
+    //private MovesCounterManager movesCounterManager;
+    public static event Action OnMoveStored;
+    public static event Action OnMoveCanceled;
     
     private Grid<Tile> _grid;
     
@@ -21,16 +23,24 @@ public class UndoManager : MonoBehaviour
     
     private void Awake()
     {
-        movesCounterManager = FindObjectOfType<MovesCounterManager>();
+        //movesCounterManager = FindObjectOfType<MovesCounterManager>();
         _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3f, 0f, -3f), (int x, int y) => new Tile(x, y));
         _storedGridPositions = new List<Vector2Int>();
         _storedMovedSushi = new List<UndoComponent>();
     }
-    
-    private void OnEnable() => UndoComponent.OnStoreMove += StoreMove;
-    
-    private void OnDisable() => UndoComponent.OnStoreMove -= StoreMove;
-    
+
+    private void OnEnable()
+    {
+        UndoComponent.OnStoreMove += StoreMove;
+        LevelManager.OnPerformUndo += PerformUndo;
+    }
+
+    private void OnDisable()
+    {
+        UndoComponent.OnStoreMove -= StoreMove;
+        LevelManager.OnPerformUndo -= PerformUndo;
+    }
+
     private void Update()
     {
         if (_moveSushi)
@@ -42,8 +52,9 @@ public class UndoManager : MonoBehaviour
         Debug.Log("Move stored");
         _storedGridPositions.Add(position);
         _storedMovedSushi.Add(movedSushi);
-        
-        movesCounterManager.IncreaseMovesCount();
+
+        //movesCounterManager.IncreaseMovesCount();
+        OnMoveStored?.Invoke();
     }
     
     public void PerformUndo()
@@ -58,7 +69,8 @@ public class UndoManager : MonoBehaviour
         _storedGridPositions.RemoveAt(_storedGridPositions.Count - 1);
         _storedMovedSushi.RemoveAt(_storedMovedSushi.Count - 1);
         
-        movesCounterManager.DecreaseMovesCount();
+        //movesCounterManager.DecreaseMovesCount();
+        OnMoveCanceled?.Invoke();
         _moveSushi = true;
     }
     

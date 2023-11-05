@@ -14,6 +14,7 @@ public class LevelEditorTool : EditorWindow
     private List<Toogle> _selectedCoordinates;
     private List<SlidableComponent> _placedPawns;
 
+    private string LEVELS_FOLDER_PATH = "Assets/ScriptableObject/Levels/Resources";
     private string[] _sushiMeshs = new string[]
     {
         "MainSushi", "MainSushi 1", "MainSushi 2", "MainSushi 3", "MainSushi 4", "MainSushi 5", "MainSushi 6", "MainSushi 7", "MainSushi 8", "MainSushi 9",
@@ -22,11 +23,17 @@ public class LevelEditorTool : EditorWindow
     };
     private string[] _penguinMeshs = new string[] 
     {
-        "MainPenguin 1", "MainPenguin 2"
+        "MainPenguin", "MainPenguin 1", "MainPenguin 2", "MainPenguin 3", "MainPenguin 4", "MainPenguin 5", "MainPenguin 6", "MainPenguin 7", "MainPenguin 8", "MainPenguin 9",
+        "MainPenguin 10"
+    };
+    private string[] _sweetMeshs = new string[]
+    {
+        "MainSweet", "MainSweet 1"
     };
     private string[] _pawnMeshs;
 
     private int _meshIndex = 0;
+    private int _optimalMoves;
 
     private Difficulty _levelDifficulty;
     private Theme _levelTheme;
@@ -41,9 +48,10 @@ public class LevelEditorTool : EditorWindow
         _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
         DrawNewLevelButton();
         DrawSaveLevelButton();
-        DrawTogglesGrid();
         DrawLevelDifficultyEnum();
         DrawLevelThemeEnum();
+        DrawMovesInputField();
+        DrawTogglesGrid();
         DrawMeshSelectorPopUp();
         DrawPlacerButton();
         DrawBackButton();
@@ -83,6 +91,17 @@ public class LevelEditorTool : EditorWindow
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
+
+    private void DrawMovesInputField()
+    {
+        GUILayout.Space(20f);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("Optimal moves: ");
+        _optimalMoves = EditorGUILayout.IntField(_optimalMoves);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+    }
     private void DrawMeshSelectorPopUp()
     {
         GUILayout.Space(20f);
@@ -98,6 +117,10 @@ public class LevelEditorTool : EditorWindow
                 _pawnMeshs = _penguinMeshs;
                 GUILayout.Label("Penuin's mesh:");
                 break;
+            case Theme.Sweet:
+                _pawnMeshs = _sweetMeshs;
+                GUILayout.Label("Sweet's mesh:");
+                break;
         }
         _meshIndex = EditorGUILayout.Popup(_meshIndex, _pawnMeshs);
         GUILayout.FlexibleSpace();
@@ -108,7 +131,7 @@ public class LevelEditorTool : EditorWindow
         GUILayout.Space(20f);
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button("Place sushi"))
+        if (GUILayout.Button("Place pawn"))
             PerformPlacerButton();
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
@@ -147,7 +170,7 @@ public class LevelEditorTool : EditorWindow
     {
         LevelData newLevel = CreateNewLevel();
         if (newLevel == null) return;
-        AssetDatabase.CreateAsset(newLevel, $"Assets/Resources/{newLevel.Theme}/{newLevel.Difficulty}/Level {newLevel.LevelIndex}.asset");
+        AssetDatabase.CreateAsset(newLevel, $"{LEVELS_FOLDER_PATH}/{newLevel.Theme}/{newLevel.Difficulty}/Level {newLevel.LevelIndex}.asset");
         AssetDatabase.SaveAssets();
         Debug.Log("New level saved");
     }
@@ -325,6 +348,7 @@ public class LevelEditorTool : EditorWindow
 
         newLevel.Difficulty = _levelDifficulty;
         newLevel.Theme = _levelTheme;
+        newLevel.OptimalMoves = _optimalMoves;
 
         for (int i = 0; i < _placedPawns.Count; i++)
         {
@@ -336,7 +360,7 @@ public class LevelEditorTool : EditorWindow
                 newLevel.MainPawn = newLevel.Pawn[i];
         }
 
-        DirectoryInfo info = new DirectoryInfo($"Assets/Resources/{newLevel.Theme}/{newLevel.Difficulty}");
+        DirectoryInfo info = new DirectoryInfo($"{LEVELS_FOLDER_PATH}/{newLevel.Theme}/{newLevel.Difficulty}");
         newLevel.LevelIndex = (int)(info.GetFiles().Length * 0.5f + 1); // * 0.5 because of .meta files
         return newLevel;
     }

@@ -9,12 +9,13 @@ using UnityEngine.SceneManagement;
 public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public Transform SensorA;
-    public Transform SensorB;
+    public Transform SensorB; 
     private Camera _camera;
     private Grid<Tile> _grid;
 
     private event Action<Vector3> OnPerformMovement;
     private event Action OnPerformAllowedDirections;
+    public static event Action OnLevelComplete;
 
     private Vector3 _offSet;
     private Vector3 _offSetA;
@@ -49,7 +50,7 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     {
         if (_levelComplete)
             SlideAway();
-        if (_grabbed)
+        if (_grabbed && LevelManager.GameState == GameState.Play)
         {
             OnPerformAllowedDirections();
             OnPerformMovement(GetPointerWorldPosition());
@@ -110,17 +111,13 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         Ray rayA = new Ray(transform.position + Vector3.up * 0.5f, SensorA.forward);
         Ray rayB = new Ray(transform.position + Vector3.up * 0.5f, SensorB.forward);
         if (Physics.Raycast(rayA, out raycastHitA)) _limiterA = raycastHitA.point;
-        else
-        {
-            _levelComplete = true;
-            StartCoroutine(GoToNextLevel()); //only for second build
-        }
 
         if (Physics.Raycast(rayB, out raycastHitB)) _limiterB = raycastHitB.point;
-        else
+        else //if raycast doesn't hit anything it means the main sushi is free and level was completed
         {
             _levelComplete = true;
-            StartCoroutine(GoToNextLevel()); //only for second build
+            LevelManager.GameState = GameState.GameOver;
+            OnLevelComplete?.Invoke();
         }
     }
 
@@ -142,23 +139,7 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     private Vector3 GetPointerWorldPosition() => _camera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Vector3.Distance(transform.position, _camera.transform.position)));
 
-    #region PLACEHOLDER FOR SECOND BUILD
-    public static event Action OnLevelComplete;
-    private static event Action OnDisableComponent;
-
-    private IEnumerator GoToNextLevel()
-    {
-        OnDisableComponent?.Invoke();
-        yield return new WaitForSeconds(2f);
-        OnLevelComplete?.Invoke();
-    }
-
-    private void DisableComponent() => GetComponent<BoxCollider>().enabled = false;
-
-    private void OnEnable() => OnDisableComponent += DisableComponent;
-    private void OnDisable() => OnDisableComponent -= DisableComponent;
-
-    #endregion
+   
 
 }
 

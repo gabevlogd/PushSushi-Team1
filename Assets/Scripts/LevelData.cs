@@ -11,9 +11,11 @@ public class LevelData : ScriptableObject
     public Quaternion[] PawnsRotations;
     public Difficulty Difficulty;
     public Theme Theme;
+    public Score Score;
+    //public Score BestScore;
     public int LevelIndex;
-    public int MinimumMoves;
-    public int LevelScore;
+    public int OptimalMoves;
+    public int Moves;
 
 }
 
@@ -27,5 +29,15 @@ public enum Difficulty
 public enum Theme
 {
     Sushi,
-    Penguin
+    Penguin,
+    Sweet
+}
+
+public enum Score
+{
+    None = -1,
+    Good,
+    Great,
+    Perfect,
+    Crown 
 }

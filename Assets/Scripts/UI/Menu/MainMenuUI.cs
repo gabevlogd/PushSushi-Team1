@@ -20,6 +20,7 @@ public class MainMenuUI : UIWindow
     {
         Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
+        //Close.onClick.AddListener(delegate { LevelLoader.SetSkin(LevelLoader.LevelToLoad); });
         Level.onClick.AddListener(PerformLevelButton);
         Start.onClick.AddListener(PerformStartButton);
 

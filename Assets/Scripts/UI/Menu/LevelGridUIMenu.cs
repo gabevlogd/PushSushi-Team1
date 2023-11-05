@@ -34,10 +34,29 @@ public class LevelGridUIMenu : UIWindow
         LevelLoader.LevelToLoad = LevelLoader.GetLevel(levelToLoad.Theme, levelToLoad.Difficulty, levelToLoad.LevelIndex);
         if (LevelLoader.LevelToLoad == null)
         {
-            Debug.Log("Level Blocked");
+            StartCoroutine(LevelLockedMessage());
             return;
         }
         PlayerData.LastSelectedLevel = LevelLoader.LevelToLoad;
         SceneManager.LoadScene("GameScene");
     }
+
+    #region PLACEHOLDER
+    public TextMeshProUGUI LevelLocked;
+    private IEnumerator LevelLockedMessage()
+    {
+        float deltaTime = 0.5f;
+        float alpha = 1f;
+
+        LevelLocked.color = new Color(LevelLocked.color.r, LevelLocked.color.g, LevelLocked.color.b, alpha);
+        yield return new WaitForSeconds(deltaTime);
+
+        while (alpha > 0f)
+        {
+            alpha -= Time.deltaTime;
+            LevelLocked.color = new Color(LevelLocked.color.r, LevelLocked.color.g, LevelLocked.color.b, alpha);
+            yield return null;
+        }
+    }
+    #endregion
 }

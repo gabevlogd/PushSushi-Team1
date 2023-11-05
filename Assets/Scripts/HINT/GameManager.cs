@@ -25,3 +25,4 @@ public class GameManager : Singleton<GameManager>
         _commandInvoker.ExecuteCommand(moveCommand);
     }
 }
+

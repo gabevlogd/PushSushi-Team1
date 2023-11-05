@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class PlayerData
 {
+    public static SlidableComponent SelectedSkin;
     public static LevelData LastSelectedLevel;
-    public static LevelData CurrentSelectedLevel = new LevelData();
-    public static LevelData[,] LastCompletedLevel = new LevelData[2, 3];
+    public static LevelData CurrentSelectedLevel;
+    //public static LevelData[,] LastCompletedLevel = new LevelData[2, 3];
     private int _coinCounter;
 
     public PlayerData()

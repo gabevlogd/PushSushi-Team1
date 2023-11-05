@@ -7,29 +7,45 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private UndoManager Undo;
+    //private UndoManager Undo;
     private LevelData _currentLevel;
+
+    public static GameState GameState;
+    public static event Action OnPerformUndo;
 
     private void Awake()
     {
+        GameState = GameState.Play;
 
         ///temporary
         if (LevelLoader.LevelToLoad == null)
             LevelLoader.LevelToLoad = LevelLoader.GetLevel(Theme.Sushi, Difficulty.Beginner, 1);
+        
+
         ///temporary
         LevelLoader.LoadLevel(LevelLoader.LevelToLoad.Theme, LevelLoader.LevelToLoad.Difficulty, LevelLoader.LevelToLoad.LevelIndex, out _currentLevel);
     }
 
     private void Start()
     {
-        if (Undo == null)
-        {
-            Undo = FindObjectOfType<UndoManager>();
-        }
+        //if (Undo == null)
+        //{
+        //    Undo = FindObjectOfType<UndoManager>();
+        //}
     }
 
-    public void OnRestart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    public void OnUndo() => Undo.PerformUndo();
+    public void OnRestart()
+    {
+        if (GameState != GameState.Play) return;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void OnUndo()
+    {
+        if (GameState != GameState.Play) return;
+        //Undo.PerformUndo();
+        OnPerformUndo?.Invoke();
+    }
 
     /// <summary>
     /// Loads the next level after the current one
@@ -59,27 +75,12 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //reset all MonoBehaviour in the scene
     }
 
-    ///// <summary>
-    ///// Remove all the gameobject on the grid
-    ///// </summary>
-    //private void CleanBoard()
-    //{
-    //    foreach (SlidableComponent pawn in FindObjectsByType<SlidableComponent>(FindObjectsSortMode.None))
-    //        Destroy(pawn.gameObject);
-    //    foreach (Coin coin in FindObjectsByType<Coin>(FindObjectsSortMode.None))
-    //        Destroy(coin.gameObject);
-    //}
 
 
-    #region PLACEHOLDER FOR SECOND BUILD
-    
-    private void OnEnable() => SlidableComponent.OnLevelComplete += LoadNextLevel; 
-    private void OnDisable() => SlidableComponent.OnLevelComplete -= LoadNextLevel;
-    //public static int GetCurrentLevelIndex()
-    //{
-    //    if (_currentLevel == null) return 0;
-    //    return _currentLevel.LevelIndex;
-    //}
+}
 
-    #endregion
+public enum GameState
+{
+    Play,
+    GameOver
 }
