@@ -13,6 +13,8 @@ public class SoundManager : MonoBehaviour
     private AudioSource _pawnSlide;
     [SerializeField]
     private AudioSource _gameOver;
+    [SerializeField]
+    private AudioSource _music;
 
     public delegate void SoundEvent();
     public static SoundEvent ButtonSound;
@@ -20,13 +22,19 @@ public class SoundManager : MonoBehaviour
     public static SoundEvent PawnSound;
     public static SoundEvent GameOverSound;
 
+    public static bool _musicOn = true;
+    public static bool _soundOn = true;
+
     private void Awake()
     {
 
         if (_instance == null)
             _instance = this;
-        else 
+        else
+        {
             Destroy(this.gameObject);
+            return;
+        }
 
         DontDestroyOnLoad(gameObject);
 
@@ -34,6 +42,9 @@ public class SoundManager : MonoBehaviour
         CoinSound += () => PlaySound(_coinPickUp);
         PawnSound += () => PlaySound(_pawnSlide);
         GameOverSound += () => PlaySound(_gameOver);
+
+        OptionMenuUI.OnToggleSound += ToggleSoundSources;
+        OptionMenuUI.OnToggleMusic += ToggleMusicSource;
     }
 
 
@@ -43,8 +54,23 @@ public class SoundManager : MonoBehaviour
             audioSource.Play();
     }
 
-    private void ToggleSoundSource(AudioSource audioSource)
+    private void ToggleSoundSources(bool value)
     {
-        audioSource.enabled = !audioSource.enabled;
+        ToggleAudioSource(_gameOver, value);
+        ToggleAudioSource(_pawnSlide, value);
+        ToggleAudioSource(_coinPickUp, value);
+        ToggleAudioSource(_buttonClick, value);
+        if (value)
+            ButtonSound?.Invoke();
+        _soundOn = value;
     }
+
+    private void ToggleMusicSource(bool value)
+    {
+        ButtonSound?.Invoke();
+        ToggleAudioSource(_music, value);
+        _musicOn = value;
+    }
+
+    private void ToggleAudioSource(AudioSource audioSource, bool value) => audioSource.enabled = value;
 }
