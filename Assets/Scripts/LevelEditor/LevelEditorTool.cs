@@ -28,7 +28,7 @@ public class LevelEditorTool : EditorWindow
     };
     private string[] _sweetMeshs = new string[]
     {
-        "MainSweet", "MainSweet 1"
+        "MainSweet", "MainSweet 1", "MainSweet 2", "MainSweet 3", "MainSweet 4"
     };
     private string[] _pawnMeshs;
 
