@@ -39,8 +39,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0, w: 1}
   Difficulty: 0
   Theme: 0
-  Score: 0
-  BestScore: -1
+  Score: -1
   LevelIndex: 7
   OptimalMoves: 0
-  BestMoves: 0
+  Moves: 0

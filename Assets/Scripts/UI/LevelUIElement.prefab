@@ -168,7 +168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -12.4}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6496968562756490269
@@ -243,8 +243,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -18.199997}
-  m_SizeDelta: {x: 100, y: 50}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 125, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2003605584793061285
 CanvasRenderer:
@@ -341,10 +341,12 @@ MonoBehaviour:
   ScoreImage: {fileID: 2996918142008255002}
   SelectionFeedback: {fileID: 426904205523849327}
   LevelIndexText: {fileID: 3376565377166619986}
-  ScoreSprite: []
-  LevelSprite:
-  - {fileID: 21300000, guid: a08f5fc45dd6d3e48b32aba1e15d483c, type: 3}
-  - {fileID: 21300000, guid: 1a2882049589a4949956c400a61e332b, type: 3}
+  ScoreSprite:
+  - {fileID: 21300000, guid: 447257b46545bc74cae9cbcbed9a141c, type: 3}
+  - {fileID: 21300000, guid: 204793b348b141b47b248c21621c1b94, type: 3}
+  - {fileID: 21300000, guid: 0699ec61c15419b449d803a2c67d21c1, type: 3}
+  UnlockedLevelSprite: {fileID: 21300000, guid: a08f5fc45dd6d3e48b32aba1e15d483c, type: 3}
+  LockedLevelSprite: {fileID: 21300000, guid: 1a2882049589a4949956c400a61e332b, type: 3}
   LevelIndex: 0
 --- !u!114 &995655986303521559
 MonoBehaviour:

@@ -13,8 +13,9 @@ public class LevelUIComponent : MonoBehaviour
     public TextMeshProUGUI LevelIndexText;
 
     public List<Sprite> ScoreSprite;
-    public List<Sprite> LevelSprite;
-
+    public Sprite UnlockedLevelSprite;
+    public Sprite LockedLevelSprite;
+    [HideInInspector]
     public int LevelIndex;
 
     private Button _button;
@@ -28,34 +29,67 @@ public class LevelUIComponent : MonoBehaviour
     {
         _button = GetComponent<Button>();
         _button.onClick.AddListener(PerformLevelSelection);
-        //_currentLevel = LevelLoader.GetLevel(PlayerData.CurrentSelectedLevel.Theme, PlayerData.CurrentSelectedLevel.Difficulty, LevelIndex);
-        //SetGraphic();
     }
 
     private void OnEnable()
     {
         SelectionFeedback.gameObject.SetActive(false);
-        SetGraphic();
+        SetIcon();
     }
 
     private void PerformLevelSelection()
     {
-        PlayerData.CurrentSelectedLevel.LevelIndex = int.Parse(LevelIndexText.text);
+        Debug.Log("PerformLevelSelection");
+        PlayerData.CurrentSelectedLevel.LevelIndex = LevelIndex;
         SelectionFeedback.gameObject.SetActive(true);
-        OnLevelComponentClick?.Invoke(PlayerData.CurrentSelectedLevel.LevelIndex);
+        OnLevelComponentClick?.Invoke(LevelIndex);
     }
 
-    private void SetGraphic()
+    private void SetIcon()
     {
         _currentLevel = LevelLoader.GetLevel(PlayerData.CurrentSelectedLevel.Theme, PlayerData.CurrentSelectedLevel.Difficulty, LevelIndex);
-
-        if (_currentLevel == null || _currentLevel.LevelIndex == 1) return;
+        if (_currentLevel == null)
+        {
+            SetUpLockedIcon();
+            return;
+        }
 
         bool levelCompleted = SaveManager.GetLevelDataBool(_currentLevel, Constants.LEVEL_COMPLETED);
-        if (!levelCompleted)
-        {
-            LevelImage.sprite = LevelSprite[1];
-            LevelIndexText.gameObject.SetActive(false);
-        }
+        bool levelToComplete = SaveManager.GetLevelDataBool(_currentLevel, Constants.LEVLE_TO_COMPLETE);
+        if (levelCompleted || levelToComplete || _currentLevel.LevelIndex == 1)
+            SetUpUnlockedIcon(levelCompleted);
+        else
+            SetUpLockedIcon();
+        
+    }
+
+    private Sprite GetScoreSprite(bool levelCompleted)
+    {
+        int bestMoves = SaveManager.GetLevelDataInt(_currentLevel, Constants.BEST_MOVES);
+        if (levelCompleted && bestMoves == 0)
+            ScoreImage.gameObject.SetActive(false);
+        else if (levelCompleted)
+            ScoreImage.gameObject.SetActive(true);
+        else
+            ScoreImage.gameObject.SetActive(false);
+
+        int bestScore = SaveManager.GetLevelDataInt(_currentLevel, Constants.BEST_SCORE);
+        if (bestScore == (int)Score.Crown)
+            return ScoreSprite[ScoreSprite.Count - 1];
+        return ScoreSprite[bestScore];
+    }
+
+    private void SetUpLockedIcon()
+    {
+        LevelImage.sprite = LockedLevelSprite;
+        LevelIndexText.gameObject.SetActive(false);
+        ScoreImage.gameObject.SetActive(false);
+    }
+
+    private void SetUpUnlockedIcon(bool levelCompleted)
+    {
+        LevelImage.sprite = UnlockedLevelSprite;
+        LevelIndexText.gameObject.SetActive(true);
+        ScoreImage.sprite = GetScoreSprite(levelCompleted);
     }
 }

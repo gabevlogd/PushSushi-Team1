@@ -15,16 +15,12 @@ public class SaveManager
             SetLevelDataInt(level, Constants.BEST_SCORE, (int)level.Score);
 
         SetLevelDataInt(level, Constants.LEVEL_COMPLETED, 1);
+
+        Debug.Log(GetLevelDataInt(level, Constants.LEVEL_COMPLETED));
     }
 
     public static int GetLevelDataInt(LevelData level, string intKey) => PlayerPrefs.GetInt($"{level.Theme}/{level.Difficulty}/{level.LevelIndex}/{intKey}");
-    public static bool GetLevelDataBool(LevelData level, string boolKey)
-    {
-        //Debug.Log(PlayerPrefs.GetInt($"{level.Theme}/{level.Difficulty}/{level.LevelIndex}/{boolKey}"));
-        int levelComplete = PlayerPrefs.GetInt($"{level.Theme}/{level.Difficulty}/{level.LevelIndex}/{boolKey}");
-        if (levelComplete == 0) return false;
-        else return true;
-    }
+    public static bool GetLevelDataBool(LevelData level, string boolKey) => PlayerPrefs.GetInt($"{level.Theme}/{level.Difficulty}/{level.LevelIndex}/{boolKey}") != 0;
 
     public static void SetLevelDataInt(LevelData level, string intKey, int value) => PlayerPrefs.SetInt($"{level.Theme}/{level.Difficulty}/{level.LevelIndex}/{intKey}", value);
 }

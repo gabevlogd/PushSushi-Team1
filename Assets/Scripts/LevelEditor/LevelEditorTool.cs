@@ -24,11 +24,11 @@ public class LevelEditorTool : EditorWindow
     private string[] _penguinMeshs = new string[] 
     {
         "MainPenguin", "MainPenguin 1", "MainPenguin 2", "MainPenguin 3", "MainPenguin 4", "MainPenguin 5", "MainPenguin 6", "MainPenguin 7", "MainPenguin 8", "MainPenguin 9",
-        "MainPenguin 10"
+        "MainPenguin 10", "MainPenguin 11", "MainPenguin 12", "MainPenguin 13", "MainPenguin 14", "MainPenguin 15", "ShortPenguin", "LongPenguin", "LongPenguin 1"
     };
     private string[] _sweetMeshs = new string[]
     {
-        "MainSweet", "MainSweet 1"
+        "MainSweet", "MainSweet 1", "MainSweet 2", "MainSweet 3", "MainSweet 4"
     };
     private string[] _pawnMeshs;
 
