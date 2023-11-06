@@ -23,11 +23,7 @@ public class LevelGridUIMenu : UIWindow
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
     }
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        Difficulty.text = PlayerData.CurrentSelectedLevel.Difficulty.ToString();
-    }
+    private void OnEnable() => Difficulty.text = PlayerData.CurrentSelectedLevel.Difficulty.ToString();
 
     private void PerformStartButton(LevelData levelToLoad)
     {

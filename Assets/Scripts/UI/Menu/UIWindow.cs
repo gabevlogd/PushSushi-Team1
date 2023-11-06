@@ -7,13 +7,6 @@ public class UIWindow : MonoBehaviour
 {
     private UIWindow _previousWindow;
 
-    protected virtual void OnEnable()
-    {
-        //Debug.Log(PreviousWindow);
-        //Debug.Log(CurrentWindow);
-
-    }
-
     protected void OpenTab(GameObject tabToOpen)
     {
         tabToOpen.SetActive(true);
