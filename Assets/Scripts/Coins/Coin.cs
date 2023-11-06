@@ -31,7 +31,9 @@ public class Coin : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         _animator.Play("A_Coin_01a");
+        SoundManager.CoinSound?.Invoke();
         OnUpdateCoinCounter?.Invoke(_coinValue);
+        GetComponent<Collider>().enabled = false;
     }
 
     public void StartFadeOut() => _canFadeOut = true;

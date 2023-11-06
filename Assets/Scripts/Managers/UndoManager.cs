@@ -60,7 +60,9 @@ public class UndoManager : MonoBehaviour
     public void PerformUndo()
     {
         if (_storedGridPositions.Count == 0 || _storedMovedSushi.Count == 0 || _moveSushi) return;
-        
+
+        SoundManager.ButtonSound?.Invoke();
+
         Vector2Int lastGridPosition = _storedGridPositions[_storedGridPositions.Count - 1];
         
         _targetPosition = _grid.GetWorldPosition(lastGridPosition.x, lastGridPosition.y);

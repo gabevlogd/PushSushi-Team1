@@ -43,9 +43,18 @@ public class HUDManager : MonoBehaviour
         InitHUD();
     }
 
-    private void OpenTab(GameObject TabToOpen) => TabToOpen.SetActive(true);
+    private void OpenTab(GameObject TabToOpen)
+    {
+        SoundManager.ButtonSound?.Invoke();
+        TabToOpen.SetActive(true);
+    }
 
-    private void CloseTab(GameObject TabToClose) => TabToClose.SetActive(false);
+    private void CloseTab(GameObject TabToClose)
+    {
+        SoundManager.ButtonSound?.Invoke();
+        TabToClose.SetActive(false);
+    }
+
     private void IncraseMoves() => _data.MoveCounter.text = (int.Parse(_data.MoveCounter.text) + 1).ToString();
     private void DecraseMoves() => _data.MoveCounter.text = (int.Parse(_data.MoveCounter.text) - 1).ToString();
 
@@ -66,7 +75,7 @@ public class HUDManager : MonoBehaviour
     private IEnumerator OpenGameOverTab()
     {
         yield return new WaitForSeconds(1f);
-        OpenTab(_data.GameOverTab);
+        _data.GameOverTab.SetActive(true);
     }
 
     private void SetHUDData(HUDData data) => _data = data;

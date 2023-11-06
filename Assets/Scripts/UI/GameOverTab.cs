@@ -26,6 +26,8 @@ public class GameOverTab : MonoBehaviour
         Restart.onClick.AddListener(PerformRestart);
 
         _currentLevel = LevelLoader.LevelToLoad;
+
+        SoundManager.GameOverSound?.Invoke();
     }
 
     private void OnEnable()
@@ -35,11 +37,23 @@ public class GameOverTab : MonoBehaviour
         CrownImage.gameObject.SetActive(CrownGained());
     }
 
-    private void OpenTab(GameObject TabToOpen) => TabToOpen.SetActive(true);
+    private void OpenTab(GameObject TabToOpen)
+    {
+        SoundManager.ButtonSound?.Invoke();
+        TabToOpen.SetActive(true);
+    }
 
-    private void CloseTab(GameObject TabToClose) => TabToClose.SetActive(false);
+    private void CloseTab(GameObject TabToClose)
+    {
+        SoundManager.ButtonSound?.Invoke();
+        TabToClose.SetActive(false);
+    }
 
-    private void PerformRestart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    private void PerformRestart()
+    {
+        SoundManager.ButtonSound?.Invoke();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
     private string GetResultLabel()
     {

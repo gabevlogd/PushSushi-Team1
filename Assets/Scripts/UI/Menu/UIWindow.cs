@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UIWindow : MonoBehaviour
 {
-    public UIWindow PreviousWindow;
+    private UIWindow _previousWindow;
 
     protected virtual void OnEnable()
     {
@@ -13,26 +14,36 @@ public class UIWindow : MonoBehaviour
 
     }
 
-    protected void OpenTab(GameObject tabToOpen) => tabToOpen.SetActive(true);
+    protected void OpenTab(GameObject tabToOpen)
+    {
+        tabToOpen.SetActive(true);
+        SoundManager.ButtonSound?.Invoke();
+    }
 
-    protected void CloseTab(GameObject tabToClose) => tabToClose.SetActive(false);
+    protected void CloseTab(GameObject tabToClose)
+    {
+        tabToClose.SetActive(false);
+        SoundManager.ButtonSound?.Invoke();
+    }
 
-    protected void PerformBackButton() => ChangeWindow(PreviousWindow);
+    protected void PerformBackButton() => ChangeWindow(_previousWindow);
 
 
     protected virtual void ChangeWindow(UIWindow windowToOpen)
     {
-        if (windowToOpen.PreviousWindow == null)
-            windowToOpen.PreviousWindow = this;
+        if (windowToOpen._previousWindow == null)
+            windowToOpen._previousWindow = this;
 
         windowToOpen.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
+        SoundManager.ButtonSound?.Invoke();
     }
 
     protected virtual void ChangeTab(GameObject currentTab, GameObject tabToOpen)
     {
         currentTab?.SetActive(false);
         tabToOpen.SetActive(true);
+        SoundManager.ButtonSound?.Invoke();
     }
 
 }

@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class SkinUIComponent : MonoBehaviour
 {
     public SlidableComponent SkinPrefab;
-    //public GameObject SelectionFeedback;
     private Button _button;
 
     private void Awake()
@@ -24,6 +23,7 @@ public class SkinUIComponent : MonoBehaviour
 
     private void PerformSelectionFeedback()
     {
+        SoundManager.ButtonSound?.Invoke();
         foreach(Transform child in transform.parent)
         {
             if (child == transform) child.GetChild(0).gameObject.SetActive(true);

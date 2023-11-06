@@ -23,6 +23,7 @@ public class MainMenuUI : UIWindow
         Option.onClick.AddListener(PerformOptionButton);
         Level.onClick.AddListener(PerformLevelButton);
         Start.onClick.AddListener(PerformStartButton);
+  
 
 
         //una roba brutta che non sapevo come fare altrimenti, se poi scopro un metodo piu carino tolgo sta cacata :)
@@ -39,9 +40,9 @@ public class MainMenuUI : UIWindow
 
     private void PerformStartButton()
     {
+        SoundManager.ButtonSound?.Invoke();
         if (PlayerData.LastSelectedLevel == null)
             PlayerData.LastSelectedLevel = LevelLoader.GetLevel(Theme.Sushi, Difficulty.Beginner, 1);
-
         LevelLoader.LevelToLoad = PlayerData.LastSelectedLevel;
         SceneManager.LoadScene("GameScene");
     }

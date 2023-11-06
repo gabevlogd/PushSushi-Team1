@@ -31,6 +31,7 @@ public class LevelGridUIMenu : UIWindow
 
     private void PerformStartButton(LevelData levelToLoad)
     {
+        SoundManager.ButtonSound?.Invoke();
         LevelLoader.LevelToLoad = LevelLoader.GetLevel(levelToLoad.Theme, levelToLoad.Difficulty, levelToLoad.LevelIndex);
         if (LevelLoader.LevelToLoad == null)
         {
