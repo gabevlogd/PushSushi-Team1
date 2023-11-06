@@ -65,7 +65,10 @@ public class LevelUIComponent : MonoBehaviour
 
     private Sprite GetScoreSprite(bool levelCompleted)
     {
-        if (levelCompleted)
+        int bestMoves = SaveManager.GetLevelDataInt(_currentLevel, Constants.BEST_MOVES);
+        if (levelCompleted && bestMoves == 0)
+            ScoreImage.gameObject.SetActive(false);
+        else if (levelCompleted)
             ScoreImage.gameObject.SetActive(true);
         else
             ScoreImage.gameObject.SetActive(false);

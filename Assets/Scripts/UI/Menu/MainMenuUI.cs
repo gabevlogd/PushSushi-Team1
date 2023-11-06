@@ -20,7 +20,7 @@ public class MainMenuUI : UIWindow
     {
         Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
-        //Close.onClick.AddListener(delegate { LevelLoader.SetSkin(LevelLoader.LevelToLoad); });
+        Option.onClick.AddListener(PerformOptionButton);
         Level.onClick.AddListener(PerformLevelButton);
         Start.onClick.AddListener(PerformStartButton);
 
@@ -32,6 +32,8 @@ public class MainMenuUI : UIWindow
             Level.onClick.Invoke();
         }
     }
+
+    private void PerformOptionButton() => ChangeWindow(FindObjectOfType<OptionMenuUI>(true));
 
     private void PerformLevelButton() => ChangeWindow(FindObjectOfType<LevelMenuUI>(true));
 
