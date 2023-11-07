@@ -14,6 +14,7 @@ public class GameOverTab : MonoBehaviour
     public Button Restart;
     public Button Skins;
     public Button Close;
+    public Button Stages;
 
     public GameObject SkinsTab;
 
@@ -24,6 +25,7 @@ public class GameOverTab : MonoBehaviour
         Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
         Restart.onClick.AddListener(PerformRestart);
+        Stages.onClick.AddListener(PerformStagesButton);
 
         _currentLevel = LevelLoader.LevelToLoad;
 
@@ -78,5 +80,11 @@ public class GameOverTab : MonoBehaviour
         if (_currentLevel.Score == Score.Crown)
             return true;
         else return false;
-    } 
+    }
+
+    private void PerformStagesButton()
+    {
+        MainMenuUI.GoToLevelWindow = true;
+        SceneManager.LoadScene("MenuScene");
+    }
 }
