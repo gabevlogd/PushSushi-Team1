@@ -7352,6 +7352,7 @@ GameObject:
   - component: {fileID: 800376292}
   - component: {fileID: 800376291}
   - component: {fileID: 800376293}
+  - component: {fileID: 800376294}
   m_Layer: 5
   m_Name: Tab
   m_TagString: Untagged
@@ -7432,7 +7433,7 @@ Animator:
   m_GameObject: {fileID: 800376289}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 99cf43b91505c8248a70cef8e3702f7f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 50d3441ec31e2f940aa39d37dfdafa21, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7443,6 +7444,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &800376294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800376289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf08b5bd14f9394da099e9928639b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &807960198
 GameObject:
   m_ObjectHideFlags: 0
@@ -10328,6 +10341,7 @@ GameObject:
   - component: {fileID: 1103202149}
   - component: {fileID: 1103202148}
   - component: {fileID: 1103202150}
+  - component: {fileID: 1103202151}
   m_Layer: 5
   m_Name: Tab
   m_TagString: Untagged
@@ -10408,7 +10422,7 @@ Animator:
   m_GameObject: {fileID: 1103202146}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 99cf43b91505c8248a70cef8e3702f7f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 50d3441ec31e2f940aa39d37dfdafa21, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -10419,6 +10433,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1103202151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103202146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf08b5bd14f9394da099e9928639b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1114833538
 GameObject:
   m_ObjectHideFlags: 0
@@ -12766,6 +12792,7 @@ GameObject:
   - component: {fileID: 1347141541}
   - component: {fileID: 1347141540}
   - component: {fileID: 1347141542}
+  - component: {fileID: 1347141543}
   m_Layer: 5
   m_Name: Tab
   m_TagString: Untagged
@@ -12846,7 +12873,7 @@ Animator:
   m_GameObject: {fileID: 1347141538}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 99cf43b91505c8248a70cef8e3702f7f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 50d3441ec31e2f940aa39d37dfdafa21, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -12857,6 +12884,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1347141543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347141538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf08b5bd14f9394da099e9928639b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1357293176
 GameObject:
   m_ObjectHideFlags: 0

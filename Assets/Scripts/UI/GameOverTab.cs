@@ -29,7 +29,7 @@ public class GameOverTab : MonoBehaviour
 
         _currentLevel = LevelLoader.LevelToLoad;
 
-        SoundManager.GameOverSound?.Invoke();
+        
     }
 
     private void OnEnable()
@@ -87,4 +87,6 @@ public class GameOverTab : MonoBehaviour
         MainMenuUI.GoToLevelWindow = true;
         SceneManager.LoadScene("MenuScene");
     }
+
+    
 }
