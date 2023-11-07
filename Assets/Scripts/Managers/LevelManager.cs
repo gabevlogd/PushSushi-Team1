@@ -60,7 +60,7 @@ public class LevelManager : MonoBehaviour
             return;
         SoundManager.ButtonSound?.Invoke();
         LevelLoader.LevelToLoad = LevelLoader.GetLevel(_currentLevel.Theme, _currentLevel.Difficulty, _currentLevel.LevelIndex + 1);
-        PlayerData.LastSelectedLevel = LevelLoader.LevelToLoad;
+        MenuData.LastSelectedLevel = LevelLoader.LevelToLoad;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //reset all MonoBehaviour in the scene
     }
 
@@ -74,7 +74,7 @@ public class LevelManager : MonoBehaviour
             return;
         SoundManager.ButtonSound?.Invoke();
         LevelLoader.LevelToLoad = LevelLoader.GetLevel(_currentLevel.Theme, _currentLevel.Difficulty, _currentLevel.LevelIndex - 1);
-        PlayerData.LastSelectedLevel = LevelLoader.LevelToLoad;
+        MenuData.LastSelectedLevel = LevelLoader.LevelToLoad;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //reset all MonoBehaviour in the scene
     }
 

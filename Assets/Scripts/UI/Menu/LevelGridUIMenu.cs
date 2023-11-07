@@ -18,12 +18,12 @@ public class LevelGridUIMenu : UIWindow
     private void Awake()
     {
         Back.onClick.AddListener(PerformBackButton);
-        Start.onClick.AddListener(delegate { PerformStartButton(PlayerData.CurrentSelectedLevel); });
+        Start.onClick.AddListener(delegate { PerformStartButton(MenuData.CurrentSelectedLevel); });
         Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
     }
 
-    private void OnEnable() => Difficulty.text = PlayerData.CurrentSelectedLevel.Difficulty.ToString();
+    private void OnEnable() => Difficulty.text = MenuData.CurrentSelectedLevel.Difficulty.ToString();
 
     private void PerformStartButton(LevelData levelToLoad)
     {
@@ -34,7 +34,7 @@ public class LevelGridUIMenu : UIWindow
             StartCoroutine(LevelLockedMessage());
             return;
         }
-        PlayerData.LastSelectedLevel = LevelLoader.LevelToLoad;
+        MenuData.LastSelectedLevel = LevelLoader.LevelToLoad;
         SceneManager.LoadScene("GameScene");
     }
 

@@ -41,9 +41,9 @@ public class MainMenuUI : UIWindow
     private void PerformStartButton()
     {
         SoundManager.ButtonSound?.Invoke();
-        if (PlayerData.LastSelectedLevel == null)
-            PlayerData.LastSelectedLevel = LevelLoader.GetLevel(Theme.Sushi, Difficulty.Beginner, 1);
-        LevelLoader.LevelToLoad = PlayerData.LastSelectedLevel;
+        if (MenuData.LastSelectedLevel == null)
+            MenuData.LastSelectedLevel = LevelLoader.GetLevel(Theme.Sushi, Difficulty.Beginner, 1);
+        LevelLoader.LevelToLoad = MenuData.LastSelectedLevel;
         SceneManager.LoadScene("GameScene");
     }
 }

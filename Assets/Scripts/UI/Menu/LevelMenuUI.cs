@@ -23,7 +23,7 @@ public class LevelMenuUI : UIWindow
 
     private void Awake()
     {
-        PlayerData.CurrentSelectedLevel = ScriptableObject.CreateInstance<LevelData>();
+        MenuData.CurrentSelectedLevel = ScriptableObject.CreateInstance<LevelData>();
         Back.onClick.AddListener(PerformBackButton);
         Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
@@ -39,13 +39,13 @@ public class LevelMenuUI : UIWindow
 
     private void PerformDifficultyButton(Difficulty difficulty)
     {
-        PlayerData.CurrentSelectedLevel.Difficulty = difficulty;
+        MenuData.CurrentSelectedLevel.Difficulty = difficulty;
         ChangeWindow(FindObjectOfType<LevelGridUIMenu>(true));
     }
 
     private void PerformThemeButton(Theme theme)
     {
-        PlayerData.CurrentSelectedLevel.Theme = theme;
+        MenuData.CurrentSelectedLevel.Theme = theme;
         PerformChengeTabButton(ThemesTab, LevelTab);
         //Debug.Log($"{theme} theme selected");
     }

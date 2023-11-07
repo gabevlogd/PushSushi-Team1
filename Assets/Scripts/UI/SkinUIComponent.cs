@@ -17,7 +17,7 @@ public class SkinUIComponent : MonoBehaviour
 
     private void PerformSkinSelection()
     {
-        PlayerData.SelectedSkin = SkinPrefab;
+        MenuData.SelectedSkin = SkinPrefab;
         PerformSelectionFeedback();
     }
 
