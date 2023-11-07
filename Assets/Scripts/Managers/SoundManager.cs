@@ -45,6 +45,8 @@ public class SoundManager : MonoBehaviour
 
         OptionMenuUI.OnToggleSound += ToggleSoundSources;
         OptionMenuUI.OnToggleMusic += ToggleMusicSource;
+        HUDManager.OnToggleSound += ToggleSoundSources;
+        HUDManager.OnToggleMusic += ToggleMusicSource;
     }
 
 

@@ -30,9 +30,6 @@ public class OptionMenuUI : UIWindow
     public static event UnityAction<bool> OnToggleMusic;
     public static event UnityAction<bool> OnToggleSound;
 
-    //private static bool _musicOn;
-    //private static bool _soundOn;
-
     private void Awake()
     {
         string resetMsg = "Are you sure you want to reset all game data?";
@@ -45,22 +42,9 @@ public class OptionMenuUI : UIWindow
         _music.onValueChanged.AddListener(OnToggleMusic);
         _sound.onValueChanged.AddListener(OnToggleSound);
 
-        //Debug.Log(_musicOn);
         _music.isOn = SoundManager._musicOn;
         _sound.isOn = SoundManager._soundOn;
     }
-
-    //private void OnEnable()
-    //{
-    //    OnToggleMusic += SetMusicBool;
-    //    OnToggleSound += SetSoundBool;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    OnToggleMusic -= SetMusicBool;
-    //    OnToggleSound -= SetSoundBool;
-    //}
 
     
 
@@ -96,7 +80,4 @@ public class OptionMenuUI : UIWindow
 
         CloseTab(_confirmTab);
     }
-
-    //private void SetMusicBool(bool value) => _musicOn = value;
-    //private void SetSoundBool(bool value) => _soundOn = value;
 }
