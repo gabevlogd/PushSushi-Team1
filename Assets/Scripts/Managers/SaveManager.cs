@@ -16,7 +16,7 @@ public class SaveManager
 
         SetLevelDataInt(level, Constants.LEVEL_COMPLETED, 1);
 
-        Debug.Log(GetLevelDataInt(level, Constants.LEVEL_COMPLETED));
+        //Debug.Log(GetLevelDataInt(level, Constants.LEVEL_COMPLETED));
     }
 
     public static int GetLevelDataInt(LevelData level, string intKey) => PlayerPrefs.GetInt($"{level.Theme}/{level.Difficulty}/{level.LevelIndex}/{intKey}");

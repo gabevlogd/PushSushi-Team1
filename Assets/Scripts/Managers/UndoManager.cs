@@ -49,7 +49,7 @@ public class UndoManager : MonoBehaviour
     
     private void StoreMove(Vector2Int position, UndoComponent movedSushi)
     {
-        Debug.Log("Move stored");
+        //Debug.Log("Move stored");
         _storedGridPositions.Add(position);
         _storedMovedSushi.Add(movedSushi);
 
