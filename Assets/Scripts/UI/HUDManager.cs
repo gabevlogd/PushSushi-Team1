@@ -34,6 +34,8 @@ public class HUDManager : MonoBehaviour
 
     private void Start()
     {
+        _data.Music.isOn = SoundManager._musicOn;
+        _data.Sound.isOn = SoundManager._soundOn;
         _data.Pause.onClick.AddListener(delegate { OpenTab(_data.PauseTab); });
         _data.Skins.onClick.AddListener(delegate { OpenTab(_data.SkinsTab); });
         _data.Resume.onClick.AddListener(delegate { CloseTab(_data.PauseTab); });
@@ -90,9 +92,6 @@ public class HUDManager : MonoBehaviour
         _data.Score.sprite = GetScore();
         _data.BestMoves.text = GetBestMoves();
         _data.LevelCounter.text = GetLevelCounter();
-
-        _data.Music.isOn = SoundManager._musicOn;
-        _data.Sound.isOn = SoundManager._soundOn;
     }
 
     private string GetLevelCounter() => LevelLoader.LevelToLoad.LevelIndex.ToString();
