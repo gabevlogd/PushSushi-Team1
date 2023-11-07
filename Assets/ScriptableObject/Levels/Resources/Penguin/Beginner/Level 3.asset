@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56d39a1c30770e4c828101d738af2d0, type: 3}
   m_Name: Level 3
   m_EditorClassIdentifier: 
-  MainPawn: {fileID: -4407756823639525996, guid: f609540d13631fc4da82d2bf08eef88d, type: 3}
+  MainPawn: {fileID: -4407756823639525996, guid: 76a2e5c47ea7b3a4fb9f70fc0bdb2cb2, type: 3}
   Pawn:
-  - {fileID: -4407756823639525996, guid: f609540d13631fc4da82d2bf08eef88d, type: 3}
-  - {fileID: 3102211874699840696, guid: 80d67cdc28780d842bfd82c767ad9f5f, type: 3}
-  - {fileID: 3102211874699840696, guid: 80d67cdc28780d842bfd82c767ad9f5f, type: 3}
-  - {fileID: 3102211874699840696, guid: 80d67cdc28780d842bfd82c767ad9f5f, type: 3}
-  - {fileID: -2015051509682769976, guid: 733a73110aecdcc49a4bdf97deb0c651, type: 3}
-  - {fileID: -2015051509682769976, guid: 733a73110aecdcc49a4bdf97deb0c651, type: 3}
-  - {fileID: -3869442151360131895, guid: 2593575f738bfc94a8139b56b4b99f1c, type: 3}
-  - {fileID: -3869442151360131895, guid: 2593575f738bfc94a8139b56b4b99f1c, type: 3}
+  - {fileID: -4407756823639525996, guid: 76a2e5c47ea7b3a4fb9f70fc0bdb2cb2, type: 3}
+  - {fileID: -6871979675193524624, guid: ba37b92772c8e5e4da1ad1a870fb66ff, type: 3}
+  - {fileID: -6871979675193524624, guid: ba37b92772c8e5e4da1ad1a870fb66ff, type: 3}
+  - {fileID: -6871979675193524624, guid: ba37b92772c8e5e4da1ad1a870fb66ff, type: 3}
+  - {fileID: -6871979675193524624, guid: ba37b92772c8e5e4da1ad1a870fb66ff, type: 3}
+  - {fileID: -6871979675193524624, guid: ba37b92772c8e5e4da1ad1a870fb66ff, type: 3}
+  - {fileID: -3869442151360131895, guid: 5254e376896775b42bd19f71b190d8a1, type: 3}
+  - {fileID: -3869442151360131895, guid: 5254e376896775b42bd19f71b190d8a1, type: 3}
   PawnsPositions:
   - {x: -2.5, y: 0, z: 0.5}
+  - {x: -1.5, y: 0, z: 1.5}
   - {x: -0.5, y: 0, z: -1.5}
   - {x: 0.5, y: 0, z: -1.5}
-  - {x: -1.5, y: 0, z: 1.5}
   - {x: 1.5, y: 0, z: -0.5}
   - {x: -0.5, y: 0, z: 2.5}
   - {x: 1.5, y: 0, z: 1.5}
@@ -43,7 +43,6 @@ MonoBehaviour:
   Difficulty: 0
   Theme: 1
   Score: 0
-  BestScore: -1
   LevelIndex: 3
-  OptimalMoves: 5
-  BestMoves: 0
+  OptimalMoves: 0
+  Moves: 0
