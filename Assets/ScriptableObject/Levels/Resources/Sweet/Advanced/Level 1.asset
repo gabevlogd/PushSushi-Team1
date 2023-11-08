@@ -12,25 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56d39a1c30770e4c828101d738af2d0, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  MainPawn: {fileID: -5947191449538744805, guid: 5448e3c086ec4c94d9fca756f9b4b166, type: 3}
+  MainPawn: {fileID: 3363310430937897911, guid: 774f3225cff5dd84c923d3a3f46298fd, type: 3}
   Pawn:
-  - {fileID: 3363310430937897911, guid: d1abe44c832d315468ae4ec3675a426f, type: 3}
-  - {fileID: 579105693044593549, guid: 6ff94e7039d21344c808cc2824c1b4cc, type: 3}
-  - {fileID: 579105693044593549, guid: 38337d5079d11bd4b9c8955c0ccb45d9, type: 3}
-  - {fileID: -5947191449538744805, guid: 5448e3c086ec4c94d9fca756f9b4b166, type: 3}
+  - {fileID: 3363310430937897911, guid: 774f3225cff5dd84c923d3a3f46298fd, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -6871979675193524624, guid: 50511bf3fd2de824cade6782e3652713, type: 3}
+  - {fileID: -3869442151360131895, guid: 5ccb3440ca0734044abd5d3d53089605, type: 3}
+  - {fileID: -3869442151360131895, guid: 5ccb3440ca0734044abd5d3d53089605, type: 3}
+  - {fileID: -3869442151360131895, guid: 5cee550a985efa14cb7646733f65c09b, type: 3}
+  - {fileID: -3869442151360131895, guid: 5cee550a985efa14cb7646733f65c09b, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -6871979675193524624, guid: 50511bf3fd2de824cade6782e3652713, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
   PawnsPositions:
-  - {x: -2.5, y: 0, z: 0.5}
+  - {x: -1.5, y: 0, z: 0.5}
+  - {x: -2.5, y: 0, z: -0.5}
+  - {x: -0.5, y: 0, z: -2.5}
+  - {x: -2.5, y: 0, z: 1.5}
+  - {x: 1.5, y: 0, z: -2.5}
+  - {x: 0.5, y: 0, z: 1.5}
   - {x: 2.5, y: 0, z: 0.5}
+  - {x: -1.5, y: 0, z: 2.5}
+  - {x: 1.5, y: 0, z: 2.5}
   - {x: 1.5, y: 0, z: 0.5}
-  - {x: -0.5, y: 0, z: 0.5}
+  - {x: 1.5, y: 0, z: -1.5}
   PawnsRotations:
+  - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  - {x: 0, y: 0, z: 0, w: 1}
+  - {x: 0, y: 0, z: 0, w: 1}
+  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  - {x: 0, y: 0, z: 0, w: 1}
   Difficulty: 2
   Theme: 2
-  Score: -1
+  Score: 0
   LevelIndex: 1
-  OptimalMoves: 5
-  BestMoves: 0
+  OptimalMoves: 0
+  Moves: 0

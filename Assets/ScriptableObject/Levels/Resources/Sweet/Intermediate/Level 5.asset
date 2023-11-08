@@ -12,25 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56d39a1c30770e4c828101d738af2d0, type: 3}
   m_Name: Level 5
   m_EditorClassIdentifier: 
-  MainPawn: {fileID: 3363310430937897911, guid: dbf8a0bcc9cd2a944a5f3191d87a9024, type: 3}
+  MainPawn: {fileID: 3363310430937897911, guid: 3beeb8774ef2f2a4d805bae32063487c, type: 3}
   Pawn:
-  - {fileID: 3363310430937897911, guid: dbf8a0bcc9cd2a944a5f3191d87a9024, type: 3}
-  - {fileID: -6871979675193524624, guid: dbc0954ebfd451b409ad6f99a4a04a55, type: 3}
-  - {fileID: -6871979675193524624, guid: dbc0954ebfd451b409ad6f99a4a04a55, type: 3}
-  - {fileID: -6871979675193524624, guid: dbc0954ebfd451b409ad6f99a4a04a55, type: 3}
-  - {fileID: -6871979675193524624, guid: dbc0954ebfd451b409ad6f99a4a04a55, type: 3}
-  - {fileID: -6871979675193524624, guid: dbc0954ebfd451b409ad6f99a4a04a55, type: 3}
-  - {fileID: -6871979675193524624, guid: dbc0954ebfd451b409ad6f99a4a04a55, type: 3}
-  - {fileID: -3869442151360131895, guid: 2593575f738bfc94a8139b56b4b99f1c, type: 3}
-  - {fileID: -3869442151360131895, guid: 2593575f738bfc94a8139b56b4b99f1c, type: 3}
+  - {fileID: 3363310430937897911, guid: 3beeb8774ef2f2a4d805bae32063487c, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -6871979675193524624, guid: 50511bf3fd2de824cade6782e3652713, type: 3}
+  - {fileID: -6871979675193524624, guid: 50511bf3fd2de824cade6782e3652713, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -3869442151360131895, guid: 5ccb3440ca0734044abd5d3d53089605, type: 3}
+  - {fileID: -3869442151360131895, guid: 5cee550a985efa14cb7646733f65c09b, type: 3}
   PawnsPositions:
   - {x: -2.5, y: 0, z: 0.5}
   - {x: -1.5, y: 0, z: -2.5}
   - {x: -0.5, y: 0, z: -2.5}
+  - {x: 2.5, y: 0, z: -0.5}
   - {x: -0.5, y: 0, z: -1.5}
   - {x: -0.5, y: 0, z: 0.5}
   - {x: 0.5, y: 0, z: -0.5}
-  - {x: 2.5, y: 0, z: -0.5}
   - {x: 0.5, y: 0, z: 1.5}
   - {x: 1.5, y: 0, z: 1.5}
   PawnsRotations:
@@ -39,13 +39,13 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   Difficulty: 1
   Theme: 2
-  Score: -1
+  Score: 0
   LevelIndex: 5
   OptimalMoves: 0
-  BestMoves: 0
+  Moves: 0
