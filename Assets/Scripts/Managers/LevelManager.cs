@@ -39,14 +39,14 @@ public class LevelManager : MonoBehaviour
 
     public void OnRestart()
     {
-        if (GameState != GameState.Play) return;
+        if (GameState == GameState.GameOver) return;
         SoundManager.ButtonSound?.Invoke();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void OnUndo()
     {
-        if (GameState != GameState.Play) return;
+        if (GameState == GameState.GameOver) return;
         //Undo.PerformUndo();
         OnPerformUndo?.Invoke();
     }

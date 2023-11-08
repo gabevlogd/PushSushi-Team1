@@ -5,93 +5,61 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-
-    private LevelData _currentLevel;
-    private List<int> _pawnsToSlideIndex;
-    private SlidableComponent _pawnToSlide;
-    private bool _slidePawn;
-    private bool _pawnGrabbed;
+    public static List<SlidableComponent> TargetPawns;
     [SerializeField]
-    private float _speed;
-    private Vector3 _targetPosition;
-    private event Action _onTargetPawnSelected;
+    private GameObject Arrow;
+    private SlidableComponent _mainPawn;
 
-    public static List<SlidableComponent> a;
+    private event Action OnUpdateArrow;
 
-    private void Awake()
-    {
-        if (LevelManager.GameState == GameState.Tutorial)
-        {
-            //_currentLevel = LevelLoader.LevelToLoad;
-            //InitTutorial();
-            a = new List<SlidableComponent>();
-            SlidableComponent[] pawns = FindObjectsOfType<SlidableComponent>();
-            foreach (SlidableComponent pawn in pawns)
-                if (pawn.transform.rotation.eulerAngles.y != 0)
-                    a.Add(pawn);
-        }
-    }
+    private void Awake() => InitTutorial();
 
-    private void Update()
-    {
-        //Boh();
-        //_onTargetPawnSelected?.Invoke();
-    }
+    private void Update() => OnUpdateArrow?.Invoke();
 
     private void InitTutorial()
     {
-        _pawnsToSlideIndex = new List<int>();
-
-        for (int i = 0; i < _currentLevel.Pawn.Length; i++)
+        if (LevelManager.GameState == GameState.Tutorial)
         {
-            if (_currentLevel.PawnsRotations[i].eulerAngles.y != 0)
-                _pawnsToSlideIndex.Add(i);
+            TargetPawns = new List<SlidableComponent>();
+            SlidableComponent[] pawns = FindObjectsOfType<SlidableComponent>();
+            foreach (SlidableComponent pawn in pawns)
+            {
+                if (pawn.name[0].ToString() == "L")
+                    TargetPawns.Add(pawn);
+                else if (pawn.name[0].ToString() == "M")
+                    _mainPawn = pawn;
+            }
+
+            Arrow.SetActive(true);
+            OnUpdateArrow += UpdateArrowPosition;
         }
+        else gameObject.SetActive(false);
+
+        
     }
 
-    private void Boh()
+    private void UpdateArrowPosition()
     {
-        if (Input.touchCount == 0) return;
-        //if (_slidePawn) return;
-        if (_pawnGrabbed) return;
+        Vector2 targetPawn;
 
-        Vector2 touchPosition = Input.GetTouch(0).position;
-        Ray ray = Camera.main.ScreenPointToRay(touchPosition);
-        RaycastHit hitInfo;
-        Physics.Raycast(ray, out hitInfo);
-
-        if (hitInfo.transform != null && hitInfo.transform.position == _currentLevel.PawnsPositions[_pawnsToSlideIndex[0]])
+        if (TargetPawns.Count == 0)
         {
-            Debug.Log("hit");
-            _pawnToSlide = hitInfo.collider.GetComponent<SlidableComponent>();
-            _pawnToSlide.OnTutorial = true;
-            //_targetPosition = new Vector3(_pawnToSlide.transform.position.x, _pawnToSlide.transform.position.y, -1.5f);
-            //_onTargetPawnSelected = SlideTargetPawn;
-            _pawnGrabbed = true;
-            //_slidePawn = true;
+            targetPawn = new Vector2(_mainPawn.transform.position.x, _mainPawn.transform.position.z);
+            if (Arrow.transform.eulerAngles.y == 0)
+            {
+                Arrow.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+                Arrow.transform.position += new Vector3(0f, -0.3f, 0f);
+            }
         }
+        else 
+            targetPawn = new Vector2(TargetPawns[0].transform.position.x, TargetPawns[0].transform.position.z);
+
+        Vector2 arrow = new Vector2(Arrow.transform.position.x, Arrow.transform.position.z);
+
+        if (arrow != targetPawn)
+            Arrow.transform.position = new Vector3(targetPawn.x, Arrow.transform.position.y, targetPawn.y);
+        
     }
 
-    //private void SlideTargetPawn()
-    //{
-    //    //CheckForSlideRequest();
-
-    //    if (_slidePawn)
-    //    {
-    //        _pawnToSlide.transform.position = Vector3.MoveTowards(_pawnToSlide.transform.position, _targetPosition, Time.deltaTime * _speed);
-    //        if (Vector3.Distance(_pawnToSlide.transform.position, _targetPosition) < 0.1f)
-    //        {
-    //            _pawnToSlide.transform.position = _targetPosition;
-    //            _slidePawn = false;
-    //            _pawnGrabbed = false;
-    //            _pawnsToSlideIndex.RemoveAt(0);
-    //        }
-    //    }
-    //}
-
-    //private void CheckForSlideRequest()
-    //{
-    //    if (Input.GetTouch(0).phase == TouchPhase.Ended)
-    //        _slidePawn = true;
-    //}
+    
 }

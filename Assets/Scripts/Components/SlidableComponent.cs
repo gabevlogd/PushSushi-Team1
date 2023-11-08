@@ -29,10 +29,6 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     private bool _canGoUp, _canGoDown, _canGoLeft, _canGoRight;
     private float _speed = 20f;
 
-    [HideInInspector]
-    public bool OnTutorial;
-
-
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -49,35 +45,25 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
             OnPerformMovement += PerformHorizontalMovement;
             OnPerformAllowedDirections += CalculateAllowedHorizontalDirections;
         }
-
-        
     }
-
-    //private void Start()
-    //{
-    //    if (LevelManager.GameState == GameState.Tutorial)
-    //        this.enabled = false;
-    //}
 
     private void Update()
     {
         if (_levelComplete)
-            SlideAway();
-        if ((_grabbed && (LevelManager.GameState == GameState.Play || LevelManager.GameState == GameState.Tutorial)) /*|| (OnTutorial && _grabbed)*/)
+            SlideTo(transform.position + Vector3.right * 20f);
+
+        if (_grabbed && LevelManager.GameState != GameState.GameOver)
         {
             OnPerformAllowedDirections();
             OnPerformMovement(GetPointerWorldPosition());
             _animator?.Play("OpenEyes");
         }
-        else
-        {
-            _animator?.Play("CloseEyes");
-        }
+        else _animator?.Play("CloseEyes");
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (LevelManager.GameState == GameState.Tutorial && TutorialManager.a.Count > 0 && this != TutorialManager.a[0]) return;
+        if (LevelManager.GameState == GameState.Tutorial && TutorialManager.TargetPawns.Count > 0 && this != TutorialManager.TargetPawns[0]) return;
         if (Input.touchCount > 1) return;
 
         CalculateSlidableAreaLimits();
@@ -95,18 +81,17 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        //Debug.Log("OnPointerUp");
         _grabbed = false;
-        if (LevelManager.GameState == GameState.Tutorial && TutorialManager.a.Count > 0 && this == TutorialManager.a[0])
-        {
-            Debug.Log("slideAway");
-            TutorialManager.a.RemoveAt(0);
-            return;
-        }
 
         //when release the slidable component makes sure the transform remain on a fixed position of the grid
         _grid.GetXY(transform.position, out int x, out int y);
         transform.position = new Vector3(_grid.GetWorldPosition(x, y).x, transform.position.y, _grid.GetWorldPosition(x, y).z);
+
+        if (LevelManager.GameState == GameState.Tutorial && TutorialManager.TargetPawns.Count > 0 && this == TutorialManager.TargetPawns[0])
+        {
+            if (y == 1)
+                TutorialManager.TargetPawns.RemoveAt(0);
+        }
     }
 
     /// <summary>
@@ -161,11 +146,11 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
     }
 
-    private void SlideAway() => transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.right * 20f, Time.deltaTime * _speed);
+    private void SlideTo(Vector3 targetPosition) => transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * _speed);
 
     private Vector3 GetPointerWorldPosition() => _camera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Vector3.Distance(transform.position, _camera.transform.position)));
 
-   
+
 
 }
 
