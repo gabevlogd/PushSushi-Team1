@@ -53,5 +53,5 @@ MonoBehaviour:
   Theme: 1
   Score: 0
   LevelIndex: 3
-  OptimalMoves: 0
+  OptimalMoves: 10
   Moves: 0
