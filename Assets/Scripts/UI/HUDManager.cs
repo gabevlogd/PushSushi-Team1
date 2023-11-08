@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using TMPro;
+using UnityEngine.Events;
 
 public class HUDManager : MonoBehaviour
 {
 
     private HUDData _data;
     private LevelData _currentLevel;
+
+    public static event UnityAction<bool> OnToggleMusic;
+    public static event UnityAction<bool> OnToggleSound;
 
     private void Awake() => _currentLevel = LevelLoader.LevelToLoad;
 
@@ -32,20 +34,31 @@ public class HUDManager : MonoBehaviour
 
     private void Start()
     {
+        _data.Music.isOn = SoundManager._musicOn;
+        _data.Sound.isOn = SoundManager._soundOn;
         _data.Pause.onClick.AddListener(delegate { OpenTab(_data.PauseTab); });
         _data.Skins.onClick.AddListener(delegate { OpenTab(_data.SkinsTab); });
         _data.Resume.onClick.AddListener(delegate { CloseTab(_data.PauseTab); });
         _data.Close.onClick.AddListener(delegate { CloseTab(_data.SkinsTab); });
-        //_data.Close.onClick.AddListener(delegate { LevelLoader.SetSkin(LevelLoader.LevelToLoad); });
         _data.Restart.onClick.AddListener(delegate { PerformRestartButton(_data.PauseTab); });
         _data.Stages.onClick.AddListener(PerformStagesButton);
-        //_data.LevelCounter.text = LevelLoader.LevelToLoad.LevelIndex.ToString();
+        _data.Music.onValueChanged.AddListener(OnToggleMusic);
+        _data.Sound.onValueChanged.AddListener(OnToggleSound);
         InitHUD();
     }
 
-    private void OpenTab(GameObject TabToOpen) => TabToOpen.SetActive(true);
+    private void OpenTab(GameObject TabToOpen)
+    {
+        SoundManager.ButtonSound?.Invoke();
+        TabToOpen.SetActive(true);
+    }
 
-    private void CloseTab(GameObject TabToClose) => TabToClose.SetActive(false);
+    private void CloseTab(GameObject TabToClose)
+    {
+        SoundManager.ButtonSound?.Invoke();
+        TabToClose.SetActive(false);
+    }
+
     private void IncraseMoves() => _data.MoveCounter.text = (int.Parse(_data.MoveCounter.text) + 1).ToString();
     private void DecraseMoves() => _data.MoveCounter.text = (int.Parse(_data.MoveCounter.text) - 1).ToString();
 
@@ -66,7 +79,7 @@ public class HUDManager : MonoBehaviour
     private IEnumerator OpenGameOverTab()
     {
         yield return new WaitForSeconds(1f);
-        OpenTab(_data.GameOverTab);
+        _data.GameOverTab.SetActive(true);
     }
 
     private void SetHUDData(HUDData data) => _data = data;

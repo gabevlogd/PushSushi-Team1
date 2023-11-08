@@ -26,7 +26,10 @@ public class UndoComponent : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         Vector2Int currentGridPosition = _grid.GetGridPosition(transform.position);
         
         if (HasMoved(_lastGridPosition, currentGridPosition))
+        {
+            SoundManager.PawnSound?.Invoke();
             OnStoreMove?.Invoke(_lastGridPosition, this);
+        }
     }
     
     private bool HasMoved(Vector2Int previousPosition, Vector2Int currentPosition)

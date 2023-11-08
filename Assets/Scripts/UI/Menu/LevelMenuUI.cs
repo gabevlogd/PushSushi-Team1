@@ -23,11 +23,10 @@ public class LevelMenuUI : UIWindow
 
     private void Awake()
     {
-        PlayerData.CurrentSelectedLevel = ScriptableObject.CreateInstance<LevelData>();
+        MenuData.CurrentSelectedLevel = ScriptableObject.CreateInstance<LevelData>();
         Back.onClick.AddListener(PerformBackButton);
         Skins.onClick.AddListener(delegate { OpenTab(SkinsTab); });
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
-        //Close.onClick.AddListener(delegate { LevelLoader.SetSkin(LevelLoader.LevelToLoad); });
         Beginner.onClick.AddListener(delegate { PerformDifficultyButton(Difficulty.Beginner); });
         Intermediate.onClick.AddListener(delegate { PerformDifficultyButton(Difficulty.Intermediate); });
         Advanced.onClick.AddListener(delegate { PerformDifficultyButton(Difficulty.Advanced); });
@@ -40,15 +39,15 @@ public class LevelMenuUI : UIWindow
 
     private void PerformDifficultyButton(Difficulty difficulty)
     {
-        PlayerData.CurrentSelectedLevel.Difficulty = difficulty;
+        MenuData.CurrentSelectedLevel.Difficulty = difficulty;
         ChangeWindow(FindObjectOfType<LevelGridUIMenu>(true));
     }
 
     private void PerformThemeButton(Theme theme)
     {
-        PlayerData.CurrentSelectedLevel.Theme = theme;
+        MenuData.CurrentSelectedLevel.Theme = theme;
         PerformChengeTabButton(ThemesTab, LevelTab);
-        Debug.Log($"{theme} theme selected");
+        //Debug.Log($"{theme} theme selected");
     }
 
     private void PerformChengeTabButton(GameObject currentTab, GameObject TabToOpen) => ChangeTab(currentTab, TabToOpen);

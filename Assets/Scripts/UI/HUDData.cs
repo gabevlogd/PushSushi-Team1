@@ -21,6 +21,9 @@ public class HUDData : MonoBehaviour
     public Button Restart;
     public Button Close;
 
+    public Toggle Music;
+    public Toggle Sound;
+
     public GameObject PauseTab;
     public GameObject SkinsTab;
     public GameObject GameOverTab;

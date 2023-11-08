@@ -39,15 +39,14 @@ public class LevelUIComponent : MonoBehaviour
 
     private void PerformLevelSelection()
     {
-        Debug.Log("PerformLevelSelection");
-        PlayerData.CurrentSelectedLevel.LevelIndex = LevelIndex;
+        MenuData.CurrentSelectedLevel.LevelIndex = LevelIndex;
         SelectionFeedback.gameObject.SetActive(true);
         OnLevelComponentClick?.Invoke(LevelIndex);
     }
 
     private void SetIcon()
     {
-        _currentLevel = LevelLoader.GetLevel(PlayerData.CurrentSelectedLevel.Theme, PlayerData.CurrentSelectedLevel.Difficulty, LevelIndex);
+        _currentLevel = LevelLoader.GetLevel(MenuData.CurrentSelectedLevel.Theme, MenuData.CurrentSelectedLevel.Difficulty, LevelIndex);
         if (_currentLevel == null)
         {
             SetUpLockedIcon();

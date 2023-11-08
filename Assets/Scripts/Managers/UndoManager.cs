@@ -49,7 +49,7 @@ public class UndoManager : MonoBehaviour
     
     private void StoreMove(Vector2Int position, UndoComponent movedSushi)
     {
-        Debug.Log("Move stored");
+        //Debug.Log("Move stored");
         _storedGridPositions.Add(position);
         _storedMovedSushi.Add(movedSushi);
 
@@ -60,7 +60,9 @@ public class UndoManager : MonoBehaviour
     public void PerformUndo()
     {
         if (_storedGridPositions.Count == 0 || _storedMovedSushi.Count == 0 || _moveSushi) return;
-        
+
+        SoundManager.ButtonSound?.Invoke();
+
         Vector2Int lastGridPosition = _storedGridPositions[_storedGridPositions.Count - 1];
         
         _targetPosition = _grid.GetWorldPosition(lastGridPosition.x, lastGridPosition.y);

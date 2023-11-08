@@ -70,10 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755f3def719588244a4dbaa733878a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlidingDirection: 0
   SensorA: {fileID: 8461082170592116480}
   SensorB: {fileID: 30973544137245709}
-  _lastGridPosition: {x: 0, y: 0}
 --- !u!114 &5644831935328609103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +154,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7745243180025568881}
     m_Modifications:
+    - target: {fileID: 8217394727563097939, guid: b41d047663c73f243bda6d4a28fd748a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8217394727563097939, guid: b41d047663c73f243bda6d4a28fd748a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

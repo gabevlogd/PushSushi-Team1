@@ -12,6 +12,7 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
     public Transform SensorB; 
     private Camera _camera;
     private Grid<Tile> _grid;
+    private Animator _animator;
 
     private event Action<Vector3> OnPerformMovement;
     private event Action OnPerformAllowedDirections;
@@ -31,6 +32,7 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     private void Awake()
     {
+        _animator = GetComponentInChildren<Animator>();
         _camera = Camera.main;
         _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3f, 0f, -3f), (int x, int y) => new Tile(x, y));
 
@@ -54,6 +56,11 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
         {
             OnPerformAllowedDirections();
             OnPerformMovement(GetPointerWorldPosition());
+            _animator?.Play("OpenEyes");
+        }
+        else
+        {
+            _animator?.Play("CloseEyes");
         }
     }
 

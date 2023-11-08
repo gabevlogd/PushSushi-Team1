@@ -38,6 +38,7 @@ public class LevelManager : MonoBehaviour
     public void OnRestart()
     {
         if (GameState != GameState.Play) return;
+        SoundManager.ButtonSound?.Invoke();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -57,9 +58,9 @@ public class LevelManager : MonoBehaviour
         if (!SaveManager.GetLevelDataBool(_currentLevel, Constants.LEVEL_COMPLETED)) return;
         if (_currentLevel.LevelIndex >= LevelLoader.GetLevels(_currentLevel.Theme, _currentLevel.Difficulty).Length)
             return;
-
+        SoundManager.ButtonSound?.Invoke();
         LevelLoader.LevelToLoad = LevelLoader.GetLevel(_currentLevel.Theme, _currentLevel.Difficulty, _currentLevel.LevelIndex + 1);
-        PlayerData.LastSelectedLevel = LevelLoader.LevelToLoad;
+        MenuData.LastSelectedLevel = LevelLoader.LevelToLoad;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //reset all MonoBehaviour in the scene
     }
 
@@ -71,9 +72,9 @@ public class LevelManager : MonoBehaviour
         if (_currentLevel == null) return;
         if (_currentLevel.LevelIndex == 1)
             return;
-
+        SoundManager.ButtonSound?.Invoke();
         LevelLoader.LevelToLoad = LevelLoader.GetLevel(_currentLevel.Theme, _currentLevel.Difficulty, _currentLevel.LevelIndex - 1);
-        PlayerData.LastSelectedLevel = LevelLoader.LevelToLoad;
+        MenuData.LastSelectedLevel = LevelLoader.LevelToLoad;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //reset all MonoBehaviour in the scene
     }
 

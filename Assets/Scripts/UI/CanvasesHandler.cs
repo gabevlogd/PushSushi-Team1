@@ -13,7 +13,6 @@ public class CanvasesHandler : MonoBehaviour
     {
         MainMenuCanvas.SetActive(true);
         LevelMenuCanvas.SetActive(false);
-        LevelsGridMenuCanvas.SetActive(false);
-    }
+        LevelsGridMenuCanvas.SetActive(false);    }
 }
 #endif

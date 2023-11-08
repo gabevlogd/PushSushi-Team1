@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,10 +19,16 @@ public class OptionMenuUI : UIWindow
     [SerializeField]
     private Button _no;
     [SerializeField]
+    private Toggle _music;
+    [SerializeField]
+    private Toggle _sound;
+    [SerializeField]
     private TextMeshProUGUI _confirmMessage;
     [SerializeField]
     private GameObject _confirmTab;
 
+    public static event UnityAction<bool> OnToggleMusic;
+    public static event UnityAction<bool> OnToggleSound;
 
     private void Awake()
     {
@@ -32,7 +39,15 @@ public class OptionMenuUI : UIWindow
         _resetGameData.onClick.AddListener(delegate { OpenConfirmTab(DeleteGameData, resetMsg); });
         _unlockLevels.onClick.AddListener(delegate { OpenConfirmTab(UnlockAllLevels, unlockMsg); });
         _no.onClick.AddListener(delegate { CloseTab(_confirmTab); });
+        _music.onValueChanged.AddListener(OnToggleMusic);
+        _sound.onValueChanged.AddListener(OnToggleSound);
+
+        _music.isOn = SoundManager._musicOn;
+        _sound.isOn = SoundManager._soundOn;
     }
+
+    
+
     private void OpenConfirmTab(UnityAction actionToConfirm, string confirmMessage)
     {
         _confirmMessage.text = confirmMessage;

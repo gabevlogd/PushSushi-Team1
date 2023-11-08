@@ -25,7 +25,7 @@ public class LevelLoader
             //if player selected a skin we check if the current cycled pawn is the main pawn
             //and if it is we store its index and continue without instantiate it
             //because we'll instantiate the skin instead in SetSkin method
-            if (PlayerData.SelectedSkin != null)
+            if (MenuData.SelectedSkin != null)
             {
                 if (levelData.Pawn[i] == levelData.MainPawn)
                 {
@@ -44,7 +44,7 @@ public class LevelLoader
 
     public static void SetSkin(LevelData levelData, int skinIndex = -1)
     {
-        if (PlayerData.SelectedSkin != null)
+        if (MenuData.SelectedSkin != null)
         {
             if (skinIndex == -1)
             {
@@ -58,7 +58,7 @@ public class LevelLoader
                     }
                 }
             }
-            MainPawn = MonoBehaviour.Instantiate<SlidableComponent>(PlayerData.SelectedSkin, levelData.PawnsPositions[skinIndex], levelData.PawnsRotations[skinIndex]);
+            MainPawn = MonoBehaviour.Instantiate<SlidableComponent>(MenuData.SelectedSkin, levelData.PawnsPositions[skinIndex], levelData.PawnsRotations[skinIndex]);
         }
     }
 }

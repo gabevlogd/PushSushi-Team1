@@ -24,7 +24,7 @@ public class LevelsGridUIHandler : MonoBehaviour
 
     private void PerformLevelSelection(int selectedLevelIndex)
     {
-        Debug.Log("ue");
+        SoundManager.ButtonSound?.Invoke();
         if (_lastSelectedLevel == -1)
         {
             _lastSelectedLevel = selectedLevelIndex;
