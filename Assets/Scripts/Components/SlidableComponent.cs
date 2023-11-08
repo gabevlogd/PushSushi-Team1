@@ -77,7 +77,7 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!OnTutorial) return;
+        if (LevelManager.GameState == GameState.Tutorial && TutorialManager.a.Count > 0 && this != TutorialManager.a[0]) return;
         if (Input.touchCount > 1) return;
 
         CalculateSlidableAreaLimits();
@@ -95,8 +95,14 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("OnPointerUp");
+        //Debug.Log("OnPointerUp");
         _grabbed = false;
+        if (LevelManager.GameState == GameState.Tutorial && TutorialManager.a.Count > 0 && this == TutorialManager.a[0])
+        {
+            Debug.Log("slideAway");
+            TutorialManager.a.RemoveAt(0);
+            return;
+        }
 
         //when release the slidable component makes sure the transform remain on a fixed position of the grid
         _grid.GetXY(transform.position, out int x, out int y);

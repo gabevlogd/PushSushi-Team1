@@ -16,19 +16,26 @@ public class TutorialManager : MonoBehaviour
     private Vector3 _targetPosition;
     private event Action _onTargetPawnSelected;
 
+    public static List<SlidableComponent> a;
+
     private void Awake()
     {
         if (LevelManager.GameState == GameState.Tutorial)
         {
-            _currentLevel = LevelLoader.LevelToLoad;
-            InitTutorial();
+            //_currentLevel = LevelLoader.LevelToLoad;
+            //InitTutorial();
+            a = new List<SlidableComponent>();
+            SlidableComponent[] pawns = FindObjectsOfType<SlidableComponent>();
+            foreach (SlidableComponent pawn in pawns)
+                if (pawn.transform.rotation.eulerAngles.y != 0)
+                    a.Add(pawn);
         }
     }
 
     private void Update()
     {
-        Boh();
-        _onTargetPawnSelected?.Invoke();
+        //Boh();
+        //_onTargetPawnSelected?.Invoke();
     }
 
     private void InitTutorial()
@@ -65,26 +72,26 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void SlideTargetPawn()
-    {
-        //CheckForSlideRequest();
+    //private void SlideTargetPawn()
+    //{
+    //    //CheckForSlideRequest();
 
-        if (_slidePawn)
-        {
-            _pawnToSlide.transform.position = Vector3.MoveTowards(_pawnToSlide.transform.position, _targetPosition, Time.deltaTime * _speed);
-            if (Vector3.Distance(_pawnToSlide.transform.position, _targetPosition) < 0.1f)
-            {
-                _pawnToSlide.transform.position = _targetPosition;
-                _slidePawn = false;
-                _pawnGrabbed = false;
-                _pawnsToSlideIndex.RemoveAt(0);
-            }
-        }
-    }
+    //    if (_slidePawn)
+    //    {
+    //        _pawnToSlide.transform.position = Vector3.MoveTowards(_pawnToSlide.transform.position, _targetPosition, Time.deltaTime * _speed);
+    //        if (Vector3.Distance(_pawnToSlide.transform.position, _targetPosition) < 0.1f)
+    //        {
+    //            _pawnToSlide.transform.position = _targetPosition;
+    //            _slidePawn = false;
+    //            _pawnGrabbed = false;
+    //            _pawnsToSlideIndex.RemoveAt(0);
+    //        }
+    //    }
+    //}
 
-    private void CheckForSlideRequest()
-    {
-        if (Input.GetTouch(0).phase == TouchPhase.Ended)
-            _slidePawn = true;
-    }
+    //private void CheckForSlideRequest()
+    //{
+    //    if (Input.GetTouch(0).phase == TouchPhase.Ended)
+    //        _slidePawn = true;
+    //}
 }
