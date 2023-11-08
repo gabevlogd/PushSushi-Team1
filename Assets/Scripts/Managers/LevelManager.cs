@@ -24,6 +24,8 @@ public class LevelManager : MonoBehaviour
 
         ///temporary
         LevelLoader.LoadLevel(LevelLoader.LevelToLoad.Theme, LevelLoader.LevelToLoad.Difficulty, LevelLoader.LevelToLoad.LevelIndex, out _currentLevel);
+
+        GameState = GetGameState();
     }
 
     private void Start()
@@ -78,6 +80,13 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //reset all MonoBehaviour in the scene
     }
 
+    private GameState GetGameState()
+    {
+        if (_currentLevel.Difficulty == Difficulty.Beginner && _currentLevel.LevelIndex == 1)
+            return GameState.Tutorial;
+        else return GameState.Play;
+    }
+
 
 
 }
@@ -85,5 +94,7 @@ public class LevelManager : MonoBehaviour
 public enum GameState
 {
     Play,
-    GameOver
+    GameOver,
+    Tutorial
+
 }
