@@ -27,4 +27,5 @@ public class HUDData : MonoBehaviour
     public GameObject PauseTab;
     public GameObject SkinsTab;
     public GameObject GameOverTab;
+    public GameObject TutorialLabel;
 }

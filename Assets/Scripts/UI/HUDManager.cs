@@ -92,6 +92,8 @@ public class HUDManager : MonoBehaviour
         _data.Score.sprite = GetScore();
         _data.BestMoves.text = GetBestMoves();
         _data.LevelCounter.text = GetLevelCounter();
+        if (LevelManager.GameState == GameState.Tutorial)
+            _data.TutorialLabel.SetActive(true);
     }
 
     private string GetLevelCounter() => LevelLoader.LevelToLoad.LevelIndex.ToString();
