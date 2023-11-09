@@ -12,20 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56d39a1c30770e4c828101d738af2d0, type: 3}
   m_Name: Level 3
   m_EditorClassIdentifier: 
-  MainPawn: {fileID: -8508934837883594110, guid: dcc358b05866af14cbd59497a81a6460, type: 3}
+  MainPawn: {fileID: 3363310430937897911, guid: 6c93e50ea32e23d468f749a82f10017b, type: 3}
   Pawn:
-  - {fileID: -3869442151360131895, guid: 2593575f738bfc94a8139b56b4b99f1c, type: 3}
-  - {fileID: -8508934837883594110, guid: dcc358b05866af14cbd59497a81a6460, type: 3}
+  - {fileID: 3363310430937897911, guid: 6c93e50ea32e23d468f749a82f10017b, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -6871979675193524624, guid: 50511bf3fd2de824cade6782e3652713, type: 3}
+  - {fileID: -6871979675193524624, guid: 50511bf3fd2de824cade6782e3652713, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -6871979675193524624, guid: 05f435416669f0541bc5e8312521d83d, type: 3}
+  - {fileID: -3869442151360131895, guid: 5ccb3440ca0734044abd5d3d53089605, type: 3}
+  - {fileID: -3869442151360131895, guid: 5cee550a985efa14cb7646733f65c09b, type: 3}
   PawnsPositions:
-  - {x: 2.5, y: 0, z: 0.5}
   - {x: -2.5, y: 0, z: 0.5}
+  - {x: -1.5, y: 0, z: 1.5}
+  - {x: -0.5, y: 0, z: 2.5}
+  - {x: -0.5, y: 0, z: -1.5}
+  - {x: 0.5, y: 0, z: -1.5}
+  - {x: 1.5, y: 0, z: -0.5}
+  - {x: 1.5, y: 0, z: 1.5}
+  - {x: 2.5, y: 0, z: 1.5}
   PawnsRotations:
+  - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   - {x: 0, y: 0, z: 0, w: 1}
+  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  - {x: 0, y: 0, z: 0, w: 1}
+  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  - {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   Difficulty: 0
   Theme: 2
   Score: 0
-  BestScore: -1
   LevelIndex: 3
-  OptimalMoves: 5
-  BestMoves: 0
+  OptimalMoves: 6
+  Moves: 0
