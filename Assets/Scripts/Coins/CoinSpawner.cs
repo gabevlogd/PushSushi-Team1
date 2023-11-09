@@ -18,7 +18,7 @@ public class CoinSpawner : MonoBehaviour
 
     private void Awake()
     {
-        if (SaveManager.GetLevelDataBool(LevelLoader.LevelToLoad, Constants.LEVEL_COMPLETED))
+        if (SaveManager.GetLevelDataInt(LevelLoader.LevelToLoad, Constants.BEST_MOVES) > 0)
         {
             gameObject.SetActive(false);
             return;
