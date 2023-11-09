@@ -7,38 +7,34 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    //private UndoManager Undo;
     private LevelData _currentLevel;
 
     public static GameState GameState;
     public static event Action OnPerformUndo;
+    public static event Action OnPerformHint;
+
+    private bool _canReload;
 
     private void Awake()
     {
-        GameState = GameState.Play;
+        //GameState = GameState.Play;
 
-        ///temporary
         if (LevelLoader.LevelToLoad == null)
             LevelLoader.LevelToLoad = LevelLoader.GetLevel(Theme.Sushi, Difficulty.Beginner, 1);
         
-
-        ///temporary
         LevelLoader.LoadLevel(LevelLoader.LevelToLoad.Theme, LevelLoader.LevelToLoad.Difficulty, LevelLoader.LevelToLoad.LevelIndex, out _currentLevel);
 
         GameState = GetGameState();
     }
 
-    private void Start()
-    {
-        //if (Undo == null)
-        //{
-        //    Undo = FindObjectOfType<UndoManager>();
-        //}
-        SaveManager.SetLevelDataInt(_currentLevel, Constants.LEVLE_TO_COMPLETE, 1);
-    }
+    private void Start() => SaveManager.SetLevelDataInt(_currentLevel, Constants.LEVLE_TO_COMPLETE, 1);
+
+    private void OnEnable() => UndoManager.OnMoveStored += EneableRestartButton;
+    private void OnDisable() => UndoManager.OnMoveStored -= EneableRestartButton;
 
     public void OnRestart()
     {
+        if (!_canReload) return;
         if (GameState == GameState.GameOver) return;
         SoundManager.ButtonSound?.Invoke();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -47,9 +43,10 @@ public class LevelManager : MonoBehaviour
     public void OnUndo()
     {
         if (GameState == GameState.GameOver) return;
-        //Undo.PerformUndo();
         OnPerformUndo?.Invoke();
     }
+
+    public void OnHint() => OnPerformHint?.Invoke();
 
     /// <summary>
     /// Loads the next level after the current one
@@ -87,7 +84,10 @@ public class LevelManager : MonoBehaviour
         else return GameState.Play;
     }
 
-
+    private void EneableRestartButton()
+    {
+        if (!_canReload) _canReload = true;
+    }
 
 }
 

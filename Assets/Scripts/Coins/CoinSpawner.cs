@@ -18,6 +18,12 @@ public class CoinSpawner : MonoBehaviour
 
     private void Awake()
     {
+        if (SaveManager.GetLevelDataBool(LevelLoader.LevelToLoad, Constants.LEVEL_COMPLETED))
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3f, 0f, -3f), (int x, int y) => new Tile(x, y));
         _occupiedCoordinates = new List<Vector2Int>();
 

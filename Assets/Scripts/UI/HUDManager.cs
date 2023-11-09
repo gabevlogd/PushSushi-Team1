@@ -22,6 +22,7 @@ public class HUDManager : MonoBehaviour
         ThemeSetter.OnHUDActivation += SetHUDData;
         UndoManager.OnMoveStored += IncraseMoves;
         UndoManager.OnMoveCanceled += DecraseMoves;
+        LevelManager.OnPerformHint += ShowHintMSG;
     }
 
     private void OnDisable()
@@ -30,6 +31,7 @@ public class HUDManager : MonoBehaviour
         ThemeSetter.OnHUDActivation -= SetHUDData;
         UndoManager.OnMoveStored -= IncraseMoves;
         UndoManager.OnMoveCanceled -= DecraseMoves;
+        LevelManager.OnPerformHint -= ShowHintMSG;
     }
 
     private void Start()
@@ -40,7 +42,7 @@ public class HUDManager : MonoBehaviour
         _data.Skins.onClick.AddListener(delegate { OpenTab(_data.SkinsTab); });
         _data.Resume.onClick.AddListener(delegate { CloseTab(_data.PauseTab); });
         _data.Close.onClick.AddListener(delegate { CloseTab(_data.SkinsTab); });
-        _data.Restart.onClick.AddListener(delegate { PerformRestartButton(_data.PauseTab); });
+        _data.Restart.onClick.AddListener(PerformRestartButton);
         _data.Stages.onClick.AddListener(PerformStagesButton);
         _data.Music.onValueChanged.AddListener(OnToggleMusic);
         _data.Sound.onValueChanged.AddListener(OnToggleSound);
@@ -62,11 +64,7 @@ public class HUDManager : MonoBehaviour
     private void IncraseMoves() => _data.MoveCounter.text = (int.Parse(_data.MoveCounter.text) + 1).ToString();
     private void DecraseMoves() => _data.MoveCounter.text = (int.Parse(_data.MoveCounter.text) - 1).ToString();
 
-    private void PerformRestartButton(GameObject TabToClose)
-    {
-        CloseTab(TabToClose);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+    private void PerformRestartButton() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
     private void PerformStagesButton()
     {
@@ -118,4 +116,23 @@ public class HUDManager : MonoBehaviour
         else
             return $"{bestMoves}/{_currentLevel.OptimalMoves}";
     }
+
+    private void ShowHintMSG() => StartCoroutine(ComingSoonMSG());
+
+    private IEnumerator ComingSoonMSG()
+    {
+        float deltaTime = 0.5f;
+        float alpha = 1f;
+
+        _data.ComingSoonMSG.color = new Color(_data.ComingSoonMSG.color.r, _data.ComingSoonMSG.color.g, _data.ComingSoonMSG.color.b, alpha);
+        yield return new WaitForSeconds(deltaTime);
+
+        while (alpha > 0f)
+        {
+            alpha -= Time.deltaTime;
+            _data.ComingSoonMSG.color = new Color(_data.ComingSoonMSG.color.r, _data.ComingSoonMSG.color.g, _data.ComingSoonMSG.color.b, alpha);
+            yield return null;
+        }
+    }
+
 }

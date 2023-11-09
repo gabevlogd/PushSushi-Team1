@@ -9,21 +9,4 @@ public class MenuData
     public static Sprite SelectedSkinSprite;
     public static LevelData LastSelectedLevel;
     public static LevelData CurrentSelectedLevel;
-    private int _coinCounter;
-
-    //public PlayerData()
-    //{
-    //    Coin.OnUpdateCoinCounter += UpdateCoinCounter;
-    //}
-
-    //~PlayerData()
-    //{
-    //    Coin.OnUpdateCoinCounter -= UpdateCoinCounter;
-    //}
-
-    //private void UpdateCoinCounter(int coinToAdd)
-    //{
-    //    _coinCounter += coinToAdd;
-    //    Debug.Log(_coinCounter);
-    //}
 }

@@ -8,6 +8,7 @@ using TMPro;
 public class LevelGridUIMenu : UIWindow
 {
     public TextMeshProUGUI Difficulty;
+    public TextMeshProUGUI LevelLocked;
     public Button Back;
     public Button Start;
     public Button Skins;
@@ -38,8 +39,7 @@ public class LevelGridUIMenu : UIWindow
         SceneManager.LoadScene("GameScene");
     }
 
-    #region PLACEHOLDER
-    public TextMeshProUGUI LevelLocked;
+
     private IEnumerator LevelLockedMessage()
     {
         float deltaTime = 0.5f;
@@ -55,5 +55,5 @@ public class LevelGridUIMenu : UIWindow
             yield return null;
         }
     }
-    #endregion
+
 }

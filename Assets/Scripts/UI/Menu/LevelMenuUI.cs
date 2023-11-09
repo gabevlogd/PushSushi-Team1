@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class LevelMenuUI : UIWindow
 {
@@ -21,6 +22,8 @@ public class LevelMenuUI : UIWindow
     public GameObject LevelTab;
     public GameObject SkinsTab;
 
+    public TextMeshProUGUI CurrentTheme;
+
     private void Awake()
     {
         MenuData.CurrentSelectedLevel = ScriptableObject.CreateInstance<LevelData>();
@@ -37,6 +40,8 @@ public class LevelMenuUI : UIWindow
         Sweet.onClick.AddListener(delegate { PerformThemeButton(Theme.Sweet); });
     }
 
+    private void OnEnable() => CurrentTheme.text = MenuData.CurrentSelectedLevel.Theme.ToString();
+
     private void PerformDifficultyButton(Difficulty difficulty)
     {
         MenuData.CurrentSelectedLevel.Difficulty = difficulty;
@@ -46,6 +51,7 @@ public class LevelMenuUI : UIWindow
     private void PerformThemeButton(Theme theme)
     {
         MenuData.CurrentSelectedLevel.Theme = theme;
+        CurrentTheme.text = theme.ToString();
         PerformChengeTabButton(ThemesTab, LevelTab);
         //Debug.Log($"{theme} theme selected");
     }

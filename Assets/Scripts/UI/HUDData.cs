@@ -10,6 +10,7 @@ public class HUDData : MonoBehaviour
     public TextMeshProUGUI LevelCounter;
     public TextMeshProUGUI BestMoves;
     public TextMeshProUGUI Difficulty;
+    public TextMeshProUGUI ComingSoonMSG;
 
     public Image Score;
     public Sprite[] ScoreSprites;
