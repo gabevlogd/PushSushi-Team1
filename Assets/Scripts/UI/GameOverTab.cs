@@ -10,12 +10,12 @@ public class GameOverTab : MonoBehaviour
     public Sprite[] ScoreSprites;
     public Image ScoreImage;
     public Image CrownImage;
+    public Image SelectedSkin;
     public TextMeshProUGUI ResultLabel;
     public Button Restart;
     public Button Skins;
     public Button Close;
     public Button Stages;
-
     public GameObject SkinsTab;
 
     private LevelData _currentLevel;
@@ -26,9 +26,9 @@ public class GameOverTab : MonoBehaviour
         Close.onClick.AddListener(delegate { CloseTab(SkinsTab); });
         Restart.onClick.AddListener(PerformRestart);
         Stages.onClick.AddListener(PerformStagesButton);
-
+        if (MenuData.SelectedSkinSprite != null)
+            SelectedSkin.sprite = MenuData.SelectedSkinSprite;
         _currentLevel = LevelLoader.LevelToLoad;
-
         
     }
 
@@ -37,7 +37,11 @@ public class GameOverTab : MonoBehaviour
         ResultLabel.text = GetResultLabel();
         ScoreImage.sprite = GetScoreSprite();
         CrownImage.gameObject.SetActive(CrownGained());
+
+        SkinUIComponent.OnUpdateSelectedSkin += UpdateSelectedSkin;
     }
+
+    private void OnDisable() => SkinUIComponent.OnUpdateSelectedSkin -= UpdateSelectedSkin;
 
     private void OpenTab(GameObject TabToOpen)
     {
@@ -87,6 +91,8 @@ public class GameOverTab : MonoBehaviour
         MainMenuUI.GoToLevelWindow = true;
         SceneManager.LoadScene("MenuScene");
     }
+
+    public void UpdateSelectedSkin(Sprite skinSprite) => SelectedSkin.sprite = skinSprite;
 
     
 }

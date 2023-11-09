@@ -6,9 +6,9 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     public static List<SlidableComponent> TargetPawns;
+    public static SlidableComponent MainPawn;
     [SerializeField]
     private GameObject Arrow;
-    private SlidableComponent _mainPawn;
 
     private event Action OnUpdateArrow;
 
@@ -27,7 +27,7 @@ public class TutorialManager : MonoBehaviour
                 if (pawn.name[0].ToString() == "L")
                     TargetPawns.Add(pawn);
                 else if (pawn.name[0].ToString() == "M")
-                    _mainPawn = pawn;
+                    MainPawn = pawn;
             }
 
             Arrow.SetActive(true);
@@ -40,11 +40,17 @@ public class TutorialManager : MonoBehaviour
 
     private void UpdateArrowPosition()
     {
+        if (LevelManager.GameState == GameState.GameOver)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         Vector2 targetPawn;
 
         if (TargetPawns.Count == 0)
         {
-            targetPawn = new Vector2(_mainPawn.transform.position.x, _mainPawn.transform.position.z);
+            targetPawn = new Vector2(MainPawn.transform.position.x, MainPawn.transform.position.z);
             if (Arrow.transform.eulerAngles.y == 0)
             {
                 Arrow.transform.rotation = Quaternion.Euler(0f, -90f, 0f);

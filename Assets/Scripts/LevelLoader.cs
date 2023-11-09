@@ -59,6 +59,8 @@ public class LevelLoader
                 }
             }
             MainPawn = MonoBehaviour.Instantiate<SlidableComponent>(MenuData.SelectedSkin, levelData.PawnsPositions[skinIndex], levelData.PawnsRotations[skinIndex]);
+            if (LevelManager.GameState == GameState.Tutorial)
+                TutorialManager.MainPawn = MainPawn;
         }
     }
 }

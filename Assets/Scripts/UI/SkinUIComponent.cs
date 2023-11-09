@@ -8,9 +8,13 @@ public class SkinUIComponent : MonoBehaviour
 {
     public SlidableComponent SkinPrefab;
     private Button _button;
+    private Sprite _selectedSkin;
+
+    public static event Action<Sprite> OnUpdateSelectedSkin;
 
     private void Awake()
     {
+        _selectedSkin = GetComponent<Image>().sprite;
         _button = GetComponent<Button>();
         _button.onClick.AddListener(PerformSkinSelection);
     }
@@ -18,6 +22,8 @@ public class SkinUIComponent : MonoBehaviour
     private void PerformSkinSelection()
     {
         MenuData.SelectedSkin = SkinPrefab;
+        MenuData.SelectedSkinSprite = _selectedSkin;
+        OnUpdateSelectedSkin?.Invoke(_selectedSkin);
         PerformSelectionFeedback();
     }
 

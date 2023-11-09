@@ -12,6 +12,8 @@ public class MainMenuUI : UIWindow
     public Button Level;
     public Button Close;
 
+    public Image SelectedSkin;
+
     public GameObject SkinsTab;
 
     public static bool GoToLevelWindow;
@@ -23,8 +25,6 @@ public class MainMenuUI : UIWindow
         Option.onClick.AddListener(PerformOptionButton);
         Level.onClick.AddListener(PerformLevelButton);
         Start.onClick.AddListener(PerformStartButton);
-  
-
 
         //una roba brutta che non sapevo come fare altrimenti, se poi scopro un metodo piu carino tolgo sta cacata :)
         if (GoToLevelWindow)
@@ -33,6 +33,15 @@ public class MainMenuUI : UIWindow
             Level.onClick.Invoke();
         }
     }
+
+    private void OnEnable()
+    {
+        SkinUIComponent.OnUpdateSelectedSkin += UpdateSelectedSkin;
+        if (MenuData.SelectedSkinSprite != null)
+            SelectedSkin.sprite = MenuData.SelectedSkinSprite;
+    }
+
+    private void OnDisable() => SkinUIComponent.OnUpdateSelectedSkin -= UpdateSelectedSkin;
 
     private void PerformOptionButton() => ChangeWindow(FindObjectOfType<OptionMenuUI>(true));
 
@@ -46,4 +55,6 @@ public class MainMenuUI : UIWindow
         LevelLoader.LevelToLoad = MenuData.LastSelectedLevel;
         SceneManager.LoadScene("GameScene");
     }
+
+    private void UpdateSelectedSkin(Sprite sprite) => SelectedSkin.sprite = sprite;
 }
