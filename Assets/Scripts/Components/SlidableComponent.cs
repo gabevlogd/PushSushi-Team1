@@ -148,10 +148,17 @@ public class SlidableComponent : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     private void SlideTo(Vector3 targetPosition) => transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * _speed);
 
-    private Vector3 GetPointerWorldPosition() => _camera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Vector3.Distance(transform.position, _camera.transform.position)));
 
+    //private Vector3 GetPointerWorldPosition() => _camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Vector3.Distance(transform.position, _camera.transform.position)));
 
-
+    private Vector3 GetPointerWorldPosition()
+    {
+#if PLATFORM_WEBGL
+        return _camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Vector3.Distance(transform.position, _camera.transform.position)));
+#else
+        return _camera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Vector3.Distance(transform.position, _camera.transform.position)));
+#endif
+    }
 }
 
 public enum SlidingDirection
